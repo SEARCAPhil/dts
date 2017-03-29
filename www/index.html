@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css"/>
+	<link rel="stylesheet" type="text/css" href="vendor/docker/css/docker.css"/>
+	<link rel="stylesheet" type="text/css" href="vendor/bootstrap-material-design/css/bootstrap-material-design.min.css"/>
+	<link rel="stylesheet" type="text/css" href="vendor/fileicon/fileicon.css"/>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<script type="text/javascript" src="vendor/bootstrap-material-design/js/jquery-2.1.3.min.js"></script>
+	<script type="text/javascript" src="vendor/bootstrap-material-design/js/material.min.js"></script>
+	<script type="text/javascript" src="vendor/bootstrap/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="vendor/docker/js/docker.js"></script>
+	<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+	<style type="text/css">
+		body{
+			/*background: rgb(255,255,255);*/
+
+		}
+		.navbar-black{
+			background: rgb(60,60,60) !important;
+			margin-bottom: 0;
+		}
+
+		.material-icons.header_menu{
+			color:rgb(255,184,12);
+
+		}
+
+		.docker > .content{
+			background: rgba(0,0,0,0.7);
+			color:rgb(2245,245,245);
+			padding-top: 80px;
+		}
+
+		#item-docker-menu{
+			background: #eee;
+			height: 100%;
+		}
+
+
+
+		.main-page-content{
+			background: rgb(255,255,255);
+			padding: 20px 20px;
+			border-radius: 5px;
+		}
+		.main-page-full-width{
+			width: 82%;
+		}
+
+
+		/*main menu*/
+		.main-menu{
+			margin-top: 50px;
+		}
+
+		.main-menu li{
+			padding: 10px 5px 10px 5px;
+			text-align: center;
+			margin-bottom: 2px;
+		}
+		.main-menu li.active{
+			background: rgb(255,184,12);
+		}
+
+
+		/*list*/
+		.list{
+			padding: 2px 10px 2px 15px;
+			border-radius: 2px;
+			background: rgb(255,255,255);
+			margin-bottom: 5px;
+		}
+
+		.list.active{
+			background: rgba(161,32,159,0.95);
+			color: rgba(250,250,250,0.9);
+		}
+
+
+		.tab-header{
+			float: left;
+			padding: 0px 10px 2px 10px;
+			background: rgb(150,150,150);
+			border-radius: 5px;
+		}
+
+		.tags{
+			float: left;
+			width: 150px;
+			text-align: center;
+			background: rgb(255,184,12);
+			font-weight: bold;
+			padding: 2px 10px 2px 10px;
+			border-radius: 2px;
+		}
+
+		/*tabs reset*/
+		.nav-tabs{
+			background: none;
+
+		}
+
+		.nav-tabs li a{
+			color: rgb(100,100,100) !important;
+		}
+
+		.nav-tabs li.active{
+			background: #009688;
+		}
+
+		.nav-tabs li.active a{
+			color:rgb(250,250,250) !important;
+		}
+
+
+		.content-header{
+			padding: 10px;
+			width: 80px;
+			background: #009688;
+			color:rgb(250,250,250) !important;
+			text-align: center;	
+		}
+
+
+
+		/*more details*/
+		.content-more-details{
+			background: rgba(240,240,240,0.9);
+			padding: 15px;
+			border-radius: 5px;
+		}
+
+
+		/*profile-image circles*/
+		.media-circles{
+			float: left;
+			width: 80px;
+			height:80px;
+			background: rgb(200,200,200);
+			border-radius: 50%;
+			overflow: hidden;
+		}
+
+		.media-circles.circle-md{
+			width: 50px;
+			height: 50px;
+		}
+
+		.media-circles.circle-sm{
+			width: 30px;
+			height: 30px;
+		}
+
+	</style>
+
+</head>
+<body>
+
+  <header class="navbar navbar-default navbar-fixed-top navbar-black">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand docker-menu" href="javascript:void(0)" data-target=".docker"><i class="material-icons header_menu">view_day</i><div class="ripple-container"></div></a>
+      </div>
+    </div>
+  </header>
+
+
+
+ <article class="docker docker-sm-fixed docker-sm-hidden docker-xs-hidden hidden-md" id="docker-sidebar">
+ 	<section class="content container-fluid">
+ 		<div class="col col-md-12">
+ 			<ul class="list-unstyled main-menu">
+ 				<li class="active">Recent <i class="material-icons"  style="width: 24px;">folder_open</i></li>
+ 				<li>Ongoing <i class="material-icons" style="width: 24px;">cloud_qeue</i></li>
+ 				<li>Closed <i class="material-icons">lock_outline</i></li>
+ 			</ul>
+ 		</div>
+
+ 		<div class="col col-md-12">
+ 			<ul class="list-unstyled main-menu">
+ 				<li style="color:rgb(255,184,12);">Sign-out <i class="material-icons"  style="width: 24px;">keyboard_backspace</i> </li>
+ 			</ul>
+ 		</div>
+
+ 	</section>
+ 	
+ </article>
+
+
+
+<div class="container-fluid">
+	<div class="row">
+		 <article class="col col-lg-2 col-md-3 hidden-sm hidden-xs" id="item-docker-menu">
+			<br/><br/>
+
+		 	<!--hide list menu-->
+		 	<p class="visible-sm"><i class="material-icons docker-menu" data-target="#item-docker-menu" data-target-after="#main-page" data-target-after-class="main-page-full-width"  style="width: 24px;">keyboard_backspace</i></p>
+
+
+		 	<div class="list-container row">
+
+		 		<div class="list"><br/><br/>
+		 			<div class="col col-md-12 row"><label>Page :  1/15</label></div>
+		 			<input type="number" class="form-control" min="1" value="1" />
+
+		 			<div class="row col col-md-12 col-sm-12">
+		 				<input type="text" class="form-control" placeholder="Looking for ?" />
+		 			</div>
+		 		</div>
+		 	<!--list-->
+			 	<div class="list">
+			 		<h4>Attendance Monitoring</h4>
+
+			 		<small>
+				 		<p><b>[Survey]</b></p>
+				 		
+				 	</small>
+
+
+			 		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation. . .</p>
+
+			 		<small class="text-muted">
+			 			<p><b><div class="media-circles circle-sm"><img src="assets/images/user.png" width="100%;"></div> &emsp;Accounting Unit</b></p>
+			 			<p><b>&emsp;&emsp;&emsp;&nbsp;2017-01-01 14:01:00</b></p>
+			 		</small>
+
+			 	</div>
+			 <!--list-->
+
+			 <!--list-->
+			 	<div class="list">
+			 		<h4>Attendance Monitoring</h4>
+
+			 		<small>
+				 		<p><b>[Survey]</b></p>
+				 		
+				 	</small>
+
+
+			 		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation. . .</p>
+
+			 		<small class="text-muted">
+			 			<p><b><i class="material-icons">person_pin</i>Accounting Unit</b></p>
+			 			<p><b>&emsp;&emsp;2017-01-01 14:01:00</b></p>
+			 		</small>
+
+			 	</div>
+			 <!--list-->
+			 <!--list-->
+			 	<div class="list">
+			 		<h4>Attendance Monitoring</h4>
+
+			 		<small>
+				 		<p><b>[Survey]</b></p>
+				 		
+				 	</small>
+
+
+			 		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation. . .</p>
+
+			 		<small class="text-muted">
+			 			<p><b><i class="material-icons">person_pin</i>Accounting Unit</b></p>
+			 			<p><b>&emsp;&emsp;2017-01-01 14:01:00</b></p>
+			 		</small>
+
+			 	</div>
+			 <!--list-->
+			 		 	<!--list-->
+			 	<div class="list active">
+			 		<h4>Attendance Monitoring</h4>
+
+			 		<small>
+				 		<p><b>[Survey]</b></p>
+				 		
+				 	</small>
+
+
+			 		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation. . .</p>
+
+			 		<small class="text-muted">
+			 			<p><b><i class="material-icons">person_pin</i>Accounting Unit</b></p>
+			 			<p><b>&emsp;&emsp;2017-01-01 14:01:00</b></p>
+			 		</small>
+
+			 	</div>
+			 <!--list-->
+			 		 	<!--list-->
+			 	<div class="list">
+			 		<h4>Attendance Monitoring</h4>
+
+			 		<small>
+				 		<p><b>[Survey]</b></p>
+				 		
+				 	</small>
+
+
+			 		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation. . .</p>
+
+			 		<small class="text-muted">
+			 			<p><b><i class="material-icons">person_pin</i>Accounting Unit</b></p>
+			 			<p><b>&emsp;&emsp;2017-01-01 14:01:00</b></p>
+			 		</small>
+
+			 	</div>
+			 <!--list-->
+			 		 	<!--list-->
+			 	<div class="list">
+			 		<h4>Attendance Monitoring</h4>
+
+			 		<small>
+				 		<p><b>[Survey]</b></p>
+				 		
+				 	</small>
+
+
+			 		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation. . .</p>
+
+			 		<small class="text-muted">
+			 			<p><b><i class="material-icons">person_pin</i>Accounting Unit</b></p>
+			 			<p><b>&emsp;&emsp;2017-01-01 14:01:00</b></p>
+			 		</small>
+
+			 	</div>
+			 <!--list-->
+			 		 	<!--list-->
+			 	<div class="list">
+			 		<h4>Attendance Monitoring</h4>
+
+			 		<small>
+				 		<p><b>[Survey]</b></p>
+				 		
+				 	</small>
+
+
+			 		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation. . .</p>
+
+			 		<small class="text-muted">
+			 			<p><b><i class="material-icons">person_pin</i>Accounting Unit</b></p>
+			 			<p><b>&emsp;&emsp;2017-01-01 14:01:00</b></p>
+			 		</small>
+
+			 	</div>
+			 <!--list-->
+
+
+			 </div>
+
+		 </article>
+
+
+		 <!--<article class="col col-lg-3 col-md-3">
+		 	<div>
+		 		<h3>John Kenneth Gibas Abella</h3>
+		 		<p>Information Technology Services Unit</p>
+		 		<p>MIS Assistant</p>
+		 		<br/>
+		 		<p><b>Description</b></p>
+		 		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+		 	</div>
+		 </article>-->
+
+
+		  <article class="col col-lg-7 col-md-9" id="main-page">
+		  		<br/><br/><br/><br/>
+		 		<p><i class="material-icons docker-menu" data-target="#item-docker-menu" data-target-after="#main-page" data-target-after-class="main-page-full-width"  style="width: 24px;">keyboard_backspace</i></p>
+
+		 	<div class="main-page-content col col-md-12">
+
+		 		
+
+		 		<div class="media">
+				  <div class="media-left">
+				    <a href="#">
+				      <div class="media-circles"><img src="assets/images/user.png" width="100%;"></div>
+				    </a>
+				  </div>
+				  <div class="media-body">
+				    <h4 class="media-heading">John Kenneth Gibas Abella</h4>
+				    <p>Information Technology Services Unit</p>
+		 			<p>MIS Assistant</p>
+				  </div>
+				</div>
+
+		 		<br/>
+		 		<p><b>Description</b></p>
+		 		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+		 	
+
+		 		
+
+
+		 		
+
+				  <!-- Nav tabs -->
+				  <ul class="nav nav-tabs" role="tablist" style="max-height: 70px;">
+				    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab"><i class="material-icons">label_outline</i> Content</a></li>
+				    <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Activities</a></li>
+				    <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Route</a></li>
+				  </ul>
+
+				  <!-- Tab panes -->
+				  <div class="tab-content">
+				    <div role="tabpanel" class="tab-pane active" id="home">
+
+				    <!--attachments-->
+				    <div class="col col-md-12">
+				   		<br/><br/>
+						<div class="media">
+						  <div class="media-left">
+						    <a href="#">
+						      <div class="file-icon file-icon-lg" data-type="doc"></div>
+						    </a>
+						  </div>
+						  <div class="media-body">
+						    <h4 class="media-heading">John Kenneth Gibas Abella</h4>
+						    <p>Information Technology Services Unit</p>
+				 			<p>MIS Assistant</p>
+				 			<div class="row col-md-12"><span class="tags">Card Survey</span></div>
+				 			<p>2017-01-01 5:00:00</p>
+						  </div>
+						</div>
+
+
+				    	<div class="col col-md-12 content-more-details">
+				    		<small>
+					    		<p><b><div class="media-circles circle-sm"><img src="assets/images/user.png" width="100%;"></div>&emsp; John Kenneth G. Abella</b></p>
+					    		<p class="text-danger">&emsp;&emsp;&emsp;&emsp;NF E. Basic Electrical Circuits.pdf</p>
+					    	</small>
+				    	</div>
+				    </div>
+				    <!--/attachments-->
+
+
+				     <!--attachments-->
+				    <div class="col col-md-12">
+				   		<br/><br/>
+						<div class="media">
+						  <div class="media-left">
+						    <a href="#">
+						      <div class="file-icon file-icon-lg" data-type="pdf"></div>
+						    </a>
+						  </div>
+						  <div class="media-body">
+						    <h4 class="media-heading">John Kenneth Gibas Abella</h4>
+						    <p>Information Technology Services Unit</p>
+				 			<p>MIS Assistant</p>
+				 			<div class="row col-md-12"><span class="tags">Card Survey</span></div>
+				 			<p>2017-01-01 5:00:00</p>
+						  </div>
+						</div>
+				    </div>
+				    <!--/attachments-->
+
+
+				    <div class="col col-md-12 row">
+				    	<br/><br/>
+				    	<p class="content-header"><i class="material-icons">domain</i> Units</p>
+				    </div>
+
+				     <!--attachments-->
+				    <div class="col col-md-12">
+						<div class="media">
+						  <div class="media-left">
+						    <a href="#">
+						      	<i class="material-icons">lock</i>
+						    </a>
+						  </div>
+						  <div class="media-body">
+						    <h4 class="media-heading">ITSU</h4>
+						    <p>Information Technology Services Unit</p>
+				 			<div class="row col-md-12"><span class="tags">Open</span></div>
+						  </div>
+						</div>
+				    </div>
+				    <!--/attachments-->
+ <!--attachments-->
+				    <div class="col col-md-12">
+						<div class="media">
+						  <div class="media-left">
+						    <a href="#">
+						      	<i class="material-icons">lock</i>
+						    </a>
+						  </div>
+						  <div class="media-body">
+						    <h4 class="media-heading">ITSU</h4>
+						    <p>Information Technology Services Unit</p>
+				 			<div class="row col-md-12"><span class="tags">Open</span></div>
+						  </div>
+						</div>
+				    </div>
+				    <!--/attachments-->
+				     <!--attachments-->
+				    <div class="col col-md-12">
+						<div class="media">
+						  <div class="media-left">
+						    <a href="#">
+						      	<i class="material-icons">lock</i>
+						    </a>
+						  </div>
+						  <div class="media-body">
+						    <h4 class="media-heading">ITSU</h4>
+						    <p>Information Technology Services Unit</p>
+				 			<div class="row col-md-12"><span class="tags">Open</span></div>
+						  </div>
+						</div>
+				    </div>
+				    <!--/attachments-->
+
+
+
+
+
+
+				    </div>
+
+				    <div role="tabpanel" class="tab-pane" id="profile">...</div>
+				    <div role="tabpanel" class="tab-pane" id="messages">...</div>
+				  </div>
+
+			
+
+
+		 		
+		 	</div>
+		 </article>
+	</div>
+</div>
+
+
+</body>
+</html>
+<script type="text/javascript">
+	document.addEventListener("deviceready",onDeviceReady,false)
+
+	function onDeviceReady(){
+		$.material.init();
+		docker.init();
+
+		//set docker height to full height
+		document.querySelector('#docker-sidebar > .content').style.height=(document.body.clientHeight+100)+'px';
+	}
+	/*$(document).ready(function(){ 
+		$.material.init();
+		docker.init();
+
+		//set docker height to full height
+		document.querySelector('#docker-sidebar > .content').style.height=(document.body.clientHeight+100)+'px';
+
+	});*/
+</script>

@@ -11,7 +11,23 @@
 	<script type="text/javascript" src="vendor/bootstrap-material-design/js/material.min.js"></script>
 	<script type="text/javascript" src="vendor/bootstrap/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="vendor/docker/js/docker.js"></script>
-	<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+	<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height"/>
+	<script type="text/javascript">
+
+		window.addEventListener('load', function () {
+			document.addEventListener("deviceready",onDeviceReady,false)
+		}, false);
+
+
+		function onDeviceReady(){
+			$.material.init();
+			docker.init();
+
+			//set docker height to full height
+			document.querySelector('#docker-sidebar > .content').style.height=(document.body.clientHeight+100)+'px';
+		}
+
+	</script>
 	<style type="text/css">
 		body{
 			/*background: rgb(255,255,255);*/
@@ -531,22 +547,3 @@
 
 </body>
 </html>
-<script type="text/javascript">
-	document.addEventListener("deviceready",onDeviceReady,false)
-
-	function onDeviceReady(){
-		$.material.init();
-		docker.init();
-
-		//set docker height to full height
-		document.querySelector('#docker-sidebar > .content').style.height=(document.body.clientHeight+100)+'px';
-	}
-	/*$(document).ready(function(){ 
-		$.material.init();
-		docker.init();
-
-		//set docker height to full height
-		document.querySelector('#docker-sidebar > .content').style.height=(document.body.clientHeight+100)+'px';
-
-	});*/
-</script>

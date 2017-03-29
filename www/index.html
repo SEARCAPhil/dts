@@ -19,20 +19,44 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<script type="text/javascript">
 
-		
-		document.addEventListener("deviceready",function(){
+		function deviceReady(){
 			console.log('device is ready . . .')
 			$.material.init();
+
 			docker.init();
 
+			var list_height=($('#item-docker-menu').height()+30)
 			//set docker height to full height
-			document.querySelector('#docker-sidebar > .content').style.height=(document.body.clientHeight+100)+'px';
-		},false);
+			document.querySelector('#docker-sidebar > .content').style.height=(list_height>(document.body.clientHeight+100)?list_height:document.body.clientHeight+100)+'px';
+			loadContent(1);
+		}
+
+
+		function loadContent(id){
+			$('#home').load('content.html');
+		}
+
+		//load in mobile
+		document.addEventListener("deviceready",deviceReady,false);
 
 		$(document).bind('mobileinit',function(){
 		      $.mobile.keepNative = "select,input"; /* jQuery Mobile 1.4 and higher */
 		      //$.mobile.page.prototype.options.keepNative = "select, input"; /* jQuery Mobile 1.4 and lower */
+
+		       $.mobile.ignoreContentEnabled = true;
 		 }); 
+
+
+		//load in browser
+		if(window.navigator.platform.toLowerCase()=='win32'){
+			$(document).ready(function(){
+
+				deviceReady();
+
+			})
+				
+		}
+
 
 
 	</script>
@@ -50,13 +74,14 @@
 
 
 
- <article class="docker docker-sm-fixed docker-sm-hidden docker-xs-hidden hidden-md" id="docker-sidebar">
+ <article class="docker docker-sm-fixed docker-sm-hidden docker-xs-hidden hidden-md" id="docker-sidebar" data-role="none"  data-enhance="false">
  	<section class="content container-fluid">
  		<div class="col col-md-12">
  			<ul class="list-unstyled main-menu">
  				<li class="active">Recent <i class="material-icons"  style="width: 24px;">folder_open</i></li>
  				<li>Ongoing <i class="material-icons" style="width: 24px;">cloud_qeue</i></li>
  				<li>Closed <i class="material-icons">lock_outline</i></li>
+ 				<!--<li>New <i class="material-icons">add</i></li>-->
  			</ul>
  		</div>
 
@@ -82,7 +107,7 @@
 
 
 		 	<div class="list-container row">
-
+		 		<!--search and page-->
 		 		<div class="list" data-role="none"><br/><br/>
 		 			<div class="col col-md-12 row"><label>Page :  1/15</label></div>
 		 			<input type="number" class="form-control" min="1" value="1"  data-role="none"/>
@@ -91,7 +116,8 @@
 		 				<input type="text" class="form-control" placeholder="Looking for ?"  data-role="none"/>
 		 			</div>
 		 		</div>
-		 	<!--list-->
+
+		 		<!--list-->
 			 	<div class="list">
 			 		<h4>Attendance Monitoring</h4>
 
@@ -227,6 +253,13 @@
 			 <!--list-->
 
 
+			 <!--search and page-->
+		 		<div class="list" data-role="none"><br/><br/>
+		 			<div class="col col-md-12 row"><label>Page :  1/15</label></div>
+		 			<div><input type="number" class="form-control" min="1" value="1"  data-role="none"/></div>
+
+		 		</div>
+
 			 </div>
 
 		 </article>
@@ -280,131 +313,69 @@
 				  <!-- Nav tabs -->
 				  <ul class="nav nav-tabs" role="tablist" style="max-height: 80px;">
 				    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab"><i class="material-icons">label_outline</i> Content</a></li>
-				    <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Activities</a></li>
-				    <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Route</a></li>
+				    <li role="presentation"><a href="#activities" aria-controls="activities" role="tab" data-toggle="tab">Activities</a></li>
+				    <li role="presentation"><a href="#route" aria-controls="route" role="tab" data-toggle="tab">Route</a></li>
 				  </ul>
 
 				  <!-- Tab panes -->
 				  <div class="tab-content">
-				    <div role="tabpanel" class="tab-pane active" id="home">
+				    <div role="tabpanel" class="tab-pane active" id="home"></div>
 
-				    <!--attachments-->
-				    <div class="col col-md-12">
-				   		<br/><br/>
-						<div class="media">
-						  <div class="media-left">
-						    <a href="#">
-						      <div class="file-icon file-icon-lg" data-type="doc"></div>
-						    </a>
-						  </div>
-						  <div class="media-body">
-						    <h4 class="media-heading">John Kenneth Gibas Abella</h4>
-						    <p>Information Technology Services Unit</p>
-				 			<p>MIS Assistant</p>
-				 			<div class="row col-md-12"><span class="tags">Card Survey</span></div>
-				 			<p>2017-01-01 5:00:00</p>
-						  </div>
-						</div>
-
-
-				    	<div class="col col-md-12 content-more-details">
+				    <div role="tabpanel" class="tab-pane" id="activities" style="padding-top: 30px;">
+				    	<!--details-->
+				    	<div class="col col-md-12 content-more-details" style="margin-bottom: 20px;">
 				    		<small>
 				    			<div class="col col-md-2 col-lg-1"><div class="media-circles circle-sm"><img src="assets/images/user.png" width="100%;"></div></div>
 				    			<div class="col col-md-8">
 				    				<p><b>John Kenneth G. Abella</b></p>
 					    			<p class="text-danger">NF E. Basic Electrical Circuits.pdf <span class="file-icon file-icon-xs" data-type="doc"></span></p>
+					    			<p>2017-01-01 5:00:00</p>
 				    			</div>
 					    		
 					    	</small>
 				    	</div>
-				    </div>
-				    <!--/attachments-->
+				    	<!--/details-->
 
 
-				     <!--attachments-->
-				    <div class="col col-md-12">
-				   		<br/><br/>
-						<div class="media">
-						  <div class="media-left">
-						    <a href="#">
-						      <div class="file-icon file-icon-lg" data-type="pdf"></div>
-						    </a>
-						  </div>
-						  <div class="media-body">
-						    <h4 class="media-heading">John Kenneth Gibas Abella</h4>
-						    <p>Information Technology Services Unit</p>
-				 			<p>MIS Assistant</p>
-				 			<div class="row col-md-12"><span class="tags">Card Survey</span></div>
-				 			<p>2017-01-01 5:00:00</p>
-						  </div>
-						</div>
-				    </div>
-				    <!--/attachments-->
-
-
-				    <div class="col col-md-12 row" style="margin-bottom: 20px;">
-				    	<br/><br/>
-				    	<p class="content-header"><i class="material-icons">domain</i> Units</p>
-				    </div>
-
-				     <!--attachments-->
-				    <div class="col col-md-12" style="margin-bottom: 20px;">
-						<div class="media">
-						  <div class="media-left">
-						    <a href="#">
-						      	<i class="material-icons" style="font-size: 48px;">people</i>
-						    </a>
-						  </div>
-						  <div class="media-body">
-						    <h4 class="media-heading">ITSU</h4>
-						    <p>Information Technology Services Unit</p>
-				 			<div class="row col-md-12"><span class="tags">Open</span></div>
-						  </div>
-						</div>
-				    </div>
-				    <!--/attachments-->
- <!--attachments-->
-				    <div class="col col-md-12" style="margin-bottom: 20px;">
-						<div class="media">
-						  <div class="media-left">
-						    <a href="#">
-						      	<i class="material-icons" style="font-size: 48px;">people</i>
-						    </a>
-						  </div>
-						  <div class="media-body">
-						    <h4 class="media-heading">ITSU</h4>
-						    <p>Information Technology Services Unit</p>
-				 			<div class="row col-md-12"><span class="tags">Open</span></div>
-						  </div>
-						</div>
-				    </div>
-				    <!--/attachments-->
-				     <!--attachments-->
-				    <div class="col col-md-12" style="margin-bottom: 20px;">
-						<div class="media">
-						  <div class="media-left">
-						    <a href="#">
-						      	<i class="material-icons" style="font-size: 48px;">people_outline</i>
-						    </a>
-						  </div>
-						  <div class="media-body">
-						    <h4 class="media-heading">ITSU</h4>
-						    <p>Information Technology Services Unit</p>
-				 			<div class="row col-md-12"><span class="tags">Closed</span> <i class="material-icons">lock</i></div>
-						  </div>
-						</div>
-				    </div>
-				    <!--/attachments-->
-
-
-
+				    	<!--details-->
+				    	<div class="col col-md-12 content-more-details" style="margin-bottom: 20px;">
+				    		<small>
+				    			<div class="col col-md-2 col-lg-1"><div class="media-circles circle-sm"><img src="assets/images/user.png" width="100%;"></div></div>
+				    			<div class="col col-md-8">
+				    				<p><b>John Kenneth G. Abella</b></p>
+					    			<p class="text-muted">
+					    				<i class="material-icons" style="font-size: 48px;">lock</i>
+					    				<p><b>CLOSED</b></p> 
+					    				<p>2017-01-01 5:00:00</p>
+					    			</p>
+				    			</div>
+					    		
+					    	</small>
+				    	</div>
+				    	<!--/details-->
 
 
 
 				    </div>
+				    <div role="tabpanel" class="tab-pane" id="route" style="padding-top: 30px;">
+				    	
+				    	<!--details-->
+				    	<div class="col col-md-12 content-more-details" style="margin-bottom: 20px;">
+				    		<small>
+				    			<div class="col col-md-2 col-lg-1"><i class="material-icons" style="font-size: 48px;">people_outline</i></div>
+				    			<div class="col col-md-8">
+				    				<h4>ITSU <i class="material-icons">done</i></h4>
+					    			<p class="text-muted">
+					    				<p>Information Technology Services Unit</p>
+										<div class="row col-md-12"><span class="tags">2017-01-01 5:00:00</span> </div>
+					    			</p>
+				    			</div>
+					    		
+					    	</small>
+				    	</div>
+				    	<!--/details-->
 
-				    <div role="tabpanel" class="tab-pane" id="profile">...</div>
-				    <div role="tabpanel" class="tab-pane" id="messages">...</div>
+				    </div>
 				  </div>
 
 			

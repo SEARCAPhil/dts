@@ -28,6 +28,12 @@
 			document.querySelector('#docker-sidebar > .content').style.height=(document.body.clientHeight+100)+'px';
 		},false);
 
+		$(document).bind('mobileinit',function(){
+		      $.mobile.keepNative = "select,input"; /* jQuery Mobile 1.4 and higher */
+		      //$.mobile.page.prototype.options.keepNative = "select, input"; /* jQuery Mobile 1.4 and lower */
+		 }); 
+		
+
 	</script>
 	<style type="text/css">
 		body{

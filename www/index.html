@@ -16,55 +16,14 @@
 	<script type="text/javascript" src="vendor/bootstrap-material-design/js/material.min.js"></script>
 	<script type="text/javascript" src="vendor/bootstrap/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="vendor/docker/js/docker.js"></script>
+	<script type="text/javascript" src="assets/js/index/index.js"></script>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<script type="text/javascript">
 
-		function deviceReady(){
-			console.log('device is ready . . .')
-			$.material.init();
-
-			docker.init();
-
-			var list_height=($('#item-docker-menu').height()+30)
-			//set docker height to full height
-			document.querySelector('#docker-sidebar > .content').style.height=(list_height>(document.body.clientHeight+100)?list_height:document.body.clientHeight+100)+'px';
-			loadContent(1);
-		}
-
-
-		function loadContent(id){
-			$('#home').load('content.html');
-		}
-
-		//load in mobile
-		document.addEventListener("deviceready",deviceReady,false);
-
-		$(document).bind('mobileinit',function(){
-		      $.mobile.keepNative = "select,input"; /* jQuery Mobile 1.4 and higher */
-		      //$.mobile.page.prototype.options.keepNative = "select, input"; /* jQuery Mobile 1.4 and lower */
-
-		       $.mobile.ignoreContentEnabled = true;
-		 }); 
-
-
-		//load in browser
-		if(window.navigator.platform.toLowerCase()=='win32'){
-			$(document).ready(function(){
-
-				deviceReady();
-
-			})
-				
-		}
-
-
-
-	</script>
 	
 </head>
-<body>
+<body onload="init()" data-role="page" id="xx">
 
-  <header class="navbar navbar-default navbar-fixed-top navbar-black">
+  <header class="navbar navbar-default navbar-fixed-top navbar-black" data-role="header">
     <div class="container-fluid">
       <div class="navbar-header">
         <a class="navbar-brand docker-menu" href="javascript:void(0)" data-target=".docker"><i class="material-icons header_menu">view_day</i><div class="ripple-container"></div></a>
@@ -87,7 +46,7 @@
 
  		<div class="col col-md-12">
  			<ul class="list-unstyled main-menu">
- 				<li style="color:rgb(255,184,12);">Sign-out <i class="material-icons"  style="width: 24px;">keyboard_backspace</i> </li>
+ 				<li><a href="login.html" style="color:rgb(255,184,12);" data-ajax="false">Sign-out <i class="material-icons"  style="width: 24px;">keyboard_backspace</i> </a></li>
  			</ul>
  		</div>
 
@@ -386,7 +345,9 @@
 		 </article>
 	</div>
 </div>
-
+<div class="offline-status-bar">
+	<p><i class="material-icons">network_check</i> You are Offline.Please check your internet connection</p>
+</div>
 
 </body>
 </html>

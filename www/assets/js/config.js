@@ -35,7 +35,7 @@ __config.endpoint={}
 // Authentication 
 //------------------------
 __config.endpoint.auth={
-	url:'http://192.168.80.53/rfps/auth/',
+	url:'/rfps/auth/',
 	method:'POST'
 }
 

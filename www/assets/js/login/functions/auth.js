@@ -9,9 +9,10 @@ function __save_token_to_storage(token){
 
 function __auth(username,password){
 
+  var uuid=((typeof device)!='undefined')?device.uuid:null;
+
   if(username.length>0&&password.length>0){
-   
-    __ajax_auth({username:username,password:password},function(json){
+    __ajax_auth({username:username,password:password,uuid:uuid},function(json){
         
         try{
 

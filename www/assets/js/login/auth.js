@@ -9,7 +9,9 @@ function deviceReady(){
 	      var username=$('#username').val();
 	      var password=$('#password').val();
 	      __auth(username,password);
-	   })
+	  })
+
+
 }
 
 

@@ -20,7 +20,7 @@ function __ajax_auth(data,success_callback,error_callback){
       if(__config.debug) console.log('\u{26AB} Connected')
 
   }).fail(function(json){ 
-
+    
     $.mobile.loading('hide');  
     error_callback(json); 
 

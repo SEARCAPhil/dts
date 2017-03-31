@@ -16,10 +16,22 @@
   <script type="text/javascript" src="vendor/bootstrap-material-design/js/material.min.js"></script>
   <script type="text/javascript" src="vendor/bootstrap/js/bootstrap.min.js"></script>
   <script type="text/javascript" src="vendor/docker/js/docker.js"></script>
+  <script type="text/javascript" src="assets/js/config.js"></script>
+  <script type="text/javascript" src="assets/js/index/index.js"></script>
+  <script type="text/javascript" src="assets/js/login/ajax/ajax.auth.js"></script>
+  <script type="text/javascript" src="assets/js/login/functions/auth.js"></script>
+  <script type="text/javascript" src="assets/js/login/auth.js"></script>
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style type="text/css">
     body{
       background: rgb(255,255,255);
+    }
+    input:focus,input:active {
+      border-color: inherit;
+      -webkit-box-shadow: none !important;
+      box-shadow: none !important;
+      outline: none !important;
     }
     .btn-submit{
       background: rgb(255,184,12);
@@ -27,13 +39,18 @@
       border-radius: 20px;
       color:rgb(250,250,250) !important;
     }
+    .auth-error{
+      display: none;
+      transition: all 0.3s ease-in-out;
+      opacity: 0.9;
+    }
   </style>
 </head>
-<body>
+<body onload="auth_init()">
 <div style="margin-top: 5%;">
 
         
-  <form action="index.html" method="POST"  data-ajax="false"> 
+  <form method="POST"  data-ajax="false" onsubmit="return false;"> 
       <div class="col col-xs-12 col-lg-4 col-lg-offset-4">
 
             <div class="col col-md-12 text-center">
@@ -43,34 +60,27 @@
             <div class="col col-md-12">
                   <center>
                     <h1 style="padding-right: 0px !important;color:rgb(255,184,12);"> Sign In </h1>
-                    <small><a href="#"  class="text-muted">Supporting Documents for Financial Transaction</a></small>
+                    <small><p href="#"  class="text-muted">Supporting Documents for Financial Transaction</p></small>
                   </center>
             </div>
 
 
 
                 
-            <!-- 
-            <div class=" col col-md-12" style="margin-top:50px;">
-              <div class="alert alert-danger" style="border-radius: 5px !important;">
-                <small>
-                  <p>Oopss! Invalid username or password!</p>
-                  <p class="text-important">Is this your account? <small><a href="login.html"><u>not my account.</u></a></small></p>
-                </small>
-              </div>
-            </div>-->
+           
+            <div class="col col-md-12 auth-error" style="margin-top:50px;"></div>
               
 
 
                 
 
       		  <div class="form-group col col-md-12">
-           	  		<input type="text" class="form-control text-center" id="inputUser" placeholder="Username" name="username"  data-role="none" autocomplete="off" required>   	   
+           	  		<input type="text" class="form-control text-center" id="username" placeholder="Username" name="username"  data-role="none" autocomplete="off" required>   	   
          		 </div>
          		 <div class="form-group col col-md-12">
            	  
            	  
-              		<input type="password" class="form-control  text-center" placeholder="Password" id="inputPassword" name="password"  data-role="none" required>
+              		<input type="password" class="form-control  text-center" placeholder="Password" id="password" name="password"  data-role="none" required>
            	   
          		 </div>
 
@@ -102,3 +112,4 @@
 </div>
 </body>
 </html>
+

@@ -2,6 +2,13 @@
 window.sdft={}
 window.sdft.deviceInstance='desktop';
 
+function changeDockerSize(){
+	//get height of list
+	var list_height=($('#item-docker-menu').height()+30) 
+	//set docker height to full height
+	document.querySelector('#docker-sidebar > .content').style.height=(list_height>(document.body.clientHeight+100)?list_height:document.body.clientHeight+100)+'px';	
+}
+
 function deviceReady(){
 	console.log('device is ready . . .')
 
@@ -13,11 +20,9 @@ function deviceReady(){
 	//show docker
 	docker.init();
 
-	//get height of list
-	var list_height=($('#item-docker-menu').height()+30) 
 
-	//set docker height to full height
-	document.querySelector('#docker-sidebar > .content').style.height=(list_height>(document.body.clientHeight+100)?list_height:document.body.clientHeight+100)+'px';
+
+	changeDockerSize();
 	
 	//load content
 	loadContent(1);
@@ -35,8 +40,7 @@ function loadContent(id){
 	$('#home').load('content.html');
 }
 
-//load in mobile
-//document.addEventListener("deviceready",deviceReady,false);
+
 
 
 function init(){
@@ -77,3 +81,7 @@ document.addEventListener("offline",deviceOffline,false);
 document.addEventListener("online",deviceOnline,false);
 
 */
+
+window.addEventListener('orientationchange', function(){
+    changeDockerSize()
+});

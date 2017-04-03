@@ -17,6 +17,7 @@
 	<script type="text/javascript" src="vendor/bootstrap/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="vendor/docker/js/docker.js"></script>
 	<script type="text/javascript" src="assets/js/index/index.js"></script>
+	<script type="text/javascript" src="assets/js/config.js"></script>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	
@@ -45,6 +46,7 @@
  		</div>
 
  		<div class="col col-md-12">
+
  			<ul class="list-unstyled main-menu">
  				<li  data-role="none"><a href="login.html" style="color:rgb(255,184,12);" data-ajax="false">Sign-out <i class="material-icons"  style="width: 24px;">keyboard_backspace</i> </a></li>
  			</ul>
@@ -58,74 +60,24 @@
 
 <div class="container-fluid" data-role="content">
 	<div class="row">
-		 <article class="col col-lg-2 col-md-3 hidden-sm hidden-xs" id="item-docker-menu">
+		
+		 <article class="col col-lg-2 col-md-3" id="item-docker-menu">
+			 <br/><br/>
+			 <span class="docker-menu-toggle-content visible-xs visible-sm"><i class="material-icons">keyboard_backspace</i></span>
+			<!--hide list menu-->
+
+			<section class="col col-md-12 item-docker-menu-content"></section>
 
 
 		 </article>
 
 
-		 <!--<article class="col col-lg-3 col-md-3">
-		 	<div>
-		 		<h3>John Kenneth Gibas Abella</h3>
-		 		<p>Information Technology Services Unit</p>
-		 		<p>MIS Assistant</p>
-		 		<br/>
-		 		<p><b>Description</b></p>
-		 		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-		 	</div>
-		 </article>-->
-
-
-		  <article class="col col-lg-8 col-md-9" id="main-page">
+		  <article class="col col-lg-8 col-md-9 hidden-xs" id="main-page">
 		  		<br/><br/><br/><br/>
-		 		<p><i class="material-icons docker-menu" data-target="#item-docker-menu" data-target-after="#main-page" data-target-after-class="main-page-full-width"  style="width: 24px;">keyboard_backspace</i></p>
+		  		<span class="docker-menu-toggle-content visible-xs visible-sm"><i class="material-icons">keyboard_backspace</i></span>
+		 		<p><i class="material-icons docker-menu visible-md visible-lg" data-target="#item-docker-menu" id="docker-content-menu" data-target-after="#main-page" data-target-after-class="main-page-full-width"  style="width: 24px;">keyboard_backspace</i></p>
 
 		 	<div class="main-page-content col col-md-12">
-
-		 		
-
-		 		<div class="media">
-				  <div class="media-left">
-				    <a href="#">
-				      <div class="media-circles"><img src="assets/images/user.png" width="100%;"></div>
-				    </a>
-				  </div>
-				  <div class="media-body">
-				    <h4 class="media-heading">John Kenneth Gibas Abella</h4>
-				    <small>
-					    <p>Information Technology Services Unit</p>
-			 			<p>MIS Assistant</p>
-			 		</small>
-				  </div>
-				</div>
-
-		 		<br/>
-		 		<p><b>Description</b></p>
-		 		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-		 	
-
-		 		
-
-
-		 		
-
-				  <!-- Nav tabs -->
-				  <ul class="nav nav-tabs" role="tablist" style="max-height: 80px;">
-				    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab"><i class="material-icons">label_outline</i> Content</a></li>
-				    <li role="presentation"><a href="#activities" aria-controls="activities" role="tab" data-toggle="tab">Activities</a></li>
-				    <li role="presentation"><a href="#route" aria-controls="route" role="tab" data-toggle="tab">Route</a></li>
-				  </ul>
-
-				  <!-- Tab panes -->
-				  <div class="tab-content">
-				    <div role="tabpanel" class="tab-pane active" id="home"></div>
-
-				    <div role="tabpanel" class="tab-pane" id="activities" style="padding-top: 30px;"></div>
-				    <div role="tabpanel" class="tab-pane" id="route" style="padding-top: 30px;"></div>
-				  </div>
-
-			
-
 
 		 		
 		 	</div>

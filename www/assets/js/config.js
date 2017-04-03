@@ -35,7 +35,7 @@ __config.endpoint={}
 // Authentication 
 //------------------------
 __config.endpoint.auth={
-	url:'/rfps/auth/',
+	url:'http://192.168.80.53/rfps/auth/',
 	method:'POST'
 }
 
@@ -50,14 +50,27 @@ __config.endpoint.list={
 
 
 //-------------------------
-// List
+// Details
 //------------------------
-__config.endpoint.list.preview={
-	url:'127.0.0.1/sdft/api/item/',
+__config.endpoint.details={
+	url:'http://192.168.80.53/rfps/api/details.php',
 	method:'GET',
 	page:1,
 	id:null,
 }
+
+
+//-------------------------
+// List
+//------------------------
+__config.endpoint.groups={
+	url:'http://192.168.80.53/rfps/api/groups.php',
+	method:'GET',
+	page:1,
+	id:null,
+}
+
+
 
 
 

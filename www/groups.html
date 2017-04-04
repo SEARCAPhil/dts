@@ -1,0 +1,89 @@
+<style type="text/css">
+	.group-container{
+
+		padding: 10px;
+	}
+	.groups{
+		background: rgb(255,255,255);
+		border-radius: 4px;
+		margin-bottom: 30px;
+		padding: 10px;
+	}
+	.phone-book{
+		margin-bottom: 5px;
+		padding: 10px;
+	}
+	.group-members:not(:last-child){
+		border-bottom: 1px solid rgba(200,200,200,0.2);
+	}
+	.add-group{cursor:pointer; opacity: 0.8; transition: all 0.3s ease-in-out;}
+	.add-group:hover{
+		opacity: 1;
+		color:rgb(60,60,60);
+	}
+
+	.btn-default{
+		background: rgb(240,240,240);
+	}
+
+	.more-options{
+		position: absolute;
+		right: -50px;
+		cursor: pointer;
+		color:rgb(200,200,200);
+	}
+	.more-options:hover{
+		color: rgb(60,60,60);
+	}	
+</style>
+
+<section class="col col-md-12 group-container" style="margin-top: 100px;">
+	<div class="col col-md-12 groups">
+		<h3><i class="material-icons">contacts</i> Directory</h3>
+		<p>These are the contacts available in your account</p>
+	</div>
+</section>
+
+<!--details-->
+<section class="col col-md-6 group-container">
+
+	<div class="col col-md-12 text-muted">
+		<h3><i class="material-icons">people</i> Groups</h3>
+		<p>Classify your contacts easily by partitioning your phonebook</p>
+	</div>
+
+	<div class="group-list">
+		
+
+	</div>
+
+	<div class="col col-md-12 groups text-muted add-group">
+		<p><i class="material-icons">add</i> Create Group</p>
+	</div>
+
+</section>
+<!--/details-->
+
+
+
+<section class="col col-md-6 group-container">
+	<div class="col col-md-12 text-muted">
+		<h3><i class="material-icons">contact_phone</i> Phone Book</h3>
+		<p>Persons you may add into your groups</p>
+	</div>
+
+	<div class="row container-contacts"></div>
+
+</section>
+<script type="text/javascript" src="assets/js/groups/ajax/ajax.groups.js"></script>
+<script type="text/javascript" src="assets/js/groups/functions/functions.groups.js"></script>
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+	get_groups();
+	get_contacts();
+
+
+})
+</script>

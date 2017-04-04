@@ -51,19 +51,26 @@
 
 /*list*/
 .list{
-	padding: 2px 10px 2px 15px;
+	padding-top:2px;
 	border-radius: 2px;
 	background: rgb(255,255,255);
 	margin-bottom: 5px;
 	cursor: pointer;
+	height: auto;
+	overflow: auto;
 }
 
 .list.active{
 	/*background: rgba(161,32,159,0.95);*/
-	/*background: rgba(255,10,100,0.9);color: rgba(255,255,255,0.95);*/
-	color:rgb(240,240,240);
-	background: rgb(44,62,80);
+	/*background: rgba(255,10,100,0.9);color: rgba(255,255,255,0.95);	color:rgb(240,240,240);
+	background: rgb(44,62,80);*/
+
 	box-shadow: 0px 0px 5px rgba(200,200,200,0.7);
+	border:1px solid #ccc;
+	margin-bottom: 10px;
+	margin-top: 10px;
+	transform: scale(1.02);
+	transition: all 0.2s ease-in-out;
 }
 
 

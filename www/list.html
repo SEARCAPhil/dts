@@ -1,155 +1,97 @@
 	<div class="list-container row">
-		<!--search and page-->
-		<div class="list" data-role="none"><br/><br/>
-			<div class="col col-md-12 row"><label>Page :  1/15</label></div>
-			<input type="number" class="form-control" min="1" value="1"  data-role="none"/>
-
-			
-				<input type="text" class="form-control" placeholder="Looking for ?"  data-role="none"/>
-			
-		</div>
-
-		<!--list-->
- 	<div class="list">
- 		<h4>Attendance Monitoring</h4>
-
- 		<small>
-	 		<p><b>[Survey]</b></p>
-	 		
-	 	</small>
-
-
- 		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation. . .</p>
-
- 		<small>
- 			<p><b><div class="media-circles circle-sm"><img src="assets/images/user.png" width="100%;"></div> &emsp;Accounting Unit</b></p>
- 			<p><b>&emsp;&emsp;&emsp;&nbsp;2017-01-01 14:01:00</b></p>
- 		</small>
-
- 	</div>
- <!--list-->
-
- <!--list-->
- 	<div class="list">
- 		<h4>Attendance Monitoring</h4>
-
- 		<small>
-	 		<p><b>[Survey]</b></p>
-	 		
-	 	</small>
-
-
- 		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation. . .</p>
-
- 		<small class="text-disabled">
- 			<p><b><i class="material-icons">person_pin</i>Accounting Unit</b></p>
- 			<p><b>&emsp;&emsp;2017-01-01 14:01:00</b></p>
- 		</small>
-
- 	</div>
- <!--list-->
- <!--list-->
- 	<div class="list">
- 		<h4>Attendance Monitoring</h4>
-
- 		<small>
-	 		<p><b>[Survey]</b></p>
-	 		
-	 	</small>
-
-
- 		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation. . .</p>
-
- 		<small class="text-disabled">
- 			<p><b><i class="material-icons">person_pin</i>Accounting Unit</b></p>
- 			<p><b>&emsp;&emsp;2017-01-01 14:01:00</b></p>
- 		</small>
-
- 	</div>
- <!--list-->
- 		 	<!--list-->
- 	<div class="list active">
- 		<h4>Attendance Monitoring</h4>
-
- 		<small>
-	 		<p><b>[Survey]</b></p>
-	 		
-	 	</small>
-
-
- 		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation. . .</p>
-
- 		<small class="text-disabled">
- 			<p><b><i class="material-icons">person_pin</i>Accounting Unit</b></p>
- 			<p><b>&emsp;&emsp;2017-01-01 14:01:00</b></p>
- 		</small>
-
- 	</div>
- <!--list-->
- 		 	<!--list-->
- 	<div class="list">
- 		<h4>Attendance Monitoring</h4>
-
- 		<small>
-	 		<p><b>[Survey]</b></p>
-	 		
-	 	</small>
-
-
- 		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation. . .</p>
-
- 		<small class="text-disabled">
- 			<p><b><i class="material-icons">person_pin</i>Accounting Unit</b></p>
- 			<p><b>&emsp;&emsp;2017-01-01 14:01:00</b></p>
- 		</small>
-
- 	</div>
- <!--list-->
- 		 	<!--list-->
- 	<div class="list">
- 		<h4>Attendance Monitoring</h4>
-
- 		<small>
-	 		<p><b>[Survey]</b></p>
-	 		
-	 	</small>
-
-
- 		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation. . .</p>
-
- 		<small class="text-disabled">
- 			<p><b><i class="material-icons">person_pin</i>Accounting Unit</b></p>
- 			<p><b>&emsp;&emsp;2017-01-01 14:01:00</b></p>
- 		</small>
-
- 	</div>
- <!--list-->
- 		 	<!--list-->
- 	<div class="list">
- 		<h4>Attendance Monitoring</h4>
-
- 		<small>
-	 		<p><b>[Survey]</b></p>
-	 		
-	 	</small>
-
-
- 		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation. . .</p>
-
- 		<small class="text-disabled">
- 			<p><b><i class="material-icons">person_pin</i>Accounting Unit</b></p>
- 			<p><b>&emsp;&emsp;2017-01-01 14:01:00</b></p>
- 		</small>
-
- 	</div>
- <!--list-->
-
+		
 
  <!--search and page-->
-		<div class="list" data-role="none"><br/><br/>
+		<!--<div class="list" data-role="none"><br/><br/>
 			<div class="col col-md-12 row"><label>Page :  1/15</label></div>
 			<div><input type="number" class="form-control" min="1" value="1"  data-role="none"/></div>
 
-		</div>
+		</div>-->
 
  </div>
+<script type="text/javascript">
+/*ajax list*/
+function __ajax_list(data,success_callback,error_callback){
+  $.ajax({
+    url:__config.endpoint.list.url,
+    method:__config.endpoint.list.method,
+    data:data,
+    beforeSend:function(){
+       $.mobile.loading('show');
+
+       //enable debugging
+       if(__config.debug) console.log('\u{26AB} Connecting . . .')
+    }
+  }).success(function(json){ 
+
+    $.mobile.loading('hide');  
+    success_callback(json);
+
+     //enable debugging
+      if(__config.debug) console.log('\u{26AB} Connected')
+
+  }).fail(function(json){ 
+    
+    $.mobile.loading('hide');  
+    error_callback(json); 
+
+    //enable debugging
+    if(__config.debug) console.log('\u{26AB} Unable to fetch data. Please check connection')
+
+  })
+
+}
+
+
+__ajax_list('',function(e){
+	var data=JSON.parse(e)
+ 	var baskets=(typeof data.baskets!='undefined')?data.baskets:[];
+ 	var basket_count=baskets.length;
+ 	var html=`<!--search and page-->
+				<div class="list" data-role="none"><br/><br/>
+					<div class="col col-md-12"><label>Page :  1/15</label></div>
+					<div class="col col-md-12"><input type="number" class="form-control" min="1" value="1"  data-role="none"/></div>
+
+					<div class="col col-md-12"><input type="text" class="form-control" placeholder="Looking for ?"  data-role="none"/></div>
+					
+				</div>
+
+			`;
+
+ 	for(var x=0; x<baskets.length;x++){
+ 		 	html+=`	<!--list-->
+			 	<div class="list">
+			 		<div class="col col-md-12">
+				 		<h4>`+baskets[x].name+`</h4>
+
+				 		<p>`+baskets[x].description+`</p>
+				 	</div>
+
+			 		<div class="col col-md-12 list-details" style="background:rgba(200,200,200,0.1);padding-top:10px;border-top:1px solid rgba(200,200,200,0.3);">
+				 		<small>
+				 			<p><b>Category :</b> `+baskets[x].category+`</p>
+				 			<p><b>Department :</b>`+baskets[x].author.department+`</p>
+				 			<p><b>Last Modified :</b>`+baskets[x].date_modified+`</p>
+				 		</small>
+				 	</div>
+
+			 	</div>
+			 <!--list-->
+			`;	
+ 	}
+
+ 	//0 basket
+ 	if(basket_count<=0){
+ 		$('#main-page').load('welcome.html')
+ 	}else{
+ 		$('.list-container').html(html)	
+ 	} 
+
+
+ 	
+
+},function(){
+
+})
+	
+</script>

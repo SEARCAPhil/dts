@@ -4,9 +4,9 @@ window.sdft.deviceInstance='desktop';
 
 function changeDockerSize(){
 	//get height of list
-	var list_height=($('#item-docker-menu').height()+30) 
+	var list_height=($('#item-docker-menu').height()+200) 
 	//set docker height to full height
-	document.querySelector('#docker-sidebar > .content').style.height=(list_height>(document.body.clientHeight+100)?list_height:document.body.clientHeight+100)+'px';	
+	document.querySelector('#docker-sidebar > .content').style.height=((list_height>(document.body.clientHeight+200)?list_height:document.body.clientHeight+200))+'px';	
 }
 
 
@@ -39,21 +39,41 @@ function loadRouteContent(id){
 }
 
 
-function attachEventToMenu(){
-	$('.main-menu li:not([data-role="none"])').click(function(){
-		$('.main-menu li').removeClass('active');
-		$(this).addClass('active')
-	});
-
-}
-
 function attachEventToList(){
 	$('.list:not([data-role="none"])').click(function(){
 		$('.list').removeClass('active');
 		$(this).addClass('active')
+
+		//load content
+		loadDetailsPage(1,function(e){
+
+		});
+
+		//hide list for mobile
+		if(window.sdft.deviceInstance=='mobile'){
+			
+			$('.docker-menu-toggle-content')[0].click()
+		}
+
+
 	});
 
 }
+
+
+function attachEventToMenu(callback){
+	$('.main-menu li:not([data-role="none"])').click(function(){
+		$('.main-menu li').removeClass('active');
+		$(this).addClass('active')
+
+		callback(this);
+		
+
+	});
+
+}
+
+
 
 
 function deviceReady(){
@@ -67,26 +87,40 @@ function deviceReady(){
 
 	changeDockerSize();
 
-	attachEventToMenu();
+	attachEventToMenu(function(e){
+
+		if(e.id!='groups'){
+			//hide ajax section
+			$('.container-ajax').hide();
+			//show main-page
+			$('.container-main').show();
+			//load list
+			loadListContent(1,function(e){
+				setTimeout(function(){
+					changeDockerSize();	
+					//materiaize input field in list
+				    //materialize
+					$.material.init();
+
+					//attach list event
+					attachEventToList()
+				},500)
+					
+			});	
+		}
+		
+	});
 	
-	//load content
-	loadDetailsPage(1,function(e){
+	$('.main-page-content').load('welcome.html')
 
-	});
+	//show list after attachEventToMenu
+	setTimeout(function(){
+		$('.main-menu li:not([data-role="none"])')[0].click();
+	},300)
 
-	//load list
-	loadListContent(1,function(e){
-		setTimeout(function(){
-			changeDockerSize();	
-			//materiaize input field in list
-		    //materialize
-			$.material.init();
 
-			//attach list event
-			attachEventToList()
-		},300)
-			
-	});
+
+
 
 	//loadActivityContent(1)
 
@@ -128,6 +162,8 @@ function init(){
 			$(document).ready(function(){
 				
 				deviceReady();
+
+
 
 
 			});

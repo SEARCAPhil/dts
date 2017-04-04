@@ -43,7 +43,7 @@ __config.endpoint.auth={
 // List
 //------------------------
 __config.endpoint.list={
-	url:'127.0.0.1/sdft/api/item/',
+	url:'http://192.168.80.53/rfps/api/list.php',
 	method:'GET'
 }
 
@@ -63,12 +63,40 @@ __config.endpoint.details={
 //-------------------------
 // List
 //------------------------
+__config.endpoint.list.groups={
+	url:'http://192.168.80.53/rfps/api/list_groups.php',
+	method:'GET',
+	page:1,
+	id:null,
+}
+
+
+
+//-------------------------
+// groups
+//------------------------
 __config.endpoint.groups={
 	url:'http://192.168.80.53/rfps/api/groups.php',
 	method:'GET',
 	page:1,
 	id:null,
 }
+
+
+
+//-------------------------
+// groups
+//------------------------
+__config.endpoint.contacts={
+	url:'http://192.168.80.53/rfps/api/contacts.php',
+	method:'GET',
+	page:1,
+	id:null,
+}
+
+
+
+
 
 
 

@@ -38,12 +38,19 @@
  	<section class="content container-fluid">
  		<div class="col col-md-12">
  			<ul class="list-unstyled main-menu">
- 				<li class="active">Recent <i class="material-icons"  style="width: 24px;">folder_open</i></li>
+ 				<li class="active">Recent <i class="material-icons"  style="width: 24px;">folder</i></li>
  				<li>Ongoing <i class="material-icons" style="width: 24px;">cloud_qeue</i></li>
- 				<li>Closed <i class="material-icons">lock_outline</i></li>
- 				<!--<li>New <i class="material-icons">add</i></li>-->
+ 				<li>Closed <i class="material-icons">lock</i></li>
+ 				<li>New <i class="material-icons">add</i></li>
  			</ul>
  		</div>
+
+ 		<div class="col col-md-12">
+ 			<ul class="list-unstyled main-menu">
+ 				<li id="groups">Groups <i class="material-icons" style="width: 24px;">people</i></li>
+ 			</ul>
+ 		</div>
+
 
  		<div class="col col-md-12">
 
@@ -57,8 +64,8 @@
  </article>
 
 
-
-<div class="container-fluid" data-role="content">
+<div class="container-fluid container-ajax" data-role="content"></div>
+<div class="container-fluid container-main" data-role="content">
 	<div class="row">
 		
 		 <article class="col col-lg-2 col-md-3" id="item-docker-menu">
@@ -84,9 +91,29 @@
 		 </article>
 	</div>
 </div>
+
 <div class="offline-status-bar">
 	<p><i class="material-icons">network_check</i> You are Offline.Please check your internet connection</p>
 </div>
 
 </body>
 </html>
+<script type="text/javascript">
+$(document).ready(function(){
+	$('#groups').on('click',function(){
+		//loading
+		$.mobile.loading('show'); 
+
+		$('.container-main').hide();
+		$('.container-ajax').show();
+
+
+
+		$('.container-ajax').load('groups.html',function(){
+			//hide loading
+			$.mobile.loading('hide'); 	
+		})
+
+	})
+})
+</script>

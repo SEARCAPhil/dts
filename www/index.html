@@ -16,8 +16,11 @@
 	<script type="text/javascript" src="vendor/bootstrap-material-design/js/material.min.js"></script>
 	<script type="text/javascript" src="vendor/bootstrap/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="vendor/docker/js/docker.js"></script>
-	<script type="text/javascript" src="assets/js/index/index.js"></script>
 	<script type="text/javascript" src="assets/js/config.js"></script>
+	<script type="text/javascript" src="assets/js/index/ajax/ajax.list.js"></script>
+	<script type="text/javascript" src="assets/js/index/functions/functions.list.js"></script>
+	<script type="text/javascript" src="assets/js/index/index.js"></script>
+	
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	
@@ -73,7 +76,7 @@
 			 <span class="docker-menu-toggle-content visible-xs visible-sm"><i class="material-icons">keyboard_backspace</i></span>
 			<!--hide list menu-->
 
-			<section class="col col-md-12 item-docker-menu-content"></section>
+			<section class="col col-md-12 item-docker-menu-content"><div class="list-container row"></div></section>
 
 
 		 </article>
@@ -98,7 +101,12 @@
 
 </body>
 </html>
+<script type="text/javascript" src="assets/js/details/ajax/ajax.details.js"></script>
+<script type="text/javascript" src="assets/js/details/functions/functions.details.js"></script>
+
+
 <script type="text/javascript">
+
 $(document).ready(function(){
 	$('#groups').on('click',function(){
 		//loading

@@ -34,10 +34,10 @@ function __ajax_details(data,success_callback,error_callback){
 
 
 /*ajax groups*/
-function __ajax_groups(data,success_callback,error_callback){
+function __ajax_collaborators(data,success_callback,error_callback){
   $.ajax({
-    url:__config.endpoint.list.groups.url,
-    method:__config.endpoint.list.groups.method,
+    url:__config.endpoint.list.collaborators.url,
+    method:__config.endpoint.list.collaborators.method,
     data:data,
     beforeSend:function(){
        $.mobile.loading('show');

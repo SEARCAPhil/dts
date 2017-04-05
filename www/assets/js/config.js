@@ -24,6 +24,13 @@ __config.console.message=`
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 `
 
+//-------------------------
+// Session
+//-------------------------
+__config.session={}
+__config.session.token=window.localStorage.getItem('token');
+
+
 
 //------------------------
 // Enpoint
@@ -63,8 +70,8 @@ __config.endpoint.details={
 //-------------------------
 // List
 //------------------------
-__config.endpoint.list.groups={
-	url:'http://192.168.80.53/rfps/api/list_groups.php',
+__config.endpoint.list.collaborators={
+	url:'http://192.168.80.53/rfps/api/collaborators.php',
 	method:'GET',
 	page:1,
 	id:null,

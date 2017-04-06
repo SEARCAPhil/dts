@@ -40,11 +40,12 @@
  <article class="docker docker-sm-fixed docker-sm-hidden docker-xs-hidden hidden-md" id="docker-sidebar" data-role="none"  data-enhance="false">
  	<section class="content container-fluid">
  		<div class="col col-md-12">
- 			<ul class="list-unstyled main-menu">
- 				<li class="active">Recent <i class="material-icons"  style="width: 24px;">folder</i></li>
- 				<li>Ongoing <i class="material-icons" style="width: 24px;">cloud_qeue</i></li>
- 				<li>Closed <i class="material-icons">lock</i></li>
- 				<li>New <i class="material-icons">add</i></li>
+ 			<ul class="list-unstyled main-menu main-menu-list">
+ 				<li data-status="recent" class="active">Recent <i class="material-icons"  style="width: 24px;">folder</i></li>
+ 				<li data-status="open">Ongoing <i class="material-icons" style="width: 24px;">cloud_qeue</i></li>
+ 				<li data-status="closed">Closed <i class="material-icons">lock</i></li>
+ 				<li data-status="draft">Drafts <i class="material-icons">lock</i></li>
+ 				<li id="new">New <i class="material-icons">add</i></li>
  			</ul>
  		</div>
 

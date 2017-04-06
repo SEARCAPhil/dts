@@ -29,7 +29,11 @@ function getDetails(data,callback){
  	 	var data=JSON.parse(e)
  	 	var attachments=(typeof data.details.attachments!='undefined')?data.details.attachments:[];
 
- 	 	console.log(data.details)
+ 	 	if(data.details.status=="draft"){
+ 	 		$('.details-menu').html('<div class="col col-md-12 container-fluid"><button type="button" class="btn btn-default pull-right"><i class="material-icons">device_hub</i> Publish</button></div><div class="col col-md-12"><hr/></div>');
+ 	 	}else{
+ 	 		$('.details-menu').html('')
+ 	 	}
  	 	
  	 	//author
  	 	$('.author-name').text(data.details.author.name);
@@ -135,7 +139,7 @@ function getCollaborators(data,callback){
  	 	var htm=`<div class="col col-md-12 row" style="margin-bottom: 20px;position:relative;">
 					<br/><br/>
 					<span class="content-header" style="width:170px;padding-top:20px;"><i class="material-icons" style="width:24px;">groups</i> Collaborators</span>
-				</div>`
+				</div><div class="row"><div class="container-fluid">`
 		
 
  	 	//empty collaborators
@@ -185,6 +189,8 @@ function getCollaborators(data,callback){
 			`;
  	 	}
 
+ 	 	htm+=`</div></div>`
+
  	 	//load view
  	 	$('.group-content').html(htm);
 
@@ -195,5 +201,42 @@ function getCollaborators(data,callback){
  	 },function(e){
 
  	 });
+
  }
+
+
+ function getActivities(data,callback){
+
+	 __ajax_activities(data,function(e){
+	 	var data=JSON.parse(e);
+
+		var html=``;
+
+		var activities=(typeof data.activities!='undefined')?data.activities:[];
+
+		for(var x=0; x<activities.length; x++){
+			html+=`
+			<!--details-->
+				<div class="col col-md-12 activities" style="margin-bottom: 20px;">
+					<small>
+						<div class="col col-md-2 col-lg-1"><div class="media-circles circle-md"><img src="assets/images/user.png" width="100%;"></div></div>
+						<div class="col col-md-8">
+							<p><b>John Kenneth G. Abella</b></p>
+							<p class="text-danger">Created this basket</p>
+							<p>2017-01-01 5:00:00</p>
+						</div>
+						
+					</small>
+				</div>
+			<!--/details-->`;	
+		}
+		
+
+		$('#activities').html(html)
+
+	 },function(){
+	 	$('#activities').html('<center class="text-muted"><h3>No Recent Activities</h3><p>System detected that nothing has changed in this basket ever since.</p></center>')
+	 });
+
+}
 

@@ -1,7 +1,10 @@
 function __get_list(data,callback=function(){}){
 
 	__ajax_list(data,function(e){
+
 		var data=JSON.parse(e)
+
+
 	 	var baskets=(typeof data.baskets!='undefined')?data.baskets:[];
 	 	var basket_count=baskets.length;
 	 	var html=`<!--search and page-->
@@ -17,7 +20,7 @@ function __get_list(data,callback=function(){}){
 
 	 	for(var x=0; x<baskets.length;x++){
 	 		 	html+=`	<!--list-->
-				 	<div class="list" data-list="`+baskets[x].id+`">
+				 	<div class="list `+baskets[x].status+`" data-list="`+baskets[x].id+`">
 				 		<div class="col col-md-12">
 					 		<h4>`+baskets[x].name+`</h4>
 

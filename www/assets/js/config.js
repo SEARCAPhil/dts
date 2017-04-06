@@ -78,6 +78,19 @@ __config.endpoint.list.collaborators={
 }
 
 
+//-------------------------
+// List
+//------------------------
+__config.endpoint.list.activities={
+	url:'http://192.168.80.53/rfps/api/activities.php',
+	method:'GET',
+	page:1,
+	id:null,
+}
+
+
+
+
 
 //-------------------------
 // groups

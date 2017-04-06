@@ -33,19 +33,25 @@ function loadDetailsPage(callback){
 		</style>
 
 		<div class="details-content">
-			<div class="media">
-			  <div class="media-left">
-			    <a href="#">
-			      <div class="media-circles"><img src="assets/images/user.png" width="100%;"></div>
-			    </a>
-			  </div>
-			  <div class="media-body">
-			    <h4 class="media-heading author-name"></h4>
-			    <small>
-				    <p class="department"></p>
-					<p class="position"></p>
-					</small>
-			  </div>
+			<div class="col col-md-12 row details-menu">
+				
+			</div>
+
+			<div class="col col-md-12 row">
+				<div class="media">
+				  <div class="media-left">
+				    <a href="#">
+				      <div class="media-circles"><img src="assets/images/user.png" width="100%;"></div>
+				    </a>
+				  </div>
+				  <div class="media-body">
+				    <h4 class="media-heading author-name"></h4>
+				    <small>
+					    <p class="department"></p>
+						<p class="position"></p>
+						</small>
+				  </div>
+				</div>
 			</div>
 
 			<br/>
@@ -61,7 +67,7 @@ function loadDetailsPage(callback){
 		  <!-- Nav tabs -->
 		  <ul class="nav nav-tabs" role="tablist" style="max-height: 80px;">
 		    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab"><i class="material-icons">folder_shared</i> Content</a></li>
-		    <li role="presentation"><a href="#activities" aria-controls="activities" role="tab" data-toggle="tab">Activities</a></li>
+		    <li role="presentation" id="activity-tab"><a href="#activities" aria-controls="activities" role="tab" data-toggle="tab">Activities</a></li>
 		    <li role="presentation"><a href="#route" aria-controls="route" role="tab" data-toggle="tab">Route</a></li>
 		  </ul>
 
@@ -71,8 +77,11 @@ function loadDetailsPage(callback){
 
 		    </div>
 
-		    <div role="tabpanel" class="tab-pane" id="activities" style="padding-top: 30px;"></div>
-		    <div role="tabpanel" class="tab-pane" id="route" style="padding-top: 30px;"></div>
+		    <div role="tabpanel" class="tab-pane" id="activities" style="padding-top: 30px;">
+
+		    </div>
+		    <div role="tabpanel" class="tab-pane" id="route" style="padding-top: 30px;"><center><h3>Not available</h3><p class="text-muted">Our team is continously improving our services.We are adding additional functionalities that will make you happy.
+		    Please stay tuned and wait for the next update. Your loving team  <br/><br/>-ITSU</p></center></div>
 		  </div>
 		</div>
 		<div class="details-content-status"></div>
@@ -95,8 +104,11 @@ function loadListContent(data,callback){
 	
 }
 
-function loadActivityContent(id){
-	$('#activities').load('activities.html');
+function loadActivityContent(data,callback){
+	getActivities(data,function(){
+		callback(this)
+	});
+	
 }
 
 function loadRouteContent(id){
@@ -116,7 +128,11 @@ function attachEventToList(){
 				loadDetailsInit('id='+$(element).attr('data-list')+'&token='+__config.session.token)	
 			}
 			
-			
+			$('#activity-tab').click(function(){
+				loadActivityContent('id='+$(element).attr('data-list')+'&token='+__config.session.token,function(e){ console.log(e)
+					
+				})
+			})
 		});
 
 		//hide list for mobile
@@ -160,14 +176,14 @@ function deviceReady(){
 
 
 	attachEventToMenu(function(e){
-
-		if(e.id!='groups'){
+	
+		if((e.id!='groups')&&(e.id!='new')){
 			//hide ajax section
 			$('.container-ajax').hide();
 			//show main-page
 			$('.container-main').show();
 			//load list
-			loadListContent({token:__config.session.token,page:1},function(e){
+			loadListContent({token:__config.session.token,page:1,status:$(e).attr('data-status')},function(e){
 				setTimeout(function(){
 					changeDockerSize('#item-docker-menu');	
 					//materiaize input field in list

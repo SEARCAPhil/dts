@@ -16,6 +16,52 @@ function loadContent(callback){
 	},300)
 }
 
+function loadTopMenu(status){
+	var publish_button='';
+	var update_button='<li><button class="btn btn-xs btn-default" title="update"><i class="material-icons">update</i></button></li>';
+
+	if(status=='draft'){
+		publish_button=`<li><button class="btn btn-xs btn-default" title="publish"><i class="material-icons">device_hub</i></button></li>`
+		$('.details-menu').html('<div class="col col-md-12 container-fluid"><button type="button" class="btn btn-default pull-right"><i class="material-icons">device_hub</i> Publish</button></div><div class="col col-md-12"><hr/></div>');
+ 
+	}else{
+		$('.details-menu').html('')
+	}
+
+	if(status=='draft'||status=='open'){
+
+
+ 	 	//menu for xs devices
+ 	 	$('.top-menu-section-xs').html(`<input type="file" name="files[]" class="content-menu-attachment-input" multiple/><ul class="nav navbar-nav navbar-right pull-right top-menu">
+	        <li><button class="btn btn-xs btn-default content-menu-attachment"><i class="material-icons">attachment</i> attach</button></li>
+	        <li><button class="btn btn-xs btn-default"><i class="material-icons">folder_shared</i> Share</button></li>
+	        `+publish_button+` `+update_button+`
+	  	 </ul>`)
+
+
+ 	 	//menu for md - lg devices
+ 	 	$('.top-menu-section-md').html(`<ul class="nav navbar-nav navbar-right pull-right top-menu">
+	        <li><button class="btn btn-xs btn-default content-menu-attachment"><i class="material-icons">attachment</i> attach</button></li>
+	        <li><button class="btn btn-xs btn-default"><i class="material-icons">folder_shared</i> Share</button></li>
+	        `+publish_button+` `+update_button+`
+	  	 </ul>`);
+	}
+
+
+	 	 	
+
+}
+function clearLoadTopMenu(){
+	$('.top-menu-section-xs').html('');
+	$('.top-menu-section-md').html('');
+}
+
+function bindEventToAttachmentMenu(){
+	$('.content-menu-attachment').click(function(){
+		$('.content-menu-attachment-input').click();
+	})
+}
+
 
 
 function getDetails(data,callback){
@@ -28,12 +74,11 @@ function getDetails(data,callback){
 
  	 	var data=JSON.parse(e)
  	 	var attachments=(typeof data.details.attachments!='undefined')?data.details.attachments:[];
+		
+		loadTopMenu(data.details.status)
+		bindEventToAttachmentMenu()
 
- 	 	if(data.details.status=="draft"){
- 	 		$('.details-menu').html('<div class="col col-md-12 container-fluid"><button type="button" class="btn btn-default pull-right"><i class="material-icons">device_hub</i> Publish</button></div><div class="col col-md-12"><hr/></div>');
- 	 	}else{
- 	 		$('.details-menu').html('')
- 	 	}
+ 	 	
  	 	
  	 	//author
  	 	$('.author-name').text(data.details.author.name);
@@ -45,6 +90,10 @@ function getDetails(data,callback){
  	 	//description
  	 	$('.description').text(data.details.description);
 
+
+
+
+
  	 	//template
  	 	var html=`<div class="col col-md-12"><br/><br/></div>`;
 
@@ -52,7 +101,7 @@ function getDetails(data,callback){
 
  	 	//no attachments
  	 	if(attachments.length<=0){
- 	 		html+='<center class="text-muted"><h3>No Available Data</h3><p>Please make sure that someone uploaded a file for viewing </p></center>';
+ 	 		html+='<center class="text-muted"><h3><i class="material-icons" style="font-size:48px;">phonelink_off</i> </h3><h3>No Available Data</h3><p>Please make sure that someone uploaded a file for viewing </p></center>';
  	 	}
 
  	 	for(var x=0;x<attachments.length;x++){
@@ -122,7 +171,7 @@ function getDetails(data,callback){
  	 	
  	 },function(e){
  	 	//hide content and show error
- 	 	$('#main-page').html('<center style="margin-top:30%;" class="text-muted"><h3	>No Available Data</h3><p>Please make sure the data you are viewing is available and not broken</p></center>')
+ 	 	$('#main-page').html('<center style="margin-top:30%;" class="text-muted"><h3><i class="material-icons" style="font-size:48px;">phonelink_off</i> </h3><h3>No Available Data</h3><p>Please make sure the data you are viewing is available and not broken</p></center>')
  	 });
 
 
@@ -147,8 +196,8 @@ function getCollaborators(data,callback){
 	 	 	htm+=`
 	 	 	<div class="col col-md-12">
 	 	 		<center class="text-muted">
-	 	 			<h3><i class="material-icons" style="font-size:48px;">phonelink</i> </h3>	 	 			
-	 	 			<h3	>No Collaborator yet?</h3><p>Start adding collaborators for easier and smooth file sharing.</p>
+	 	 			<h3><i class="material-icons" style="font-size:48px;">local_mall</i> </h3>	 	 			
+	 	 			<h3	>Share this basket to someone</h3><p>Start adding contacts to start collaboration </p>
 	 	 		</center>
 	 	 	</div>
 	 	 	`;

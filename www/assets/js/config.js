@@ -79,7 +79,7 @@ __config.endpoint.list.collaborators={
 
 
 //-------------------------
-// List
+// Activities
 //------------------------
 __config.endpoint.list.activities={
 	url:'http://192.168.80.53/rfps/api/activities.php',
@@ -87,6 +87,26 @@ __config.endpoint.list.activities={
 	page:1,
 	id:null,
 }
+
+
+//-------------------------
+// Basket
+//------------------------
+__config.endpoint.basket={
+	url:'http://192.168.80.53/rfps/api/basket_post.php',
+	method:'POST',
+}
+
+
+//-------------------------
+// Categories
+//------------------------
+__config.endpoint.categories={
+	url:'http://192.168.80.53/rfps/api/categories.php',
+	method:'GET',
+}
+
+
 
 
 

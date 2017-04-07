@@ -42,8 +42,12 @@ function __get_list(data,callback=function(){}){
 
 	 	//0 basket
 	 	if(basket_count<=0){
-	 		$('#main-page').load('welcome.html')
+	 		//$('#main-page').load('welcome.html')
+	 		$('.docker-menu-toggle-content').addClass('hide')
+	 		$('#main-page').addClass('show')
+	 		$('.list-container').html('')
 	 	}else{
+	 		$('.docker-menu-toggle-content').removeClass('hide')
 	 		$('.list-container').html(html)	
 
 	 		//callback

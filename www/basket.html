@@ -1,0 +1,238 @@
+<style type="text/css">
+	.basket-container{
+		background: rgb(255,255,255);
+		border-radius: 5px;
+		margin-bottom: 20px;
+		padding:30px 30px;
+	}
+	.form-input-group{
+		margin-bottom: 50px;
+	}
+</style>
+
+<div class="col col-lg-offset-3">
+		<section class="col col-md-12" style="margin-top: 100px;margin-bottom: 20px;">
+			<div class="col col-md-12 text-muted">
+				<h3><i class="material-icons">shopping_basket</i> Basket</h3>
+				<p>Create new basket for easy collaboration</p>
+			</div>
+		</section>
+
+		<!--details-->
+		<section class="col col-md-6 basket-container">
+
+			<div class="media">
+			  <div class="media-left">
+			    <a href="#">
+			      <div class="media-circles"><img src="assets/images/user.png" width="100%;"></div>
+			    </a>
+			  </div>
+			  <div class="media-body">
+			    <h4 class="media-heading author-name">John Kenneth Abella</h4>
+			    <small>
+				    <p class="department">Information Technology Services Unit</p>
+					<p class="position">MIS Assistant</p>
+					</small>
+			  </div>
+			  <hr/>
+			</div>
+
+			<div class="col col-md-12 groups text-muted add-group">
+				<form class="form-vertical"   data-ajax="false" onsubmit="return false;">
+					<div class="form-group form-input-group">
+						<div class="col col-md-4"><label>Basket Name :</label></div>
+						<div class="col col-md-8"><input type="text" class="form-control" required autofocus="true" id="basket_name" placeholder="(required)"  data-role="none" autocomplete="off"/></div>
+					</div>
+
+					<div class="form-group form-input-group"">
+						<div class="col col-md-4"><label>Description :</label></div>
+						<div class="col col-md-8">
+							<textarea class="form-control" rows="5" placeholder="Enter Brief description (required)" maxlength="255" required id="description"></textarea>
+							<small><p class="text-muted">Maximum of 500 characters</p></small>
+						</div>
+					</div>
+
+
+					<div class="form-group form-input-group"">
+						<div class="col col-md-4"><label>Keywords :</label></div>
+						<div class="col col-md-8"><input type="text" class="form-control" id="keywords" /></div>	
+					</div>
+
+					<div class="form-group form-input-group"">
+						<div class="col col-md-4"><label>Category :</label></div>
+						<div class="col col-md-8 parent-category-selector-section">
+							<select class="form-control parent-category-selector">
+								<option>Select category</option>
+								<option>Request For Payment</option>
+								<option>Survey</option>
+								<option>Other request</option>	
+							</select>
+							<div class="subcategory-section"></div>
+						</div>	
+					</div>
+
+
+					<div class="form-group form-input-group"">
+						
+						<div class="col col-md-12"><button class="btn btn-primary btn-block btn-default" style="background: #009688;color: rgb(255,255,255);" id="create">Create <i class="material-icons">local_mall</i></button></div>	
+					</div>
+
+
+				</form>
+			</div>
+		</section>
+		<!--/details-->
+
+
+
+		<section class="col col-md-6 container">
+
+
+
+		</section>
+</div>
+
+<script type="text/javascript">
+/*ajax basket*/
+function __ajax_post_basket(data,success_callback,error_callback){
+  $.ajax({
+    url:__config.endpoint.basket.url,
+    method:__config.endpoint.basket.method,
+    data:data,
+    beforeSend:function(){
+       $.mobile.loading('show');
+
+       //enable debugging
+       if(__config.debug) console.log('\u{26AB} Connecting . . .')
+    }
+  }).success(function(json){ 
+
+    $.mobile.loading('hide');  
+    success_callback(json);
+
+     //enable debugging
+      if(__config.debug) console.log('\u{26AB} Connected')
+
+  }).fail(function(json){ 
+    
+    $.mobile.loading('hide');  
+    error_callback(json); 
+
+    //enable debugging
+    if(__config.debug) console.log('\u{26AB} Unable to fetch data. Please check connection')
+
+  })
+
+}
+
+
+/*ajax basket*/
+function __ajax_categories(data,success_callback,error_callback){
+  $.ajax({
+    url:__config.endpoint.categories.url,
+    method:__config.endpoint.categories.method,
+    data:data,
+    beforeSend:function(){
+       $.mobile.loading('show');
+
+       //enable debugging
+       if(__config.debug) console.log('\u{26AB} Connecting . . .')
+    }
+  }).success(function(json){ 
+
+    $.mobile.loading('hide');  
+    success_callback(json);
+
+     //enable debugging
+      if(__config.debug) console.log('\u{26AB} Connected')
+
+  }).fail(function(json){ 
+    
+    $.mobile.loading('hide');  
+    error_callback(json); 
+
+    //enable debugging
+    if(__config.debug) console.log('\u{26AB} Unable to fetch data. Please check connection')
+
+  })
+
+}
+
+//get categories
+function getParentCategories(){
+	__ajax_categories({token:__config.session.token,id:null},function(e){
+		var data=JSON.parse(e)
+		var categories=(typeof data.categories!='undefined')?data.categories:[];
+
+		for(var x=0; x<categories.length;x++){
+			$('.parent-category-selector').append('<option value="'+categories[x].id+'" class="subcategory">'+categories[x].name+'</option>')
+		}
+
+		attachEventToCategorySelector();
+
+
+	},function(){
+
+	});
+}
+
+function getSub(){
+	console.log(this.value)
+	$(this).parent().children('.subcategory-section').html(`<div><select class="form-control parent-category-selector"><option>Select Sub-category</option><option>Cat 1</option></select><div class="subcategory-section"><div></div>`);
+	attachEventToCategorySelector();
+}
+
+function attachEventToCategorySelector(){
+	$('.parent-category-selector').off('change',getSub)
+	setTimeout(function(){
+		$('.parent-category-selector').on('change',getSub)
+	},300)	
+}
+
+
+//get categories
+function getChildrenCategories(){
+	__ajax_categories({token:__config.session.token,id:null},function(e){
+		var data=JSON.parse(e)
+		var categories=(typeof data.categories!='undefined')?data.categories:[];
+
+		for(var x=0; x<categories.length;x++){
+			$('.parent-category-selector').append('<option id="'+categories[x].id+'" class="subcategory">'+categories[x].name+'</option>')
+		}
+
+		
+
+
+	},function(){
+
+	});
+}
+
+
+
+
+getParentCategories();
+
+
+$(document).ready(function(){
+
+	$('#create').on('click',function(){
+		if(($('#basket_name').val()).length<=0) return 0;
+		if(($('#description').val()).length<=0) return 0;
+
+		__ajax_post_basket({token:__config.session.token},function(e){
+			var data=JSON.parse(e)
+			if(typeof data.id!='indefined'){
+				//proceed to draft
+				$('#draft-menu').click();
+			}
+
+		},function(){
+
+		});
+		
+	})
+
+
+})
+</script>

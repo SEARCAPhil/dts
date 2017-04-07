@@ -98,6 +98,10 @@ function loadDetailsPage(callback){
 
 
 function loadListContent(data,callback){
+
+	//remove attach and share options
+	clearLoadTopMenu();
+
 	__get_list(data,function(){
 		callback(this)
 	});
@@ -192,6 +196,21 @@ function deviceReady(){
 
 					//attach list event
 					attachEventToList()
+
+					//autoclick list for desktop
+					if(window.sdft.deviceInstance=='desktop'){
+						//$('.list:not([data-role="none"])')[0].click();
+					}else{
+						//if show list page is hidden -> show list
+						var itemCssDefaultDisplay=window.getComputedStyle($('#item-docker-menu')[0]).display;
+
+						if(itemCssDefaultDisplay=='none'&&($('.list:not([data-role="none"])')[0]!='undefined')){
+							$('.docker-menu-toggle-content')[0].click()
+						}
+
+					}
+
+
 				},300)
 					
 			});	
@@ -266,7 +285,7 @@ function init(){
 }
 
 
-/*function deviceOffline(){
+function deviceOffline(){
 	$('.offline-status-bar').show();
 }
 
@@ -276,7 +295,7 @@ function deviceOnline(){
 
 document.addEventListener("offline",deviceOffline,false);
 document.addEventListener("online",deviceOnline,false);
-
+/*
 */
 
 window.addEventListener('orientationchange', function(){

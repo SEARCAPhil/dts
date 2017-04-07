@@ -1,3 +1,41 @@
+/*material icon font*/
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Material Icons'),
+    local('MaterialIcons-Regular'),
+    url(../fonts/MaterialIcons-Regular.woff2) format('woff2'),
+    url(../fonts/MaterialIcons-Regular.woff) format('woff'),
+    url(../fonts/MaterialIcons-Regular.ttf) format('truetype');
+}
+
+
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;  /* Preferred icon size */
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Support for IE. */
+  font-feature-settings: 'liga';
+}
+
 
 .navbar-black{
 	background: rgb(60,60,60) !important;
@@ -63,7 +101,23 @@
     background-color: rgb(60,60,60) !important;
 }
 
+/*top menu*/
+.top-menu{
+	padding-right: 20px;
+}
+.top-menu li{
+	float: left;
+	display: block;
 
+}
+
+.top-menu li button{
+		color:rgba(250,250,250,0.5) !important;
+		background: none;
+		border:1px solid rgba(200,200,200,0.1);
+			margin-right: 5px;
+	padding: 4px !important;
+}
 
 /*list*/
 .list{
@@ -155,7 +209,10 @@
 	text-align: center;	
 }
 
-
+/*details*/
+.content-menu-attachment-input{
+	display: none !important;
+}
 
 /*more details*/
 .content-more-details{
@@ -190,15 +247,15 @@
 	position: fixed;
 	bottom:0;
 	width: 100%;
-	height: 50px auto;
+	height: 30px auto;
 	background: rgba(255,10,50,0.9);
 	text-align: center;
-	padding: 15px 25px;
 	color:rgb(240,240,240);
 	z-index: 2046;
 	font-weight: bold;
 	transition: position 0.4s ease-in-out;
 	display: none;
+	padding:2px !important;
 }
 
 .show{

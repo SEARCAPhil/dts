@@ -93,6 +93,10 @@
 
 /*override loader
 /* Loader */
+
+.ui-loader{
+	
+}
 .ui-icon-loading {
 	width:200px;
 	height:200px;

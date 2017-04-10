@@ -1,3 +1,5 @@
+
+
 function __get_list(data,callback=function(){}){
 
 	__ajax_list(data,function(e){
@@ -77,6 +79,4 @@ function loadDetailsInit(data){
 			 });
 		});
 	});
-
-
 }

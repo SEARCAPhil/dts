@@ -4,6 +4,17 @@ function __save_token_to_storage(token){
   window.localStorage.setItem('token',token);
 }
 
+function __save_user_details_to_storage(data){
+ 
+    window.localStorage.setItem('cached_full_name',data.details.full_name);
+    window.localStorage.setItem('cached_first_name',data.details.first_name);
+    window.localStorage.setItem('cached_last_name',data.details.last_name);
+    window.localStorage.setItem('cached_department',data.details.department);
+    window.localStorage.setItem('cached_alias',data.details.alias);
+    window.localStorage.setItem('cached_position',data.details.position);
+};
+
+
 
 
 
@@ -23,11 +34,12 @@ function __auth(username,password){
               if(data.token.length>10){
                   //save token to device
                  __save_token_to_storage(data.token);
+                 __save_user_details_to_storage(data);
 
                  //go to main page
                  setTimeout(function(){
                     window.location='index.html';
-                 },300)
+                 },700)
               }
 
 

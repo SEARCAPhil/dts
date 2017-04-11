@@ -82,7 +82,7 @@
 <div class="container-fluid container-main" data-role="content">
 	<div class="row">
 		
-		 <article class="col col-lg-2 col-md-3" id="item-docker-menu">
+		 <article class="col col-lg-2 col-md-3 hidden visible-lg visible-md" id="item-docker-menu">
 			 <br/><br/>
 			 <span class="docker-menu-toggle-content visible-xs visible-sm" style="padding-top: 30px;"><i class="material-icons">keyboard_backspace</i></span>
 			<!--hide list menu-->
@@ -112,6 +112,170 @@
 
 </body>
 </html>
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" data-role="none"><span aria-hidden="true">&times;</span></button>
+        	
+        	<div class="col col-md-5">
+        		<h4 class="modal-title" id="myModalLabel"><i class="material-icons">folder_shared</i> Share basket</h4>
+        		<hr class="visible-xs" />
+        	</div>
+
+        	<div class="col col-md-1 col-xs-1">
+        		<i class="material-icons">search</i>
+        	</div>
+        	<div class="col col-md-5 col-xs-10">
+        		<input type="text" name="" class="form-control" placeholder="Search people" data-role="none">
+        	</div>
+        
+      </div>
+      <div class="modal-body">
+      	<ul class="nav nav-tabs" role="tablist" style="max-height: 80px;">
+		    <li role="presentation" class="active">
+		    	<a href="#share-groups" aria-controls="share-groups" role="tab" data-toggle="tab"><i class="material-icons">group</i> Groups</a>
+		    </li>
+		    <li role="presentation" id="contacts-tab"><a href="#share-contacts" aria-controls="share-contacts" role="tab" data-toggle="tab"><i class="material-icons">account_circle</i> People</a></li>
+		 </ul>
+
+		 <div class="tab-content">
+			 <div role="tabpanel" class="tab-pane active" id="share-groups">
+			 <br/>
+			 	<div class="col col-md-12 groups">
+					<p><input type="checkbox" data-role="none"/><b>Admin</b></p>
+						<small>
+							<details><summary>Members <span class="label label-default">1</span></summary><br>
+
+									<!--contacts-->
+									<div class="col col-md-12 groups phone-book group-members">
+										<div class="col col-md-1"><div class="media-circles circle-sm"><img src="assets/images/user.png" width="100%;"></div></div>
+										<div class="col col-md-10">
+											<small style="line-height: 10px;">
+												<p><b>John Kenneth Abella</b></p>
+												<p class="text-muted"></p>
+												<p class="text-muted">programmer</p>
+											</small>
+										</div>
+									</div>
+									<!--contacts-->
+
+
+							</details>
+						</small>
+						<hr/>	
+				</div>
+
+				<div class="col col-md-12 groups">
+					<p><input type="checkbox" data-role="none"/><b>Admin</b></p>
+						<small>
+							<details><summary>Members <span class="label label-default">1</span></summary><br>
+
+									<!--contacts-->
+									<div class="col col-md-12 groups phone-book group-members">
+										<div class="col col-md-1"><div class="media-circles circle-sm"><img src="assets/images/user.png" width="100%;"></div></div>
+										<div class="col col-md-10">
+											<small style="line-height: 10px;">
+												<p><b>John Kenneth Abella</b></p>
+												<p class="text-muted"></p>
+												<p class="text-muted">programmer</p>
+											</small>
+										</div>
+									</div>
+									<!--contacts-->
+
+
+							</details>
+						</small>
+						<hr/>	
+				</div>
+
+
+				<div class="col col-md-12 groups">
+					<p><input type="checkbox" data-role="none"/><b>Admin</b></p>
+						<small>
+							<details><summary>Members <span class="label label-default">1</span></summary><br>
+
+									<!--contacts-->
+									<div class="col col-md-12 groups phone-book group-members">
+										<div class="col col-md-1"><input type="checkbox" data-role="none"/></div>
+										<div class="col col-md-1"><div class="media-circles circle-sm"><img src="assets/images/user.png" width="100%;"></div></div>
+										<div class="col col-md-10">
+											<small style="line-height: 10px;">
+												<p><b>John Kenneth Abella</b></p>
+												<p class="text-muted"></p>
+												<p class="text-muted">programmer</p>
+											</small>
+										</div>
+									</div>
+									<!--contacts-->
+
+									<!--contacts-->
+									<div class="col col-md-12 groups phone-book group-members">
+										<div class="col col-md-1"><input type="checkbox" data-role="none"/></div>
+										<div class="col col-md-1"><div class="media-circles circle-sm"><img src="assets/images/user.png" width="100%;"></div></div>
+										<div class="col col-md-10">
+											<small style="line-height: 10px;">
+												<p><b>John Kenneth Abella</b></p>
+												<p class="text-muted"></p>
+												<p class="text-muted">programmer</p>
+											</small>
+										</div>
+									</div>
+									<!--contacts-->
+
+									<!--contacts-->
+									<div class="col col-md-12 groups phone-book group-members">
+										<div class="col col-md-1"><input type="checkbox" data-role="none"/></div>
+										<div class="col col-md-1"><div class="media-circles circle-sm"><img src="assets/images/user.png" width="100%;"></div></div>
+										<div class="col col-md-10">
+											<small style="line-height: 10px;">
+												<p><b>John Kenneth Abella</b></p>
+												<p class="text-muted"></p>
+												<p class="text-muted">programmer</p>
+											</small>
+										</div>
+									</div>
+									<!--contacts-->
+
+
+							</details>
+						</small>
+						<hr/>	
+				</div>
+
+
+
+			 </div>
+			  <div role="tabpanel" class="tab-pane" id="share-contacts">
+			 	 <br/>
+					<!--contacts-->
+					<div class="col col-md-12 col-xs-12 groups phone-book group-members">
+						<div class="col col-md-1 col-xs-1"><input type="checkbox" data-role="none"/></div>
+						<div class="col col-md-1 col-xs-2"><div class="media-circles circle-sm"><img src="assets/images/user.png" width="100%;"></div></div>
+						<div class="col col-md-10 col-xs-8">
+							<small style="line-height: 10px;">
+								<p><b>John Kenneth Abella</b></p>
+								<p class="text-muted"></p>
+								<p class="text-muted">programmer</p>
+							</small>
+						</div>
+					</div>
+					<!--contacts-->
+
+
+
+			 </div>
+		</div>
+      	 
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 <script type="text/javascript" src="assets/js/details/ajax/ajax.details.js"></script>
 <script type="text/javascript" src="assets/js/details/functions/functions.details.js"></script>
 

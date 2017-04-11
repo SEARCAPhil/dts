@@ -90,6 +90,13 @@
 .btn-default{
 	background: rgba(153,153,153,.2);
 }
+.btn-danger{
+	background: rgb(150, 40, 27);
+	color: #ECECEC !important;
+}
+.btn-danger:hover{
+	color: #EC644B !important;
+}
 
 /*override loader
 /* Loader */
@@ -103,6 +110,11 @@
     background-image: url(../images/spinner.gif) !important;
     background-size: 2.875em 2.875em;
     background-color: rgb(60,60,60) !important;
+}
+
+/*form-group*/
+.form-group.is-empty{
+	margin:0;
 }
 
 /*top menu*/

@@ -34,7 +34,7 @@ function loadTopMenu(status){
  	 	//menu for xs devices
  	 	$('.top-menu-section-xs').html(`<input type="file" name="files[]" class="content-menu-attachment-input" multiple/><ul class="nav navbar-nav navbar-right pull-right top-menu">
 	        <li><button class="btn btn-xs btn-default content-menu-attachment"><i class="material-icons">attachment</i> attach</button></li>
-	        <li><button class="btn btn-xs btn-default"><i class="material-icons">folder_shared</i> Share</button></li>
+	        <li><button class="btn btn-xs btn-default" data-toggle="modal" data-target="#myModal"><i class="material-icons">folder_shared</i> Share</button></li>
 	        `+publish_button+` `+update_button+`
 	  	 </ul>`)
 
@@ -42,7 +42,7 @@ function loadTopMenu(status){
  	 	//menu for md - lg devices
  	 	$('.top-menu-section-md').html(`<ul class="nav navbar-nav navbar-right pull-right top-menu">
 	        <li><button class="btn btn-xs btn-default content-menu-attachment"><i class="material-icons">attachment</i> attach</button></li>
-	        <li><button class="btn btn-xs btn-default"><i class="material-icons">folder_shared</i> Share</button></li>
+	        <li><button class="btn btn-xs btn-default" data-toggle="modal" data-target="#myModal"><i class="material-icons">folder_shared</i> Share</button></li>
 	        `+publish_button+` `+update_button+`
 	  	 </ul>`);
 	}
@@ -70,9 +70,18 @@ function getDetails(data,callback){
  	 __ajax_details(data,function(e){
 
  	 	
+ 	 	try{
 
+ 	 		var data=JSON.parse(e)
+ 	 	}catch(e){
+ 	 		$('.main-page-content').html(`
+ 	 			<center>
+					<h3 class="text-muted"><i class="material-icons" style="font-size: 5em;">signal_wifi_off</i></h3>
+					<h3>No Content Available</h3>
+					<p>The basket you are viewing is currently unavailable due to connection issue or broken content.Please make sure you have privilege to view this link. If error persist, please contact IT support.</p>
+				</center>`);
+ 	 	}
 
- 	 	var data=JSON.parse(e)
  	 	var attachments=(typeof data.details.attachments!='undefined')?data.details.attachments:[];
 		
 		loadTopMenu(data.details.status)

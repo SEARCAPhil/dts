@@ -48,55 +48,56 @@ function __show_list(json,target){
 
 function __get_list(data,callback=function(){}){
 
-	//status
 	var status=data.status;
+	//show from list only
+	var json_data=window.localStorage.getItem('cached_list_'+status);
+
+	try{
+		__show_list(json_data,'.list-container');
+		//callback
+ 		setTimeout(function(){
+ 			callback(this)
+ 		},300)
+	}catch(e){
+
+	}
+
+
+	//status	
 
 	__ajax_list(data,function(e){
-		var data={}
-		var json_data=e;
-		
-		try{data=JSON.parse(e)}catch(e){}
-
-		if(typeof data.status!='undefined'){
-			//save list to storage
-			__saveListToStorage(json_data,status);
-		}else{
-
-			//use data from local storage
-			data=JSON.parse(window.localStorage.getItem('cached_list_'+status));
-			json_data=window.localStorage.getItem('cached_list_'+status);
-		}
 
 
+		try{
+			data=JSON.parse(e)
 
+			if(typeof data.status!='undefined'){
+				//save list to storage
+				__saveListToStorage(json_data,status);
 
+			}
 
-	 	var baskets=(typeof data.baskets!='undefined')?data.baskets:[];
-	 	var basket_count=baskets.length;
+			//updatebasket count
+	 		var baskets=(typeof data.baskets!='undefined')?data.baskets:[];
+	 		basket_count=baskets.length;
 
+		 	//0 basket
+		 	if(basket_count<=0){
+		 		//$('#main-page').load('welcome.html')
+		 		$('.docker-menu-toggle-content').addClass('hide')
+		 		$('#main-page').addClass('show')
+		 		$('.list-container').html('')
+		 	}else{
+		 		$('.docker-menu-toggle-content').removeClass('hide')
+		 		__show_list(json_data,'.list-container');
+		 			
+		 		//callback
+		 		setTimeout(function(){
+		 			callback(e)
+		 		},300)
+		 	} 
+		}catch(e){}
 
-		
-
-	 	//0 basket
-	 	if(basket_count<=0){
-	 		//$('#main-page').load('welcome.html')
-	 		$('.docker-menu-toggle-content').addClass('hide')
-	 		$('#main-page').addClass('show')
-	 		$('.list-container').html('')
-	 	}else{
-	 		$('.docker-menu-toggle-content').removeClass('hide')
-
-	 		__show_list(json_data,'.list-container');
-	 			
-
-	 		//callback
-	 		setTimeout(function(){
-	 			callback(e)
-	 		},300)
-	 	} 
-
-
-	 	
 
 	},function(){
 

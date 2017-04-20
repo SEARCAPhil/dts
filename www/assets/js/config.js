@@ -128,6 +128,14 @@ __config.endpoint.groups={
 }
 
 
+__config.endpoint.groups.members={
+	url:'http://192.168.80.53/rfps/api/group_members.php',
+	method:'GET',
+	page:1,
+	id:null,
+}
+
+
 
 //-------------------------
 // groups

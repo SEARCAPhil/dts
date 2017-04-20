@@ -42,7 +42,7 @@ function loadTopMenu(status){
  	 	//menu for md - lg devices
  	 	$('.top-menu-section-md').html(`<ul class="nav navbar-nav navbar-right pull-right top-menu">
 	        <li><button class="btn btn-xs btn-default content-menu-attachment"><i class="material-icons">attachment</i> attach</button></li>
-	        <li><button class="btn btn-xs btn-default" data-toggle="modal" data-target="#myModal"><i class="material-icons">folder_shared</i> Share</button></li>
+	        <li><button class="btn btn-xs btn-default" data-toggle="modal" data-target="#myModal"><a href="share.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" style="color:rgba(250,250,250,0.5);"><i class="material-icons">folder_shared</i> Share</a></button></li>
 	        `+publish_button+` `+update_button+`
 	  	 </ul>`);
 	}

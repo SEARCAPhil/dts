@@ -121,7 +121,8 @@ function loadRouteContent(id){
 
 
 function attachEventToList(){
-	$('.list:not([data-role="none"])').click(function(){
+	$('.list:not([data-role="none"])').off('click')
+	$('.list:not([data-role="none"])').on('click',function(){ 
 		$('.list').removeClass('active');
 		$(this).addClass('active')
 
@@ -140,9 +141,8 @@ function attachEventToList(){
 		});
 
 		//hide list for mobile
-		if(window.sdft.deviceInstance=='mobile'){
-			
-			$('.docker-menu-toggle-content')[0].click()
+		if(window.sdft.deviceInstance=='mobile'){ 
+			$('.docker-menu-toggle-content')[1].click()
 		}
 
 
@@ -205,7 +205,7 @@ function deviceReady(){
 						var itemCssDefaultDisplay=window.getComputedStyle($('#item-docker-menu')[0]).display;
 
 						if(itemCssDefaultDisplay=='none'&&($('.list:not([data-role="none"])')[0]!='undefined')){
-							$('.docker-menu-toggle-content')[0].click()
+							//$('.docker-menu-toggle-content')[0].click()
 						}
 
 					}

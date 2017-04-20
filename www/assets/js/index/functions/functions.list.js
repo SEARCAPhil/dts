@@ -73,7 +73,7 @@ function __get_list(data,callback=function(){}){
 
 			if(typeof data.status!='undefined'){
 				//save list to storage
-				__saveListToStorage(json_data,status);
+				__saveListToStorage(e,status);
 
 			}
 
@@ -89,7 +89,7 @@ function __get_list(data,callback=function(){}){
 		 		$('.list-container').html('')
 		 	}else{
 		 		$('.docker-menu-toggle-content').removeClass('hide')
-		 		__show_list(json_data,'.list-container');
+		 		__show_list(e,'.list-container');
 		 			
 		 		//callback
 		 		setTimeout(function(){
@@ -117,4 +117,20 @@ function loadDetailsInit(data){
 			 });
 		});
 	});
+}
+
+
+
+
+
+
+function modal_ajax(event,e){
+	event.preventDefault()
+
+	var page=('modal/'+$(e).attr('href'))
+	
+	$($(e).attr('data-target')).load(page);
+
+	window.modal={}
+	window.modal.recentlySelected=e;
 }

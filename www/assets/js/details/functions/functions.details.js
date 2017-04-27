@@ -45,6 +45,46 @@ function loadTopMenu(status){
 	        <li><button class="btn btn-xs btn-default" data-toggle="modal" data-target="#myModal"><a href="share.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" style="color:rgba(250,250,250,0.5);"><i class="material-icons">folder_shared</i> Share</a></button></li>
 	        `+publish_button+` `+update_button+`
 	  	 </ul>`);
+
+
+ 	 	var allowedFileType=['application/pdf','image/png','image/jpg','image/jpeg'];
+ 	 	//bind event to file selection
+ 	 	$('.content-menu-attachment-input').change(function(){
+ 	 		var files=this.files;
+
+ 	 		for(var x=0;x<files.length;x++){ 
+ 	 			
+ 	 			if(allowedFileType.indexOf(files[x].type)==-1){
+ 	 				alert(encodeURI(files[x].name)+' could not be uploaded. Invalid file type!')
+ 	 			}else{
+ 	 				var reference_time=new Date().getTime();
+ 	 				
+ 	 				$('.upload-section').append(`<div class="col col-md-12 attachments `+reference_time+`">
+									<!--media-->
+									<div class="media">
+									  <div class="media-left">
+									    <a href="#">
+									      <div class="file-icon file-icon-default" style="background:rgb(180,180,180);"></div>
+									    </a>
+									  </div>
+									  <div class="media-body">
+									    <div class="row col-md-12"><span class="tags" style="background:rgb(200,200,200);">Uploading (<span class="progress-`+reference_time+`" data-parent="`+reference_time+`">0%</span>)</span></div>
+									    <small>
+										    <p></p>
+											<p>`+encodeURI(files[x].name)+` </p><p><b>(`+(files[x].size/1000)+` KB)</b></p>
+										</small>
+										<button class="btn btn-default btn-xs cancel-`+reference_time+`"><i class="material-icons md-18 md-dark inactive">cancel</i> Cancel</button>
+									  </div>
+									</div>
+								</div>`);
+
+ 	 				//upload
+					uploadAttachment(files[x],'.progress-'+reference_time);
+
+ 	 			}
+ 	 		}
+
+ 	 	})
 	}
 
 
@@ -104,7 +144,7 @@ function getDetails(data,callback){
 
 
  	 	//template
- 	 	var html=`<div class="col col-md-12"><br/><br/></div>`;
+ 	 	var html=`<div class="col col-md-12 upload-section row" style="margin-bottom:30px;padding-top:20px;"></div><div class="col col-md-12 attachment-section row">`;
 
  	 	//attachments
 
@@ -116,20 +156,12 @@ function getDetails(data,callback){
  	 	for(var x=0;x<attachments.length;x++){
 
  	 		var type=attachments[x].files.type;
- 	 		var category=attachments[x].files.category;
+ 	 		var category=attachments[x].files.category==null?'Uncategorized':attachments[x].files.category;
  	 		var file_name=attachments[x].files.name;
  	 		var size=attachments[x].files.size;
- 	 		var logo='';
-
- 	 		switch(type){
- 	 			case 'doc':
- 	 				logo='doc'
- 	 				break;
- 	 			case 'pdf':
- 	 				logo='pdf'
- 	 				break;
- 	 			default:
- 	 			break;
+ 	 		var categoryTagClass=''
+ 	 		if(category=='Uncategorized'){
+ 	 			categoryTagClass='default';
  	 		}
  	 		
 	 	 	html+=`<!--attachments-->
@@ -138,7 +170,7 @@ function getDetails(data,callback){
 							<div class="media">
 							  <div class="media-left">
 							    <a href="#">
-							      <div class="file-icon file-icon-default" data-type="`+logo+`"></div>
+							      <div class="file-icon file-icon-default" data-type="`+type+`"></div>
 							    </a>
 							  </div>
 							  <div class="media-body">
@@ -147,7 +179,7 @@ function getDetails(data,callback){
 								    <p>`+attachments[x].author.department+`</p>
 									<p>`+attachments[x].author.position+`</p>
 								</small>
-								<div class="row col-md-12"><span class="tags" onclick="this.style.width=this.style.width!='auto'?'auto':'150px';this.style.height=this.style.height!='auto'?'auto':'25px';">`+category+`</span></div>
+								<div class="row col-md-12"><span class="tags `+categoryTagClass+`" onclick="this.style.width=this.style.width!='auto'?'auto':'150px';this.style.height=this.style.height!='auto'?'auto':'25px';">`+category+`</span></div>
 								<small><p>2017-01-01 5:00:00</p></small>
 								<p>
 									<details>
@@ -157,22 +189,42 @@ function getDetails(data,callback){
 												<div class="col col-md-2 col-lg-1"><div class="media-circles circle-sm"><img src="`+attachments[x].author.image+`" width="100%;"></div></div>
 												<div class="col col-md-8">
 													<p><b>Author :</b> `+attachments[x].author.name+`</p>
-									    			<p class="text-danger"><b>File Name :</b> `+file_name+` &emsp;<span class="file-icon file-icon-xs" data-type="`+logo+`"></span></p>
+									    			<p class="text-danger"><b>File Name :</b> `+file_name+` &emsp;<span class="file-icon file-icon-xs" data-type="`+type+`"></span></p>
 									    			<p><b>File Type :</b> <b>`+type+`</b></p>
 									    			<p><b>Size :</b> <b>`+size+`</b></p>
 												</div>
 									    		
 									    	</small>
+
 										</div>	
 									</details>
 								</p>
+
+
+
+											<!--links-->
+											<div class="col col-xs-12 row">
+												<ul class="list-unstyled nav-li attachments-menu">
+													<li data-resources="`+attachments[x].files.id+`" onclick="download(this)"><i class="material-icons" style="font-size:18px;">file_download</i> <span class="hidden-xs">Download</span></li>
+													<li data-resources="`+attachments[x].files.id+`" data-toggle="modal" data-target="#myModal"><a href="remove_attachment.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" data-resources="`+attachments[x].files.id+`"><i class="material-icons">remove_circle</i> <span class="hidden-xs">Remove</span></a></li>
+													<li data-resources="`+attachments[x].files.id+`"><i class="material-icons" style="font-size:18px;">edit</i><span class="hidden-xs">Category</span></li>
+													<li data-resources="`+attachments[x].files.id+`"><i class="material-icons" style="font-size:18px;">lock_open</i><span class="hidden-xs">Close</span></li>
+												</ul>
+												
+											</div>
+
+
+
 							  </div>
 							</div>
+
+							
 
 						</div>
 					<!--/attachments-->`;
 		}
 
+		html+='</div>';
  	 	//load view
  	 	$('.home-content').html(html);
 
@@ -279,8 +331,8 @@ function getCollaborators(data,callback){
 					<small>
 						<div class="col col-md-2 col-lg-1"><div class="media-circles circle-md"><img src="assets/images/user.png" width="100%;"></div></div>
 						<div class="col col-md-8">
-							<p><b>John Kenneth G. Abella</b></p>
-							<p class="text-danger">Created this basket</p>
+							<p><b>`+activities[x].name+`</b></p>
+							<p class="text-danger">`+activities[x].logs+`</p>
 							<p>2017-01-01 5:00:00</p>
 						</div>
 						
@@ -296,5 +348,199 @@ function getCollaborators(data,callback){
 	 	$('#activities').html('<center class="text-muted"><h3>No Recent Activities</h3><p>System detected that nothing has changed in this basket ever since.</p></center>')
 	 });
 
+}
+
+function appendColaborators(data,target){
+	var htm=`<!--details-->
+				<div class="content-more-details collaborators">
+					<span style="position:absolute;right:5px;width:10px;height:10px;">x</span>
+					<small>
+						<span><div class="media-circles circle-sm"><img src="assets/images/user.png" width="100%;"></div></span>
+						<span style="font-size:smaller;"> &nbsp;<b>ssss</b></span>
+						<p class="text-muted" style="font-size:smaller;"> &nbsp;ssss</p>
+					</small>
+					<div class="ajax-span-container">
+						<small>
+							<div class="checkbox">
+				                <label>
+				                  <input type="checkbox"><span class="checkbox-material"><span class="check"></span></span> Read-only
+				                </label>
+				              </div> 
+				        </small>
+					</div>
+					
+				</div>
+				<!--/details-->`
+
+	$('.group-content').append(htm)
+}
+
+function uploadAttachment(file,target){
+
+	if(window.sdft.uploading==null) window.sdft.uploading=[];
+
+	window.sdft.uploading.push(target);
+
+	//create form data
+	var formData = new FormData();
+	formData.append('file',file);
+	formData.append('token',__config.session.token);
+	
+	var xhr = new XMLHttpRequest();
+
+
+	var parent=$(target).attr('data-parent');
+	var fileType=file.type.split('/')[1];
+	var fileName=file.name;
+	var size=(file.size/1000)+'KiB';
+
+	//cancel onclick
+	$('.cancel-'+parent).on('click',function(){
+		xhr.abort();
+		$(this).text('canceled')
+	})
+
+
+
+	xhr.upload.addEventListener('progress',function(e){
+		var total=(e.loaded/e.total)*100;
+		$(target).html(Math.round(total)+'%')
+
+		if(total===100){
+			var index=window.sdft.uploading.indexOf(target);
+			window.sdft.uploading.splice(index,1);
+
+			var fullName=__config.session.fullName.length<=0?__config.session.firstName+' '+__config.session.firstName:__config.session.fullName
+
+ 
+			//show in uploaded section
+			$('.attachment-section').prepend(`<div class="col col-md-12 attachments">
+							<!--media-->
+							<div class="media">
+							  <div class="media-left">
+							    <a href="#">
+							      <div class="file-icon file-icon-default" data-type="`+fileType+`"></div>
+							    </a>
+							  </div>
+							  <div class="media-body">
+							    <p><b>`+fullName+`</b></p>
+							    <small>
+								    <p></p>
+									<p>`+__config.session.position+`</p>
+								</small>
+								<div class="row col-md-12"><span class="tags" style="background:rgb(200,200,200);height:auto;" onclick="this.style.width=this.style.width!='auto'?'auto':'150px';this.style.height=this.style.height!='auto'?'auto':'25px';">Select Category <i class="material-icons md-18 md-dark inactive">add</i></span></div>
+								
+								<div class="col col-md-12 row">
+									<br/>	
+									<details>
+										<summary>More Details</summary>
+										<div class="col col-md-12 content-more-details">
+											<small>
+												<div class="col col-md-2 col-lg-1"><div class="media-circles circle-sm"><img src="http://192.168.80.53/SDFT_CORDOVA_APP/www/assets/images/user.png" width="100%;"></div></div>
+												<div class="col col-md-8">
+													<p><b>Author :</b> `+fullName+`</p>
+									    			<p class="text-danger"><b>File Name :</b>`+fileName+` <span class="file-icon file-icon-xs" data-type="`+fileType+`"></span></p>
+									    			<p><b>File Type :</b> <b>`+file.type+`</b></p>
+									    			<p><b>Size :</b> <b>`+size+`</b></p>
+												</div>
+									    		
+									    	</small>
+										</div>	
+									</details>
+								</div>
+								<div class="col col-xs-12" id="attachment-menu-`+parent+`"></div>
+									<!--<div class="form-group form-input-group">
+										<div class="col col-md-8 parent-category-selector-section">
+											<div class="subcategory-section subcategory-section-preselected"></div>
+										</div>	
+									</div>
+									
+
+									<button class="btn btn-default btn-xs"><i class="material-icons md-18 md-dark inactive">save</i> Save</button>	-->	
+
+							  </div>
+							</div>
+
+						</div>`)
+			//removed old
+			$('.'+parent).remove();
+
+
+ 	 		getCategories(59,function(e){
+ 	 			var data=JSON.parse(e)
+				var categories=(typeof data.categories!='undefined')?data.categories:[];
+
+				var htm=``;
+
+				for(var x=0; x<categories.length;x++){
+					htm+='<option value="'+categories[x].id+'" class="subcategory">'+categories[x].name+'</option>'
+				}
+
+				//empty result
+				if(categories.length<=0) return 0;
+
+				$('.subcategory-section-preselected').html(`<div><select class="form-control parent-category-selector">`+htm+`</select><div class="subcategory-section"><div></div>`);
+				attachEventToCategorySelector()
+
+ 	 		});
+
+		}
+
+
+
+
+	})
+
+	xhr.onreadystatechange = function(e) {
+        if ( 4 == this.readyState ) {
+            var data=JSON.parse(xhr.responseText);
+            var htm=`	<div class="col col-xs-12 row">
+												<ul class="list-unstyled nav-li attachments-menu">
+													<li data-resources="`+data.id+`" onclick="download(this)"><i class="material-icons" style="font-size:18px;">file_download</i> Download</li>
+													<li data-resources="`+data.id+`" data-toggle="modal" data-target="#myModal"><a href="remove_attachment.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" data-resources="`+data.id+`"><i class="material-icons">remove_circle</i> Remove</a></li>
+													<li data-resources="`+data.id+`"><i class="material-icons" style="font-size:18px;">edit</i>Category</li>
+													<li data-resources="`+data.id+`"><i class="material-icons" style="font-size:18px;">lock_open</i>Close</li>
+												</ul>
+												
+											</div>`
+			//append to menu section
+			$('#attachment-menu-'+parent).html(htm);
+        }
+    };
+
+	xhr.open(__config.endpoint.basket.attachments.post.method, __config.endpoint.basket.attachments.post.url, true );
+	xhr.send(formData);
+
+}
+
+function remove_attachment(){
+	
+	var id=($(window.modal.recentlySelected).attr('data-resources'))
+	var data={
+		id:id,
+		token:__config.session.token
+	}
+	 __ajax_attachments_delete(data,function(e){
+	 	var result=JSON.parse(e);
+	 	$(window.modal.recentlySelected).parent().parent().parent().parent().parent().parent().slideUp();
+	 	$('#myModal').modal('hide');
+
+	 	if(result.id<=0){
+	 		setTimeout(function(){ 
+	 			$(window.modal.recentlySelected).parent().parent().parent().parent().parent().parent().slideDown(); 
+
+	 		},700);
+	 	}
+
+	 },function(){
+
+	 });
+
+	
+}
+
+function download(target){
+	var id=($(target).attr('data-resources'))
+	window.open(__config.endpoint.basket.attachments.url+'?id='+id+'&token='+__config.session.token);
 }
 

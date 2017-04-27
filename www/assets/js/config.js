@@ -104,12 +104,38 @@ __config.endpoint.basket={
 
 
 //-------------------------
+// Attachments
+//------------------------
+__config.endpoint.basket.attachments={
+	url:'http://192.168.80.53/rfps/api/attachments.php',
+	method:'GET',
+}
+
+__config.endpoint.basket.attachments.post={
+	url:'http://192.168.80.53/rfps/api/attachments_post.php',
+	method:'POST',
+}
+
+__config.endpoint.basket.attachments.delete={
+	url:'http://192.168.80.53/rfps/api/attachments_delete.php',
+	method:'DELETE',
+}
+
+
+
+
+
+
+//-------------------------
 // Categories
 //------------------------
 __config.endpoint.categories={
 	url:'http://192.168.80.53/rfps/api/categories.php',
 	method:'GET',
 }
+
+
+
 
 
 
@@ -131,8 +157,16 @@ __config.endpoint.groups={
 __config.endpoint.groups.members={
 	url:'http://192.168.80.53/rfps/api/group_members.php',
 	method:'GET',
-	page:1,
-	id:null,
+}
+
+__config.endpoint.groups.members.post={
+	url:'http://192.168.80.53/rfps/api/group_members_post.php',
+	method:'POST',
+}
+
+__config.endpoint.groups.members.delete={
+	url:'http://192.168.80.53/rfps/api/group_members_delete.php',
+	method:'DELETE',
 }
 
 

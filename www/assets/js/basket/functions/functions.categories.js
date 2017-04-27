@@ -27,6 +27,8 @@ function getParentCategories(id=null,target=null){
 			htm='<option>Select Category</option>'+htm
 			//get children
 			$(target).parent().children('.subcategory-section').html(`<div><select class="form-control parent-category-selector">`+htm+`</select><div class="subcategory-section"><div></div>`);
+
+
 		}
 
 		attachEventToCategorySelector();
@@ -36,6 +38,16 @@ function getParentCategories(id=null,target=null){
 
 	});
 }
+
+function getCategories(id=null,callback=function(){}){
+	__ajax_categories({token:__config.session.token,id:id},function(e){
+		callback(e)
+	},function(){
+
+	});
+}
+
+
 
 function getSub(){
 	 getParentCategories(parseInt($(this).val()),this);

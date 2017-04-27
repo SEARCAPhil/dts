@@ -36,6 +36,20 @@
   font-feature-settings: 'liga';
 }
 
+/* Rules for sizing the icon. */
+.material-icons.md-18 { font-size: 18px; }
+.material-icons.md-24 { font-size: 24px; }
+.material-icons.md-36 { font-size: 36px; }
+.material-icons.md-48 { font-size: 48px; }
+
+/* Rules for using icons as black on a light background. */
+.material-icons.md-dark { color: rgba(0, 0, 0, 0.54); }
+.material-icons.md-dark.md-inactive { color: rgba(0, 0, 0, 0.26); }
+
+/* Rules for using icons as white on a dark background. */
+.material-icons.md-light { color: rgba(255, 255, 255, 1); }
+.material-icons.md-light.md-inactive { color: rgba(255, 255, 255, 0.3); }
+
 
 .navbar-black{
 	background: rgb(60,60,60) !important;
@@ -198,6 +212,10 @@
 	opacity: 0.9;
 }
 
+.tags.default{
+	background:rgb(200,200,200);
+}
+
 /*tabs reset*/
 .nav-tabs{
 	background: none;
@@ -303,4 +321,25 @@
 /*activities*/
 .activities:not(:last-child){
 	border-bottom: 1px solid rgba(240,240,240,0.4);
+}
+
+/*attachments*/
+.attachments-menu{
+	margin-top: 10px;
+}
+.attachments-menu li{
+	float: left;
+	padding: 5px;
+	margin-right: 10px;
+	margin-top: 2px;
+	font-size: 12px;
+	background: rgba(240,240,240,0.4);
+	border-radius: 4px;
+	cursor: pointer;
+
+
+}
+
+.attachments-menu li:hover{
+	background: rgba(240,240,240,1);
 }

@@ -123,6 +123,20 @@ function loadRouteContent(id){
 function attachEventToList(){
 	$('.list:not([data-role="none"])').off('click')
 	$('.list:not([data-role="none"])').on('click',function(){ 
+
+		try{
+			if(window.sdft.uploading.length>0){
+				if(!confirm('Some of your files will not be uploaded if you leave this basket.Do you wish to continue?')){
+					return 0;
+				}else{
+					//clear pending
+					window.sdft.uploading=[];
+				}
+			}
+		}catch(e){
+
+		}
+
 		$('.list').removeClass('active');
 		$(this).addClass('active')
 

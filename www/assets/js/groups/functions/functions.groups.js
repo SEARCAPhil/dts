@@ -37,6 +37,7 @@ function show_more_groups_modal(e){
 function show_more_group_members(e){
 	var html='';
 	var page=($(e).attr('data-page')==undefined)?2:parseInt($(e).attr('data-page'))+1;
+	var data_group=($(e).attr('data-group')==undefined)?null:parseInt($(e).attr('data-group'));
 
 
 	//loading
@@ -44,7 +45,7 @@ function show_more_group_members(e){
 	$(e).attr('onclick',null).off('click')
 
 
-	__ajax_group_members('page='+page,function(json){
+	__ajax_group_members('page='+page+'&group='+data_group,function(json){
 
 		var data=JSON.parse(json);
 		var members=(typeof data.members !='undefined')?data.members:[];
@@ -61,7 +62,7 @@ function show_more_group_members(e){
 										<p><b>`+members[y].name+`</b></p>
 										<p class="text-muted">`+members[y].department+`</p>
 										<p class="text-muted">`+members[y].position+`</p>
-										<p><button class="btn btn-danger btn-xs"><i class="material-icons">remove</i> remove</button></p>
+										<p><button class="btn btn-danger btn-xs" data-membership-id="`+members[y].id+`" onclick="undelegate_group_member(event,this)"><i class="material-icons">remove</i> remove</button></p>
 									</small>
 								</div>
 							</div>
@@ -70,7 +71,7 @@ function show_more_group_members(e){
 		}
 
 		//show more group members
-		if(members.length>0)	html+=`<div class="text-center text-muted" onclick="show_more_group_members(this)" data-page="`+page+`">Show more</div>`;
+		if(members.length>0)	html+=`<div class="text-center text-muted"  onclick="show_more_group_members(this)" data-page="`+page+`" data-group="`+data_group+`">Show more</div>`;
 
 		$(e).replaceWith(html)
 	},function(){
@@ -135,11 +136,10 @@ function show_groups(groups,target,callback=function(){}){
 
 				//change accessibility
 				
-				html+=`	<p><b>Accessible to other units :`+select+`</b></p>`	
+				//html+=`	<p><b>Accessible to other units :`+select+`</b></p>`	
 				html+=`<details><summary>Members <span class="label label-default">`+groups[x].total+`</span></summary><br/>`
 
 				//members
-
 				for(var y=0;y<groups[x].members.length;y++){
 						html+=`
 
@@ -151,7 +151,7 @@ function show_groups(groups,target,callback=function(){}){
 												<p><b>`+groups[x].members[y].name+`</b></p>
 												<p class="text-muted">`+groups[x].members[y].department+`</p>
 												<p class="text-muted">`+groups[x].members[y].position+`</p>
-												<p><button class="btn btn-danger btn-xs"><i class="material-icons">remove</i> remove</button></p>
+												<p><button class="btn btn-danger btn-xs" data-membership-id="`+groups[x].members[y].id+`" onclick="undelegate_group_member(event,this)"><i class="material-icons">remove</i> remove</button></p>
 											</small>
 										</div>
 									</div>
@@ -160,7 +160,7 @@ function show_groups(groups,target,callback=function(){}){
 				}
 
 				//show more group members
-				if(groups[x].members.length>0)	html+=`<div class="text-center text-muted" onclick="show_more_group_members(this)">Show more</div>`;
+				if(groups[x].members.length>0)	html+=`<div class="text-center text-muted" onclick="show_more_group_members(this)" data-group="`+groups[x].id+`">Show more</div>`;
 
 				html+=`</details></div>`
 
@@ -191,7 +191,7 @@ function show_groups_modal(groups,target,callback=function(){}){
       		<div class="form-group">
               <div class="checkbox">
                 <label>
-                  <input type="checkbox" onchange="delegate_group_member(`+groups[x].id+`,`+id+`)"><span class="checkbox-material"><span class="check"></span></span> `+groups[x].name.charAt(0).toUpperCase()+''+groups[x].name.substr(1)+`
+                  <input type="checkbox" onchange="delegate_group_member(event,this,'`+groups[x].id+`',`+id+`)"><span class="checkbox-material"><span class="check"></span></span> `+groups[x].name.charAt(0).toUpperCase()+''+groups[x].name.substr(1)+`
                 </label>
               </div>
             </div> 
@@ -211,7 +211,57 @@ function show_groups_modal(groups,target,callback=function(){}){
 }
 
 
-function delegate_group_member(group_id,member_id){
+function delegate_group_member(event,target,group_id,member_id){
+	console.log(target.checked)
+	var member_id=($(window.modal.recentlySelected).attr('data-member-id'))
+	var group_id=group_id;
+
+	//saved to remote server
+	__ajax_group_members_post({group_id:group_id,member_id:member_id,token:__config.session.token},function(json){
+		var data=JSON.parse(json);
+
+		if(typeof data.id!='undefined'){
+			setTimeout(function(){ alert('Added successfully!') },600);
+				//remove selected
+				$(target.parentNode.parentNode.parentNode.parentNode).fadeOut()
+		}else{
+			alert('Unable to add to the group. Contact is not available or it is already member of this group')	
+		} 
+
+	},function(){
+		alert('Unable to add to the group.')
+	})
+}
+
+function undelegate_group_member(event,target){
+	var group_member_id=($(target).attr('data-membership-id'))
+	if(confirm('Are you sure you want to remove this to the group?')){
+
+		//removed from remote server
+		__ajax_group_members_delete({id:group_member_id,token:__config.session.token},function(json){
+		var data=JSON.parse(json);
+
+		if(data.status==200){
+			setTimeout(function(){ alert('Removed successfully!') },600);
+			//remove selected
+			$(target.parentNode.parentNode.parentNode.parentNode).fadeOut()	
+			
+
+		}else{
+			alert('Unable to remove from group.')	
+		} 
+
+	},function(){
+		alert('Unable to remove from group.')
+	})
+
+
+
+	}
+	
+
+	
+
 	
 }
 
@@ -230,7 +280,7 @@ function get_contacts(callback=function(){}){
 			html+=`	<div class="col col-md-12 text-muted">
 						<h3>`+value+`</h3>
 						<div class="col col-md-12 row">`
-				for(var x=0; x<contacts[value].length;x++){ 
+				for(var x=0; x<contacts[value].length;x++){ console.log(contacts[value][x])
 					html+=`
 
 

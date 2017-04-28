@@ -77,7 +77,7 @@ function loadDetailsPage(callback){
 
 		    </div>
 
-		    <div role="tabpanel" class="tab-pane" id="activities" style="padding-top: 30px;">
+		    <div role="tabpanel" class="tab-pane row" id="activities" style="padding-top: 30px;">
 
 		    </div>
 		    <div role="tabpanel" class="tab-pane" id="route" style="padding-top: 30px;"><center><h3>Not available</h3><p class="text-muted">Our team is continously improving our services.We are adding additional functionalities that will make you happy.

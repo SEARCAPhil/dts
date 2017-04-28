@@ -250,7 +250,7 @@
 
 /*more details*/
 .content-more-details{
-	background: rgba(240,240,240,0.9);
+	background: rgba(240,240,240,0.6);
 	padding: 15px;
 	border-radius: 5px;
 }
@@ -324,6 +324,10 @@
 }
 
 /*attachments*/
+.attachments-menu-section{
+	position: absolute;
+	right:0;
+}
 .attachments-menu{
 	margin-top: 10px;
 }

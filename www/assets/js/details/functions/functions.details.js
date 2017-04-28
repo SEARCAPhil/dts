@@ -150,7 +150,7 @@ function getDetails(data,callback){
 
  	 	//no attachments
  	 	if(attachments.length<=0){
- 	 		html+='<center class="text-muted"><h3><i class="material-icons" style="font-size:48px;">phonelink_off</i> </h3><h3>No Available Data</h3><p>Please make sure that someone uploaded a file for viewing </p></center>';
+ 	 		html+='<center class="text-muted no-available-data"><h3><i class="material-icons" style="font-size:48px;">phonelink_off</i> </h3><h3>No Available Data</h3><p>Please make sure that someone uploaded a file for viewing </p></center>';
  	 	}
 
  	 	for(var x=0;x<attachments.length;x++){
@@ -166,6 +166,27 @@ function getDetails(data,callback){
  	 		
 	 	 	html+=`<!--attachments-->
 						<div class="col col-md-12 attachments">
+							<div class="attachments-menu-section dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="false">
+									<i class="material-icons" style="font-size:18px;">keyboard_arrow_down</i>
+								</a>
+								<ul class="list-unstyled dropdown-menu pull-right">
+									<li data-resources="`+attachments[x].files.id+`" onclick="download(this)">
+										<a href="#"><i class="material-icons" style="font-size:18px;">file_download</i> <span>Download</span></a>
+									</li>
+									<li data-resources="`+attachments[x].files.id+`" data-toggle="modal" data-target="#myModal">
+										<a href="remove_attachment.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" data-resources="`+attachments[x].files.id+`">
+											<i class="material-icons">remove_circle</i> <span>Remove</span>
+										</a>
+									</li>
+									<li data-resources="`+attachments[x].files.id+`">
+										<a href="#"><i class="material-icons" style="font-size:18px;">edit</i><span>Category</span></a>
+									</li>
+									<li data-resources="`+attachments[x].files.id+`">
+										<a href="#"><i class="material-icons" style="font-size:18px;">lock_open</i><span>Close</span>
+									</li>
+								</ul>
+							</div>
 							<!--media-->
 							<div class="media">
 							  <div class="media-left">
@@ -184,10 +205,10 @@ function getDetails(data,callback){
 								<p>
 									<details>
 										<summary>More Details</summary>
-										<div class="col col-md-12 content-more-details">
+										<div class="col col-md-12 row content-more-details">
 											<small>
-												<div class="col col-md-2 col-lg-1"><div class="media-circles circle-sm"><img src="`+attachments[x].author.image+`" width="100%;"></div></div>
-												<div class="col col-md-8">
+												<div class="col col-md-2 col-xs-2 col-lg-1"><div class="media-circles circle-md"><img src="`+attachments[x].author.image+`" width="100%;"></div></div>
+												<div class="col col-md-8 col-xs-10">
 													<p><b>Author :</b> `+attachments[x].author.name+`</p>
 									    			<p class="text-danger"><b>File Name :</b> `+file_name+` &emsp;<span class="file-icon file-icon-xs" data-type="`+type+`"></span></p>
 									    			<p><b>File Type :</b> <b>`+type+`</b></p>
@@ -199,26 +220,18 @@ function getDetails(data,callback){
 										</div>	
 									</details>
 								</p>
-
-
-
-											<!--links-->
-											<div class="col col-xs-12 row">
-												<ul class="list-unstyled nav-li attachments-menu">
-													<li data-resources="`+attachments[x].files.id+`" onclick="download(this)"><i class="material-icons" style="font-size:18px;">file_download</i> <span class="hidden-xs">Download</span></li>
-													<li data-resources="`+attachments[x].files.id+`" data-toggle="modal" data-target="#myModal"><a href="remove_attachment.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" data-resources="`+attachments[x].files.id+`"><i class="material-icons">remove_circle</i> <span class="hidden-xs">Remove</span></a></li>
-													<li data-resources="`+attachments[x].files.id+`"><i class="material-icons" style="font-size:18px;">edit</i><span class="hidden-xs">Category</span></li>
-													<li data-resources="`+attachments[x].files.id+`"><i class="material-icons" style="font-size:18px;">lock_open</i><span class="hidden-xs">Close</span></li>
-												</ul>
-												
-											</div>
-
-
-
 							  </div>
 							</div>
 
-							
+
+								<button class="btn btn-block btn-default visible-xs" data-resources="`+attachments[x].files.id+`" onclick="download(this)">
+									<i class="material-icons">file_download</i>Download
+								</button>
+
+								<button class="btn btn-default hidden-xs" data-resources="`+attachments[x].files.id+`" onclick="download(this)">
+									<i class="material-icons">file_download</i>Download
+								</button>
+	
 
 						</div>
 					<!--/attachments-->`;
@@ -232,7 +245,7 @@ function getDetails(data,callback){
  	 	
  	 },function(e){
  	 	//hide content and show error
- 	 	$('.main-page-content').html('<center style="margin-top:30%;" class="text-muted"><h3><i class="material-icons" style="font-size:48px;">phonelink_off</i> </h3><h3>No Available Data</h3><p>Please make sure the data you are viewing is available and not broken</p></center>')
+ 	 	$('.main-page-content').html('<center style="margin-top:30%;" class="text-muted no-available-data"><h3><i class="material-icons" style="font-size:48px;">phonelink_off</i> </h3><h3>No Available Data</h3><p>Please make sure the data you are viewing is available and not broken</p></center>')
  	 });
 
 
@@ -327,10 +340,10 @@ function getCollaborators(data,callback){
 		for(var x=0; x<activities.length; x++){
 			html+=`
 			<!--details-->
-				<div class="col col-md-12 activities" style="margin-bottom: 20px;">
+				<div class="col col-md-12 col-xs-12 activities" style="margin-bottom: 20px;">
 					<small>
-						<div class="col col-md-2 col-lg-1"><div class="media-circles circle-md"><img src="assets/images/user.png" width="100%;"></div></div>
-						<div class="col col-md-8">
+						<div class="col col-md-2 col-lg-1 col-xs-4"><div class="media-circles circle-md"><img src="assets/images/user.png" width="100%;"></div></div>
+						<div class="col col-md-8 col-xs-8">
 							<p><b>`+activities[x].name+`</b></p>
 							<p class="text-danger">`+activities[x].logs+`</p>
 							<p>2017-01-01 5:00:00</p>
@@ -415,6 +428,7 @@ function uploadAttachment(file,target){
  
 			//show in uploaded section
 			$('.attachment-section').prepend(`<div class="col col-md-12 attachments">
+							<div class="attachments-menu-section dropdown" id="attachment-menu-`+parent+`"></div>
 							<!--media-->
 							<div class="media">
 							  <div class="media-left">
@@ -448,7 +462,6 @@ function uploadAttachment(file,target){
 										</div>	
 									</details>
 								</div>
-								<div class="col col-xs-12" id="attachment-menu-`+parent+`"></div>
 									<!--<div class="form-group form-input-group">
 										<div class="col col-md-8 parent-category-selector-section">
 											<div class="subcategory-section subcategory-section-preselected"></div>
@@ -494,17 +507,30 @@ function uploadAttachment(file,target){
 	xhr.onreadystatechange = function(e) {
         if ( 4 == this.readyState ) {
             var data=JSON.parse(xhr.responseText);
-            var htm=`	<div class="col col-xs-12 row">
-												<ul class="list-unstyled nav-li attachments-menu">
-													<li data-resources="`+data.id+`" onclick="download(this)"><i class="material-icons" style="font-size:18px;">file_download</i> Download</li>
-													<li data-resources="`+data.id+`" data-toggle="modal" data-target="#myModal"><a href="remove_attachment.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" data-resources="`+data.id+`"><i class="material-icons">remove_circle</i> Remove</a></li>
-													<li data-resources="`+data.id+`"><i class="material-icons" style="font-size:18px;">edit</i>Category</li>
-													<li data-resources="`+data.id+`"><i class="material-icons" style="font-size:18px;">lock_open</i>Close</li>
-												</ul>
-												
-											</div>`
+            var htm=`<a href="#" class="dropdown-toggle" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="false">
+									<i class="material-icons" style="font-size:18px;">keyboard_arrow_down</i>
+								</a>
+								<ul class="list-unstyled dropdown-menu pull-right">
+									<li data-resources="`+data.id+`" onclick="download(this)">
+										<a href="#"><i class="material-icons" style="font-size:18px;">file_download</i> <span>Download</span></a>
+									</li>
+									<li data-resources="`+data.id+`" data-toggle="modal" data-target="#myModal">
+										<a href="remove_attachment.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" data-resources="`+data.id+`">
+											<i class="material-icons">remove_circle</i> <span>Remove</span>
+										</a>
+									</li>
+									<li data-resources="`+data.id+`">
+										<a href="#"><i class="material-icons" style="font-size:18px;">edit</i><span>Category</span></a>
+									</li>
+									<li data-resources="`+data.id+`">
+										<a href="#"><i class="material-icons" style="font-size:18px;">lock_open</i><span>Close</span>
+									</li>
+								</ul>`
 			//append to menu section
 			$('#attachment-menu-'+parent).html(htm);
+
+			//removed no data content
+			$('.no-available-data').hide();
         }
     };
 
@@ -522,12 +548,12 @@ function remove_attachment(){
 	}
 	 __ajax_attachments_delete(data,function(e){
 	 	var result=JSON.parse(e);
-	 	$(window.modal.recentlySelected).parent().parent().parent().parent().parent().parent().slideUp();
+	 	$(window.modal.recentlySelected).parent().parent().parent().parent().slideUp();
 	 	$('#myModal').modal('hide');
 
 	 	if(result.id<=0){
 	 		setTimeout(function(){ 
-	 			$(window.modal.recentlySelected).parent().parent().parent().parent().parent().parent().slideDown(); 
+	 			$(window.modal.recentlySelected).parent().parent().parent().parent().slideDown(); 
 
 	 		},700);
 	 	}

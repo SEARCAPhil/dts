@@ -200,17 +200,23 @@ function getDetails(data,callback){
 								    <p>`+attachments[x].author.department+`</p>
 									<p>`+attachments[x].author.position+`</p>
 								</small>
-								<div class="row col-md-12"><span class="tags `+categoryTagClass+`" onclick="this.style.width=this.style.width!='auto'?'auto':'150px';this.style.height=this.style.height!='auto'?'auto':'25px';">`+category+`</span></div>
+								<div class="row col-md-12">
+									<span class="tags `+categoryTagClass+`"  data-resources="`+attachments[x].files.id+`" onclick="this.style.width=this.style.width!='auto'?'auto':'150px';this.style.height=this.style.height!='auto'?'auto':'32px';download(this);">
+
+											<span><i class="material-icons" style="font-size:18px;">file_download</i></span>
+									
+									`+category+`
+									</span>
+								</div>
 								<small><p>2017-01-01 5:00:00</p></small>
 								<p>
 									<details>
-										<summary>More Details</summary>
+										<summary>File Info</summary>
 										<div class="col col-md-12 row content-more-details">
 											<small>
-												<div class="col col-md-2 col-xs-2 col-lg-1"><div class="media-circles circle-md"><img src="`+attachments[x].author.image+`" width="100%;"></div></div>
+												<!--<div class="col col-md-2 col-xs-2 col-lg-1"><div class="media-circles circle-md"><img src="`+attachments[x].author.image+`" width="100%;"></div></div>-->
 												<div class="col col-md-8 col-xs-10">
-													<p><b>Author :</b> `+attachments[x].author.name+`</p>
-									    			<p class="text-danger"><b>File Name :</b> `+file_name+` &emsp;<span class="file-icon file-icon-xs" data-type="`+type+`"></span></p>
+									    			<p class="text-danger">`+file_name+` &emsp;<span class="file-icon file-icon-xs" data-type="`+type+`"></span></p>
 									    			<p><b>File Type :</b> <b>`+type+`</b></p>
 									    			<p><b>Size :</b> <b>`+size+`</b></p>
 												</div>
@@ -222,16 +228,6 @@ function getDetails(data,callback){
 								</p>
 							  </div>
 							</div>
-
-
-								<button class="btn btn-block btn-default visible-xs" data-resources="`+attachments[x].files.id+`" onclick="download(this)">
-									<i class="material-icons">file_download</i>Download
-								</button>
-
-								<button class="btn btn-default hidden-xs" data-resources="`+attachments[x].files.id+`" onclick="download(this)">
-									<i class="material-icons">file_download</i>Download
-								</button>
-	
 
 						</div>
 					<!--/attachments-->`;

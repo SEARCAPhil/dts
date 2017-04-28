@@ -41,7 +41,8 @@
         Define a specific version of PhoneGap to build into your app.
         <preference name="phonegap-version"       value="3.5.0" />
     -->
-
+    <!-- timeout to avoid Application Error - The connection to the server was unsuccessful. (file:///android_asset/www/index.html)-->
+    <preference name="LoadUrlTimeoutValue" value="70000"/>
     <!-- Plugins -->
 
     <!-- Core plugins -->

@@ -1,0 +1,27 @@
+ <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" data-role="none"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <center>
+        <div><i class="material-icons" style="font-size: 88px;">lock_open</i></div>
+      	 <h4 class="modal-title" id="myModalLabel"> Open</h4>
+      	 <p>&emsp;&emsp;This will allow collaborators to modify the details or content of this item. Are you sure you want to open this attachment?</p>
+        </center>
+      	 
+      </div>
+      <div class="container-fluid">
+        <div class="col col-xs-12 text-center">
+              <button type="button" class="btn btn-danger" id="update_attachment_button">Yes</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+  	$('#update_attachment_button').click(function(){
+  		open_attachment(this);
+  	})
+  </script>

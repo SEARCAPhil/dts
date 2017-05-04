@@ -108,17 +108,28 @@ __config.endpoint.basket={
 //------------------------
 __config.endpoint.basket.attachments={
 	url:'http://192.168.80.53/rfps/api/attachments.php',
-	method:'GET',
+	method:'GET'
 }
 
 __config.endpoint.basket.attachments.post={
 	url:'http://192.168.80.53/rfps/api/attachments_post.php',
-	method:'POST',
+	method:'POST'
 }
 
 __config.endpoint.basket.attachments.delete={
 	url:'http://192.168.80.53/rfps/api/attachments_delete.php',
-	method:'DELETE',
+	method:'DELETE'
+}
+
+
+__config.endpoint.basket.attachments.close={
+	url:'http://192.168.80.53/rfps/api/attachments_put.php',
+	method:'PUT'
+}
+
+__config.endpoint.basket.attachments.open={
+	url:'http://192.168.80.53/rfps/api/attachments_put.php',
+	method:'PUT'
 }
 
 

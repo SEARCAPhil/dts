@@ -165,7 +165,7 @@ function getDetails(data,callback){
  	 		}
  	 		
 	 	 	html+=`<!--attachments-->
-						<div class="col col-md-12 attachments">
+						<div class="col col-md-12 attachments `+attachments[x].files.status+` attachments-`+attachments[x].files.id+`">
 							<div class="attachments-menu-section dropdown">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="false">
 									<i class="material-icons" style="font-size:18px;">keyboard_arrow_down</i>
@@ -173,20 +173,44 @@ function getDetails(data,callback){
 								<ul class="list-unstyled dropdown-menu pull-right">
 									<li data-resources="`+attachments[x].files.id+`" onclick="download(this)">
 										<a href="#"><i class="material-icons" style="font-size:18px;">file_download</i> <span>Download</span></a>
-									</li>
-									<li data-resources="`+attachments[x].files.id+`" data-toggle="modal" data-target="#myModal">
-										<a href="remove_attachment.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" data-resources="`+attachments[x].files.id+`">
-											<i class="material-icons">remove_circle</i> <span>Remove</span>
-										</a>
-									</li>
-									<li data-resources="`+attachments[x].files.id+`">
-										<a href="#"><i class="material-icons" style="font-size:18px;">edit</i><span>Category</span></a>
-									</li>
-									<li data-resources="`+attachments[x].files.id+`">
-										<a href="#"><i class="material-icons" style="font-size:18px;">lock_open</i><span>Close</span>
-									</li>
+									</li>`
+
+									if(attachments[x].files.status=='open'){
+										html+=`
+										<li data-resources="`+attachments[x].files.id+`" data-toggle="modal" data-target="#myModal" class="visible-open">
+											<a href="remove_attachment.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" data-resources="`+attachments[x].files.id+`">
+												<i class="material-icons">remove_circle</i> <span>Remove</span>
+											</a>
+										</li>
+										<li data-resources="`+attachments[x].files.id+`" class="visible-open">
+											<a href="#"><i class="material-icons" style="font-size:18px;">edit</i><span>Category</span></a>
+										</li>
+										`
+									}
+
+
+									if(attachments[x].files.status=='open'){
+										html+=`
+											<li data-resources="`+attachments[x].files.id+`" data-toggle="modal" data-target="#myModal">
+												<a href="update_attachment_status.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" data-resources="`+attachments[x].files.id+`"><i class="material-icons" style="font-size:18px;">lock</i><span>Close Attachment</span>
+											</li>
+											`
+									}else{
+										html+=`
+											<li data-resources="`+attachments[x].files.id+`" data-toggle="modal" data-target="#myModal">
+										 		<a href="update_attachment_status_open.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" data-resources="`+attachments[x].files.id+`">
+										 			<i class="material-icons" style="font-size:18px;">lock_open</i><span>Open Attachment</span>
+												</a>
+											</li>
+								 		`;
+									}
+
+
+
+									html+=`
 								</ul>
 							</div>
+							
 							<!--media-->
 							<div class="media">
 							  <div class="media-left">
@@ -198,7 +222,14 @@ function getDetails(data,callback){
 							    <p><b>`+attachments[x].author.name+`</b></p>
 							    <small>
 								    <p>`+attachments[x].author.department+`</p>
-									<p>`+attachments[x].author.position+`</p>
+									<p>`+attachments[x].author.position+` `
+
+									if(attachments[x].files.status=='closed'){
+										html+=`<i class="material-icons text-muted visible-closed" style="font-size:18px;">lock</i>`;
+									}
+
+									html+=
+									`</p>
 								</small>
 								<div class="row col-md-12">
 									<span class="tags `+categoryTagClass+`"  data-resources="`+attachments[x].files.id+`" onclick="this.style.width=this.style.width!='auto'?'auto':'150px';this.style.height=this.style.height!='auto'?'auto':'32px';download(this);">
@@ -209,7 +240,7 @@ function getDetails(data,callback){
 									</span>
 								</div>
 								<small><p>2017-01-01 5:00:00</p></small>
-								<p>
+								<div class="row col-md-12">
 									<details>
 										<summary>File Info</summary>
 										<div class="col col-md-12 row content-more-details">
@@ -225,7 +256,7 @@ function getDetails(data,callback){
 
 										</div>	
 									</details>
-								</p>
+								</div>
 							  </div>
 							</div>
 
@@ -342,7 +373,7 @@ function getCollaborators(data,callback){
 						<div class="col col-md-8 col-xs-8">
 							<p><b>`+activities[x].name+`</b></p>
 							<p class="text-danger">`+activities[x].logs+`</p>
-							<p>2017-01-01 5:00:00</p>
+							<p>`+activities[x].date_created+`</p>
 						</div>
 						
 					</small>
@@ -394,6 +425,7 @@ function uploadAttachment(file,target){
 	var formData = new FormData();
 	formData.append('file',file);
 	formData.append('token',__config.session.token);
+	formData.append('id',window.sdft.active);
 	
 	var xhr = new XMLHttpRequest();
 
@@ -552,6 +584,100 @@ function remove_attachment(){
 	 			$(window.modal.recentlySelected).parent().parent().parent().parent().slideDown(); 
 
 	 		},700);
+	 	}
+
+	 },function(){
+
+	 });
+
+	
+}
+
+function close_attachment(){
+	
+	var id=($(window.modal.recentlySelected).attr('data-resources'))
+	var data={
+		id:id,
+		token:__config.session.token
+	}
+	 __ajax_attachments_close(data,function(e){
+	 	var result=JSON.parse(e);
+	 	
+	 	$('#myModal').modal('hide');
+
+	 	if(result.status!=200){
+	 		setTimeout(function(){ 
+	 			 
+	 			alert('Unable to close this item.Please try again later.');
+
+	 		},700);
+	 	}else{
+	 		//changed to open
+	 		var htm=`
+		 		<a href="update_attachment_status_open.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" data-resources="`+id+`">
+		 			<i class="material-icons" style="font-size:18px;">lock_open</i><span>Open Attachment</span>
+				</a>
+	 		`;
+
+	 		$(window.modal.recentlySelected).parent().html(htm)	
+	 		$('.visible-open').parent().children('.visible-open').remove();
+
+	 		//add closed sign
+	 		$('.visible-closed').show();
+	 	}
+
+	 },function(){
+
+	 });
+
+	
+}
+
+
+function open_attachment(){
+	
+	var id=($(window.modal.recentlySelected).attr('data-resources'))
+	var data={
+		id:id,
+		token:__config.session.token,
+		status:'open'
+	}
+	 __ajax_attachments_close(data,function(e){
+	 	var result=JSON.parse(e);
+	 	
+	 	$('#myModal').modal('hide');
+
+	 	if(result.status!=200){
+	 		setTimeout(function(){ 
+	 			 
+	 			alert('Unable to close this item.Please try again later.');
+
+	 		},700);
+	 	}else{
+	 		//changed to open
+	 		var htm=`
+	 			<li data-resources="`+id+`" data-toggle="modal" data-target="#myModal">
+			 		<a href="update_attachment_status.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" data-resources="`+id+`">
+			 			<i class="material-icons" style="font-size:18px;">lock</i><span>Close Attachment</span>
+					</a>
+				</li>
+	 		`;
+
+	 		
+	 		$(window.modal.recentlySelected).parent().parent().append(`<li data-resources="`+id+`" data-toggle="modal" data-target="#myModal" class="visible-open">
+											<a href="remove_attachment.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" data-resources="`+id+`">
+												<i class="material-icons">remove_circle</i> <span>Remove</span>
+											</a>
+										</li>
+										<li data-resources="`+id+`" class="visible-open">
+											<a href="#"><i class="material-icons" style="font-size:18px;">edit</i><span>Category</span></a>
+										</li>`);
+
+	 		$(window.modal.recentlySelected).parent().parent().append(htm)
+	 		$(window.modal.recentlySelected).parent().children(window.modal.recentlySelected).remove();	
+
+	 		//remove closed sign
+	 		$('.visible-closed').hide();
 	 	}
 
 	 },function(){

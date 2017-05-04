@@ -144,7 +144,9 @@ function attachEventToList(){
 		//load content
 		loadDetailsPage(function(e){
 			if($(element).attr('data-list')!='undefined'){
+				window.sdft.active=$(element).attr('data-list');
 				loadDetailsInit('id='+$(element).attr('data-list')+'&token='+__config.session.token)	
+
 			}
 			
 			$('#activity-tab').click(function(){

@@ -2,6 +2,9 @@
 //get categories
 function getParentCategories(id=null,target=null){
 
+	//prevent NaN values
+	if(isNaN(id)) return 0;
+
 	window.selectedCategory=id
 
 	__ajax_categories({token:__config.session.token,id:id},function(e){

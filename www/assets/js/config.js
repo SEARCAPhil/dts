@@ -149,6 +149,11 @@ __config.endpoint.basket.attachments.open={
 	method:'PUT'
 }
 
+__config.endpoint.basket.attachments.category={
+	url:'http://192.168.80.53/rfps/api/attachments_category_put.php',
+	method:'PUT'
+}
+
 
 
 

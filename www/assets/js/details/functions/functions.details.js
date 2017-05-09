@@ -256,7 +256,7 @@ function getDetails(data,callback){
 											</a>
 										</li>
 										<li data-resources="`+attachments[x].files.id+`" class="visible-open" data-toggle="modal" data-target="#myModal">
-											<a href="attachment_category.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)"><i class="material-icons" style="font-size:18px;">edit</i><span>Category</span></a>
+											<a href="attachment_category.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" data-resources="`+attachments[x].files.id+`" data-category="`+category+`"><i class="material-icons" style="font-size:18px;">edit</i><span>Category</span></a>
 										</li>
 										`
 									}
@@ -309,7 +309,7 @@ function getDetails(data,callback){
 
 											<span><i class="material-icons" style="font-size:18px;">file_download</i></span>
 									
-									`+category+`
+									<span class="category" data-resources="`+attachments[x].files.id+`">`+category+`</span>
 									</span>
 								</div>
 								<small><p>2017-01-01 5:00:00</p></small>
@@ -787,6 +787,12 @@ function close_basket(){
 
 	 		//add lock logo in the list
 	 		$('.list[data-list="'+id+'"]').addClass('closed');
+
+
+	 		//force reload
+			loadDetailsInit('id='+window.sdft.active+'&token='+__config.session.token)
+
+
 	 	}
 
 	 },function(){
@@ -822,6 +828,9 @@ function open_basket(){
 
 	 		//remove lock logo in the list
 	 		$('.list[data-list="'+id+'"]').removeClass('closed');
+
+	 		//force reload
+			loadDetailsInit('id='+window.sdft.active+'&token='+__config.session.token)
 	 	}
 
 	 },function(){
@@ -891,6 +900,7 @@ function delete_basket(status){
 	 			alert('Unable to delete this item.Please try again later.');
 
 	 		},700);
+
 	 	}else{
 	 		//add lock logo in the list
 	 		$('.list[data-list="'+id+'"]').fadeOut();
@@ -913,6 +923,48 @@ function delete_basket(status){
 	
 }
 
+
+function change_attachment_category(e){
+
+
+	var id=($(window.modal.recentlySelected).attr('data-resources'))
+	var data={
+		id:id,
+		category:window.selectedCategory,
+		token:__config.session.token
+	}
+
+	//filter selected category text
+	//[0] is hidden -default for RFP etc..
+	if($('.parent-category-selector')[1].options.selectedIndex==0) return 0;
+
+	//show loading
+	$.mobile.loading('show'); 
+
+	 __ajax_attachments_category_update(data,function(e){
+	 	var result=JSON.parse(e);
+	 	
+	 	$('#myModal').modal('hide');
+
+	 	if(result.status!=200){
+	 		setTimeout(function(){ 
+	 			 
+	 			alert('Unable to update category.Please try again later.');
+
+	 		},700);
+
+	 	}else{
+	 		
+	 		$('.category[data-resources="'+data.id+'"]').html(result.category)
+
+	 	}
+
+
+	 },function(){
+
+	 });
+
+}
 
 
 function download(target){

@@ -320,3 +320,7 @@ window.addEventListener('orientationchange', function(){
     changeDockerSize('#item-docker-menu');
 
 });
+
+function signOut(){
+	window.localStorage.clear();
+}

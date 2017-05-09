@@ -68,7 +68,7 @@ function loadDetailsPage(callback){
 		  <ul class="nav nav-tabs" role="tablist" style="max-height: 80px;">
 		    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab"><i class="material-icons">folder_shared</i> Content</a></li>
 		    <li role="presentation" id="activity-tab"><a href="#activities" aria-controls="activities" role="tab" data-toggle="tab">Activities</a></li>
-		    <li role="presentation"><a href="#route" aria-controls="route" role="tab" data-toggle="tab">Route</a></li>
+		    <li role="presentation"><a href="#route" aria-controls="route" role="tab" data-toggle="tab"><i class="material-icons">settings</i></a></li>
 		  </ul>
 
 		  <!-- Tab panes -->
@@ -80,8 +80,10 @@ function loadDetailsPage(callback){
 		    <div role="tabpanel" class="tab-pane row" id="activities" style="padding-top: 30px;">
 
 		    </div>
-		    <div role="tabpanel" class="tab-pane" id="route" style="padding-top: 30px;"><center><h3>Not available</h3><p class="text-muted">Our team is continously improving our services.We are adding additional functionalities that will make you happy.
-		    Please stay tuned and wait for the next update. Your loving team  <br/><br/>-ITSU</p></center></div>
+		    <div role="tabpanel" class="tab-pane" id="route" style="padding-top: 30px;">
+		    	<div class="basket_status_menu"></div>
+		    	<div class="basket_delete_menu"></div>
+		    </div>
 		  </div>
 		</div>
 		<div class="details-content-status"></div>

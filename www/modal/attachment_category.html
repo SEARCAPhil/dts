@@ -1,0 +1,39 @@
+ <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" data-role="none"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        
+      	 <h4 class="modal-title" id="myModalLabel"> Change Category</h4>
+      	 <p>Please select one category from the list.This will override the recently selected item.</p>
+         <br/>
+         <p><b> Recently Selected: <span><u>Uncategorized</u> <i class="material-icons">info</i></span></b></p>
+         <p>
+           <div class="col col-md-8 parent-category-selector-section">
+              <select class="form-control parent-category-selector">
+                <option>Select category</option>
+              <option value="59" class="subcategory">Request For Payment</option><option value="60" class="subcategory">Survey</option></select>
+              <div class="subcategory-section"><div><select class="form-control parent-category-selector"><option>Select Category</option><option value="1" class="subcategory">  All Purchases </option><option value="3" class="subcategory">Purchase through Bidding 
+                </option><option value="4" class="subcategory">Repair of Fixed Assets </option><option value="5" class="subcategory">Official Travel 
+                </option><option value="6" class="subcategory">Attendance to
+                Training/Seminars/Conferences 
+                </option><option value="7" class="subcategory">Closing of Cash Advance for Travel</option><option value="8" class="subcategory">Payment For Personal Services</option><option value="9" class="subcategory">Consultant's Fee/Honorarium/Professional Fee</option><option value="10" class="subcategory">Petty Cash Replenishment</option><option value="11" class="subcategory">Payment of Drivers' Per Diems and Toll/Parking Fees</option><option value="12" class="subcategory">Request for Cash Advance for Travel</option><option value="13" class="subcategory">Closing of Cash Advance for Supplies</option><option value="14" class="subcategory">Request for Cash Advance for Supplies</option></select><div class="subcategory-section"><div></div></div></div></div>
+            </div>
+         </p>
+        
+      	 
+      </div>
+      <div class="container-fluid">
+        <div class="col col-xs-12 text-right">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+  	$('#update_attachment_button').click(function(){
+  		close_basket(this);
+  	})
+  </script>

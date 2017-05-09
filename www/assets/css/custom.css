@@ -112,6 +112,10 @@
 	color: #EC644B !important;
 }
 
+.alert.alert-danger{
+	background: #e13d34;
+}
+
 /*override loader
 /* Loader */
 

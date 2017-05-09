@@ -21,8 +21,8 @@ function loadTopMenu(status){
 	var update_button='<li><button class="btn btn-xs btn-default" title="update"><i class="material-icons">update</i></button></li>';
 
 	if(status=='draft'){
-		publish_button=`<li><button class="btn btn-xs btn-default" title="publish"><i class="material-icons">device_hub</i></button></li>`
-		$('.details-menu').html('<div class="col col-md-12 container-fluid"><button type="button" class="btn btn-default pull-right"><i class="material-icons">device_hub</i> Publish</button></div><div class="col col-md-12"><hr/></div>');
+		publish_button=`<li><button class="btn btn-xs btn-default" title="publish" data-toggle="modal" data-target="#myModal"><span href="publish.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)"><i class="material-icons">device_hub</i></span></button></li>`
+
  
 	}else{
 		$('.details-menu').html('')
@@ -96,6 +96,61 @@ function clearLoadTopMenu(){
 	$('.top-menu-section-md').html('');
 }
 
+function loadPublishButton(id,target){
+
+	$(target).html(`<div class="col col-md-12 container-fluid">
+					<button type="button" class="btn btn-default pull-right" data-toggle="modal" data-target="#myModal">
+						<a href="publish.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" data-resources="`+id+`">
+							<i class="material-icons">device_hub</i> Publish</a>
+					</button>
+				</div>
+				<div class="col col-md-12"><hr/></div>`);
+ 
+}
+
+function loadUnpublishButton(id,target){
+
+	$(target).html(`<div class="col col-md-12 container-fluid">
+					<button type="button" class="btn btn-default pull-right" data-toggle="modal" data-target="#myModal">
+						<a href="unpublish.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" data-resources="`+id+`">
+							<i class="material-icons">visibility_off</i> Unpublish</a>
+					</button>
+				</div>
+				<div class="col col-md-12"><hr/></div>`);
+ 
+}
+
+function loadBasketOpenMenu(id,target,callback=function(e){}){
+	$(target).html(`
+		<h3>Open</h3>
+		<div>
+			
+			<p><i class="material-icons">info</i> Changing the status of the basket accordingly allow/prevent users to do any unappropriate action. </p>
+			<p> <button class="btn btn-default" data-toggle="modal" data-target="#myModal"><a href="update_basket_status_open.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" data-resources="`+id+`">Open</a></button> </p>
+		</div><hr/><br/>`)
+	callback(target);
+}
+
+function loadBasketCloseMenu(id,target,callback=function(e){}){
+	$(target).html(`
+		<h3>Close</h3>
+		<div>
+			<p><i class="material-icons">info</i> Changing the status of the basket accordingly allow/prevent users to do any unappropriate action. </p>
+			<p> <button class="btn btn-default" data-toggle="modal" data-target="#myModal"><a href="update_basket_status_close.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" data-resources="`+id+`">Close</a></button> </p>
+		</div><hr/><br/>`)
+	callback(target);
+}
+
+
+function loadBasketDeleteMenu(id,target,callback=function(e){}){
+	$(target).html(`<h3 class="text-danger">Delete</h3>
+		    	<div class="alert alert-danger">
+			    	<p><i class="material-icons">info</i> This section allows you to remove the basket and its content including logs and other related activities.Please proceed with caution.</p>
+			    	<p> <button class="btn btn-danger" data-toggle="modal" data-target="#myModal"><span href="trash.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" data-resources="`+id+`">Remove</span></button> </p>
+			   </div>`)
+	callback(target);
+}
+
 function bindEventToAttachmentMenu(){
 	$('.content-menu-attachment').click(function(){
 		$('.content-menu-attachment-input').click();
@@ -126,6 +181,24 @@ function getDetails(data,callback){
 		
 		loadTopMenu(data.details.status)
 		bindEventToAttachmentMenu()
+
+
+
+		if(data.details.status=='open'){
+			loadBasketCloseMenu(data.details.id,'.basket_status_menu',function(e){})
+		}else if(data.details.status=='closed'){
+			loadBasketOpenMenu(data.details.id,'.basket_status_menu',function(e){})
+		}else{
+
+		}
+
+		//publish menu
+		if(data.details.status=='draft'){
+			loadPublishButton(data.details.id,'.details-menu');
+		}
+
+		//delete menu
+		loadBasketDeleteMenu(data.details.id,'.basket_delete_menu',function(e){})
 
  	 	
  	 	
@@ -182,8 +255,8 @@ function getDetails(data,callback){
 												<i class="material-icons">remove_circle</i> <span>Remove</span>
 											</a>
 										</li>
-										<li data-resources="`+attachments[x].files.id+`" class="visible-open">
-											<a href="#"><i class="material-icons" style="font-size:18px;">edit</i><span>Category</span></a>
+										<li data-resources="`+attachments[x].files.id+`" class="visible-open" data-toggle="modal" data-target="#myModal">
+											<a href="attachment_category.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)"><i class="material-icons" style="font-size:18px;">edit</i><span>Category</span></a>
 										</li>
 										`
 									}
@@ -686,6 +759,161 @@ function open_attachment(){
 
 	
 }
+
+
+
+function close_basket(){
+	
+	var id=($(window.modal.recentlySelected).attr('data-resources'))
+	var data={
+		id:id,
+		status:'close',
+		token:__config.session.token
+	}
+	 __ajax_basket_close(data,function(e){
+	 	var result=JSON.parse(e);
+	 	
+	 	$('#myModal').modal('hide');
+
+	 	if(result.status!=200){
+	 		setTimeout(function(){ 
+	 			 
+	 			alert('Unable to close this item.Please try again later.');
+
+	 		},700);
+	 	}else{
+	 		//changed to open
+	 		loadBasketOpenMenu(id,'.basket_status_menu',function(e){})
+
+	 		//add lock logo in the list
+	 		$('.list[data-list="'+id+'"]').addClass('closed');
+	 	}
+
+	 },function(){
+
+	 });
+
+	
+}
+
+
+function open_basket(){
+	
+	var id=($(window.modal.recentlySelected).attr('data-resources'))
+	var data={
+		id:id,
+		status:'open',
+		token:__config.session.token
+	}
+	 __ajax_basket_open(data,function(e){
+	 	var result=JSON.parse(e);
+	 	
+	 	$('#myModal').modal('hide');
+
+	 	if(result.status!=200){
+	 		setTimeout(function(){ 
+	 			 
+	 			alert('Unable to opene this item.Please try again later.');
+
+	 		},700);
+	 	}else{
+	 		//changed to close
+	 		loadBasketCloseMenu(id,'.basket_status_menu',function(e){})
+
+	 		//remove lock logo in the list
+	 		$('.list[data-list="'+id+'"]').removeClass('closed');
+	 	}
+
+	 },function(){
+
+	 });
+
+	
+}
+
+
+function publish_basket(status){
+	
+	var id=($(window.modal.recentlySelected).attr('data-resources'))
+	var data={
+		id:id,
+		status:status,
+		token:__config.session.token
+	}
+	 __ajax_basket_publish(data,function(e){
+	 	var result=JSON.parse(e);
+	 	
+	 	$('#myModal').modal('hide');
+
+	 	if(result.status!=200){
+	 		setTimeout(function(){ 
+	 			 
+	 			alert('Unable to publish this item.Please try again later.');
+
+	 		},700);
+	 	}else{
+	 		//changed to close
+	 		loadBasketCloseMenu(id,'.basket_status_menu',function(e){})
+
+	 		if(status=='draft'){
+	 			loadPublishButton(id,'.details-menu');
+	 		}else{
+	 			//changed button to unpublish
+	 			loadUnpublishButton(id,'.details-menu');
+	 		}
+	 		
+
+	 	}
+
+	 },function(){
+
+	 });
+
+	
+}
+
+
+function delete_basket(status){
+	
+	var id=($(window.modal.recentlySelected).attr('data-resources'))
+	var data={
+		id:id,
+		token:__config.session.token
+	}
+	 __ajax_basket_delete(data,function(e){
+	 	var result=JSON.parse(e);
+	 	
+	 	$('#myModal').modal('hide');
+
+	 	if(result.status!=200){
+	 		setTimeout(function(){ 
+	 			 
+	 			alert('Unable to delete this item.Please try again later.');
+
+	 		},700);
+	 	}else{
+	 		//add lock logo in the list
+	 		$('.list[data-list="'+id+'"]').fadeOut();
+
+	 		//clear main page-content
+	 		$('.main-page-content').html(' <center><i class="material-icons" style="font-size:68px;">delete_sweep</i><h4 class="text-muted">Deleted Successfully</h4></center> ')
+
+	 		
+
+
+	 		//next
+	 		//$('.list')[1].click();
+
+	 	}
+
+	 },function(){
+
+	 });
+
+	
+}
+
+
 
 function download(target){
 	var id=($(target).attr('data-resources'))

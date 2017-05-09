@@ -1,0 +1,27 @@
+ <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" data-role="none"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <center>
+        <div><i class="material-icons" style="font-size: 88px;">device_hub</i></div>
+      	 <h4 class="modal-title" id="myModalLabel"> Publish</h4>
+      	 <p>&emsp;&emsp;Make this acceesible to all contacts in your shared list. This will give them permission to upload or remove content of the basket.</p>
+        </center>
+      	 
+      </div>
+      <div class="container-fluid">
+        <div class="col col-xs-12 text-center">
+              <button type="button" class="btn btn-success" id="update_attachment_button">Publish Now</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+  	$('#update_attachment_button').click(function(){
+  		publish_basket('open');
+  	})
+  </script>

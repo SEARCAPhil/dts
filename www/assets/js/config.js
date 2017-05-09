@@ -103,6 +103,23 @@ __config.endpoint.basket={
 }
 
 
+__config.endpoint.basket.close={
+	url:'http://192.168.80.53/rfps/api/basket_status.php',
+	method:'PUT',
+}
+
+
+__config.endpoint.basket.publish={
+	url:'http://192.168.80.53/rfps/api/publish.php',
+	method:'PUT',
+}
+
+__config.endpoint.basket.delete={
+	url:'http://192.168.80.53/rfps/api/basket_delete.php',
+	method:'DELETE',
+}
+
+
 //-------------------------
 // Attachments
 //------------------------

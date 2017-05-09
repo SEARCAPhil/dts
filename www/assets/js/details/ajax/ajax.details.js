@@ -166,6 +166,140 @@ function __ajax_attachments_close(data,success_callback,error_callback){
 
 
 
+/*ajax basket*/
+
+function __ajax_basket_open(data,success_callback,error_callback){
+  $.ajax({
+    url:__config.endpoint.basket.close.url,
+    method:__config.endpoint.basket.close.method,
+    data:data,
+    beforeSend:function(){
+       $.mobile.loading('show');
+
+       //enable debugging
+       if(__config.debug) console.log('\u{26AB} Connecting . . .')
+    }
+  }).success(function(json){ 
+
+    $.mobile.loading('hide');  
+    success_callback(json);
+
+     //enable debugging
+      if(__config.debug) console.log('\u{26AB} Connected')
+
+  }).fail(function(json){ 
+    
+    $.mobile.loading('hide');  
+    error_callback(json); 
+
+    //enable debugging
+    if(__config.debug) console.log('\u{26AB} Unable to fetch data. Please check connection')
+
+  })
+
+}
+
+function __ajax_basket_close(data,success_callback,error_callback){
+  $.ajax({
+    url:__config.endpoint.basket.close.url,
+    method:__config.endpoint.basket.close.method,
+    data:data,
+    beforeSend:function(){
+       $.mobile.loading('show');
+
+       //enable debugging
+       if(__config.debug) console.log('\u{26AB} Connecting . . .')
+    }
+  }).success(function(json){ 
+
+    $.mobile.loading('hide');  
+    success_callback(json);
+
+     //enable debugging
+      if(__config.debug) console.log('\u{26AB} Connected')
+
+  }).fail(function(json){ 
+    
+    $.mobile.loading('hide');  
+    error_callback(json); 
+
+    //enable debugging
+    if(__config.debug) console.log('\u{26AB} Unable to fetch data. Please check connection')
+
+  })
+
+}
+
+
+function __ajax_basket_publish(data,success_callback,error_callback){
+  $.ajax({
+    url:__config.endpoint.basket.publish.url,
+    method:__config.endpoint.basket.publish.method,
+    data:data,
+    beforeSend:function(){
+       $.mobile.loading('show');
+
+       //enable debugging
+       if(__config.debug) console.log('\u{26AB} Connecting . . .')
+    }
+  }).success(function(json){ 
+
+    $.mobile.loading('hide');  
+    success_callback(json);
+
+     //enable debugging
+      if(__config.debug) console.log('\u{26AB} Connected')
+
+  }).fail(function(json){ 
+    
+    $.mobile.loading('hide');  
+    error_callback(json); 
+
+    //enable debugging
+    if(__config.debug) console.log('\u{26AB} Unable to fetch data. Please check connection')
+
+  })
+
+}
+
+
+
+function __ajax_basket_delete(data,success_callback,error_callback){
+  $.ajax({
+    url:__config.endpoint.basket.delete.url,
+    method:__config.endpoint.basket.delete.method,
+    data:data,
+    beforeSend:function(){
+       $.mobile.loading('show');
+
+       //enable debugging
+       if(__config.debug) console.log('\u{26AB} Connecting . . .')
+    }
+  }).success(function(json){ 
+
+    $.mobile.loading('hide');  
+    success_callback(json);
+
+     //enable debugging
+      if(__config.debug) console.log('\u{26AB} Connected')
+
+  }).fail(function(json){ 
+    
+    $.mobile.loading('hide');  
+    error_callback(json); 
+
+    //enable debugging
+    if(__config.debug) console.log('\u{26AB} Unable to fetch data. Please check connection')
+
+  })
+
+}
+
+
+
+
+
+
 
 
 

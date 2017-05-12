@@ -20,6 +20,9 @@ function loadDetailsPage(callback){
 	//show loading
 	$.mobile.loading('show');  
 
+	//clear sending list
+	window.sessionStorage.clear('sending_list');
+
 	var html=`
 
 		<style type="text/css">

@@ -155,6 +155,24 @@ __config.endpoint.basket.attachments.category={
 }
 
 
+//-------------------------
+// collaborators
+//------------------------
+__config.endpoint.basket.collaborators={
+	url:'http://192.168.80.53/rfps/api/',
+	method:'POST'
+}
+
+__config.endpoint.basket.collaborators.post={
+	url:'http://192.168.80.53/rfps/api/basket_collaborators_post.php',
+	method:'POST'
+}
+
+__config.endpoint.basket.collaborators.delete={
+	url:'http://192.168.80.53/rfps/api/basket_collaborators_delete.php',
+	method:'DELETE'
+}
+
 
 
 

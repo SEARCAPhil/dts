@@ -34,7 +34,7 @@ function loadTopMenu(status){
  	 	//menu for xs devices
  	 	$('.top-menu-section-xs').html(`<input type="file" name="files[]" class="content-menu-attachment-input" multiple/><ul class="nav navbar-nav navbar-right pull-right top-menu">
 	        <li><button class="btn btn-xs btn-default content-menu-attachment"><i class="material-icons">attachment</i> attach</button></li>
-	        <li><button class="btn btn-xs btn-default" data-toggle="modal" data-target="#myModal"><i class="material-icons">folder_shared</i> Share</button></li>
+	        <li><button class="btn btn-xs btn-default" data-toggle="modal" data-target="#myModal"><a href="share.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" style="color:rgba(250,250,250,0.5);"><i class="material-icons">folder_shared</i> Share</a></button></li>
 	        `+publish_button+` `+update_button+`
 	  	 </ul>`)
 
@@ -362,7 +362,10 @@ function getCollaborators(data,callback){
  	 	var htm=`<div class="col col-md-12 row" style="margin-bottom: 20px;position:relative;">
 					<br/><br/>
 					<span class="content-header" style="width:170px;padding-top:20px;"><i class="material-icons" style="width:24px;">groups</i> Collaborators</span>
-				</div><div class="row"><div class="container-fluid">`
+					<span class="collaborators-menu"></span>
+				</div>
+				<div class="col col-xs-12 row sendingList"></div>
+				<div class="row"><div class="container-fluid collaborators-list">`
 		
 
  	 	//empty collaborators
@@ -382,20 +385,20 @@ function getCollaborators(data,callback){
  	 	for(var x=0;x<data.collaborators.length;x++){
 
  	 		var checked='';
-
+console.log(data.collaborators[x])
  	 		if(data.collaborators[x].read_only){
  	 			checked='checked="checked"';
  	 		}
 
  	 		htm+=`<!--details-->
-				<div class="content-more-details collaborators">
-					<span style="position:absolute;right:5px;width:10px;height:10px;">x</span>
+				<div class="content-more-details collaborators" data-resources="`+data.collaborators[x].collaborator_id+`">
+					<span href="remove_collaborator.html" data-toggle="modal" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" data-resources="`+data.collaborators[x].collaborator_id+`"  style="position:absolute;right:5px;width:10px;height:10px;">x</span>
 					<small>
 						<span><div class="media-circles circle-sm"><img src="assets/images/user.png" width="100%;"></div></span>
 						<span style="font-size:smaller;"> &nbsp;<b>`+data.collaborators[x].name+`</b></span>
 						<p class="text-muted" style="font-size:smaller;"> &nbsp;`+data.collaborators[x].department+`</p>
 					</small>
-					<div class="ajax-span-container">
+					<!--<div class="ajax-span-container">
 						<small>
 							<div class="checkbox">
 				                <label>
@@ -403,7 +406,7 @@ function getCollaborators(data,callback){
 				                </label>
 				              </div> 
 				             </small>
-					</div>
+					</div>-->
 					
 				</div>
 				<!--/details-->
@@ -964,6 +967,99 @@ function change_attachment_category(e){
 
 	 });
 
+}
+
+
+function saveCollaborators(){
+	var data={
+		id:window.sdft.active,
+		token:__config.session.token,
+		collaborators:window.sessionStorage.getItem('sending_list')
+
+	}
+
+	//show loading
+	$.mobile.loading('show');
+
+	 __ajax_basket_collaborator_post(data,function(e){
+	 		var result=JSON.parse(e);
+	 	
+	 		$('#myModal').modal('hide');
+
+		 	if(result.status!=200){
+		 		setTimeout(function(){ 
+		 			 
+		 			alert('Unable to save item.Please try again later.');
+
+		 		},700);
+
+		 	}else{
+		 		//hide save button
+		 		$('.collaborators-menu').html('<i class="material-icons text-success">check_circle</i>');
+
+		 		//add resources to the new collaborators
+		 		for(let oldId in result.saved){
+		 			var old=$('.collaborators-sent-item[data-old-resources="'+oldId+'"]');
+		 			old.attr('data-resources',result.saved[oldId]);
+		 			old.addClass('collaborators');
+
+		 			var close_button=old.children('.remove-collaborators-button-sent-item');
+		 			close_button.attr('onclick','modal_ajax(event,this)');
+		 			close_button.attr('href','remove_collaborator.html');
+		 			close_button.attr('data-toggle','modal');
+		 			close_button.attr('data-role','none');
+		 			close_button.attr('data-target','#myModal');
+		 			close_button.attr('data-resources',result.saved[oldId]);
+		 		}
+
+		 		setTimeout(function(){
+							 		//apend to collaborators
+			 		$('.collaborators-list').append($('.sendingList').html());
+
+			 		//clear sending list
+			 		$('.sendingList').html('') 			
+		 		},800)
+
+
+		 	}
+	 },function(){
+	 	alert('Unable to save the data.Please try again later.');
+	 })	
+}
+
+function removeFromCollaboratorsList(element){
+	//show loading
+	$.mobile.loading('show');
+
+
+	var id=($(window.modal.recentlySelected).attr('data-resources'))
+
+	var data={
+		id:id,
+		token:__config.session.token
+	}
+
+
+	 __ajax_basket_collaborator_delete(data,function(e){
+	 		var result=JSON.parse(e);
+	 	
+	 		$('#myModal').modal('hide');
+
+		 	if(result.status!=200){
+		 		setTimeout(function(){ 
+		 			 
+		 			alert('Unable to delete this item.Please try again later.');
+
+		 		},700);
+
+		 	}else{
+		 		console.log($(element));
+		 		$('.collaborators[data-resources="'+id+'"]').slideUp();
+
+		 	}
+	 },function(){
+	 	alert('Unable to save the data.Please try again later.');
+	 })	
 }
 
 

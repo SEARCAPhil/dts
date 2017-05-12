@@ -18,14 +18,14 @@
       </div>
       <div class="modal-body">
       	<ul class="nav nav-tabs" role="tablist" style="max-height: 80px;">
-		    <li role="presentation" class="active">
+		    <!--<li role="presentation" class="active">
 		    	<a href="#share-groups" aria-controls="share-groups" role="tab" data-toggle="tab"><i class="material-icons">group</i> Groups</a>
-		    </li>
-		    <li role="presentation" id="contacts-tab"><a href="#share-contacts" aria-controls="share-contacts" role="tab" data-toggle="tab"><i class="material-icons">account_circle</i> People</a></li>
+		    </li>-->
+		    <li role="presentation" id="contacts-tab" class="active"><a href="#share-contacts" aria-controls="share-contacts" role="tab" data-toggle="tab"><i class="material-icons">account_circle</i> People</a></li>
 		 </ul>
 
 		 <div class="tab-content">
-			 <div role="tabpanel" class="tab-pane active" id="share-groups">
+			 <div role="tabpanel" class="tab-pane" id="share-groups">
 			 <br/>
 			 	<div class="col col-md-12 groups">
 					<p><input type="checkbox" data-role="none"/><b>Admin</b></p>
@@ -132,25 +132,9 @@
 
 
 			 </div>
-			  <div role="tabpanel" class="tab-pane" id="share-contacts">
-			 	 <br/>
-					<!--contacts-->
-					<div class="col col-md-12 col-xs-12 groups phone-book group-members">
-						<div class="col col-md-1 col-xs-1"><input type="checkbox" data-role="none"/></div>
-						<div class="col col-md-1 col-xs-2"><div class="media-circles circle-sm"><img src="assets/images/user.png" width="100%;"></div></div>
-						<div class="col col-md-10 col-xs-8">
-							<small style="line-height: 10px;">
-								<p><b>John Kenneth Abella</b></p>
-								<p class="text-muted"></p>
-								<p class="text-muted">programmer</p>
-							</small>
-						</div>
-					</div>
-					<!--contacts-->
-
-
-
-			 </div>
+			  <div role="tabpanel" class="tab-pane active" id="share-contacts">
+			  		<div class="contact-list"></div>
+			  </div>
 		</div>
       	 
       </div>
@@ -159,3 +143,9 @@
       </div>
     </div>
   </div>
+<script type="text/javascript" src="assets/js/groups/ajax/ajax.groups.js"></script>
+<script type="text/javascript" src="assets/js/groups/functions/functions.groups.js"></script>
+ <script type="text/javascript">
+ 	$.mobile.loading('show');
+ 	get_contact_list(1,'.contact-list');
+ </script>

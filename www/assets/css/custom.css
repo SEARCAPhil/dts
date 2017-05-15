@@ -200,7 +200,7 @@
 
 .tags{
 	float: left;
-	width: 150px;
+	min-width: 150px;
 	height: 33px;
 	text-align: center;
 	background: rgb(255,184,12);

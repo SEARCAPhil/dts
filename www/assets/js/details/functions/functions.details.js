@@ -21,7 +21,7 @@ function loadTopMenu(status){
 	var update_button='<li><button class="btn btn-xs btn-default" title="update"><i class="material-icons">update</i></button></li>';
 
 	if(status=='draft'){
-		publish_button=`<li><button class="btn btn-xs btn-default" title="publish" data-toggle="modal" data-target="#myModal"><span href="publish.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)"><i class="material-icons">device_hub</i></span></button></li>`
+		publish_button=`<li><button class="btn btn-xs btn-default" title="publish" data-toggle="modal" data-target="#myModal" href="publish.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)"><span><i class="material-icons">device_hub</i></span></button></li>`
 
  
 	}else{
@@ -34,7 +34,7 @@ function loadTopMenu(status){
  	 	//menu for xs devices
  	 	$('.top-menu-section-xs').html(`<input type="file" name="files[]" class="content-menu-attachment-input" multiple/><ul class="nav navbar-nav navbar-right pull-right top-menu">
 	        <li><button class="btn btn-xs btn-default content-menu-attachment"><i class="material-icons">attachment</i> attach</button></li>
-	        <li><button class="btn btn-xs btn-default" data-toggle="modal" data-target="#myModal"><a href="share.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" style="color:rgba(250,250,250,0.5);"><i class="material-icons">folder_shared</i> Share</a></button></li>
+	        <li><button class="btn btn-xs btn-default" data-toggle="modal" data-target="#myModal" href="share.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" ><a style="color:rgba(250,250,250,0.5);"><i class="material-icons">folder_shared</i> Share</a></button></li>
 	        `+publish_button+` `+update_button+`
 	  	 </ul>`)
 
@@ -42,7 +42,7 @@ function loadTopMenu(status){
  	 	//menu for md - lg devices
  	 	$('.top-menu-section-md').html(`<ul class="nav navbar-nav navbar-right pull-right top-menu">
 	        <li><button class="btn btn-xs btn-default content-menu-attachment"><i class="material-icons">attachment</i> attach</button></li>
-	        <li><button class="btn btn-xs btn-default" data-toggle="modal" data-target="#myModal"><a href="share.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" style="color:rgba(250,250,250,0.5);"><i class="material-icons">folder_shared</i> Share</a></button></li>
+	        <li><button class="btn btn-xs btn-default" data-toggle="modal" href="share.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)"><a style="color:rgba(250,250,250,0.5);"><i class="material-icons">folder_shared</i> Share</a></button></li>
 	        `+publish_button+` `+update_button+`
 	  	 </ul>`);
 
@@ -99,8 +99,8 @@ function clearLoadTopMenu(){
 function loadPublishButton(id,target){
 
 	$(target).html(`<div class="col col-md-12 container-fluid">
-					<button type="button" class="btn btn-default pull-right" data-toggle="modal" data-target="#myModal">
-						<a href="publish.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" data-resources="`+id+`">
+					<button type="button" class="btn btn-default pull-right" data-toggle="modal" href="publish.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" data-resources="`+id+`">
+						<a>
 							<i class="material-icons">device_hub</i> Publish</a>
 					</button>
 				</div>
@@ -111,8 +111,8 @@ function loadPublishButton(id,target){
 function loadUnpublishButton(id,target){
 
 	$(target).html(`<div class="col col-md-12 container-fluid">
-					<button type="button" class="btn btn-default pull-right" data-toggle="modal" data-target="#myModal">
-						<a href="unpublish.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" data-resources="`+id+`">
+					<button type="button" class="btn btn-default pull-right" data-toggle="modal" href="unpublish.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" data-resources="`+id+`">
+						<a>
 							<i class="material-icons">visibility_off</i> Unpublish</a>
 					</button>
 				</div>

@@ -232,6 +232,12 @@ __config.endpoint.contacts={
 	id:null,
 }
 
+__config.endpoint.contacts.search={
+	url:'http://192.168.80.53/rfps/api/contacts_search.php',
+	method:'GET',
+}
+
+
 
 
 

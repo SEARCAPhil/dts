@@ -12,7 +12,7 @@
         		<i class="material-icons">search</i>
         	</div>
         	<div class="col col-md-5 col-xs-10">
-        		<input type="text" name="" class="form-control" placeholder="Search people" data-role="none">
+        		<input type="text" name="" class="form-control" placeholder="Search people" data-role="none" id="people-search">
         	</div>
         
       </div>
@@ -133,6 +133,7 @@
 
 			 </div>
 			  <div role="tabpanel" class="tab-pane active" id="share-contacts">
+			  		<div class="contact-search"></div>
 			  		<div class="contact-list"></div>
 			  </div>
 		</div>
@@ -146,6 +147,92 @@
 <script type="text/javascript" src="assets/js/groups/ajax/ajax.groups.js"></script>
 <script type="text/javascript" src="assets/js/groups/functions/functions.groups.js"></script>
  <script type="text/javascript">
- 	$.mobile.loading('show');
- 	get_contact_list(1,'.contact-list');
+function searchPeople(param,page=1,target,callback=function(e){}){
+	var html="<br/><br/>";
+
+	__ajax_contact_search('param='+param+'&page=1',function(e){
+
+			var data=JSON.parse(e);
+
+			if(data.status==200){
+
+				var contacts=(typeof data.contacts !='undefined')?data.contacts:[];
+				var html=`<br/><br/>`;
+			
+
+				for(var x=0; x<contacts.length;x++){ 
+					html+=`
+						<!--contacts-->
+						<div class="col col-md-12 groups phone-book" style="margin-bottom:20px;">
+							<div class="col col-md-1"><div class="media-circles circle-sm"><img src="assets/images/user.png" width="100%;"></div></div>
+							<div class="col col-md-10">
+								<small style="line-height: 10px;">
+									<p><b>`+contacts[x].name+`</b></p>
+									<p class="text-muted">`+contacts[x].department+`</p>
+									<p class="text-muted">`+contacts[x].position+`</p>
+									<p><button class="btn btn-default btn-xs" data-name="`+contacts[x].name+`" data-department="`+contacts[x].department+`" data-resources="`+contacts[x].id+`" onclick="addToSendingList(this);"><i class="material-icons md-18">add</i></button></p>
+								</small>
+							</div>
+						</div>
+						<!--contacts-->	`;
+				}
+
+
+				$(target).html(html)
+
+			}else{
+				alert('Unable to search contacts')	
+			} 
+
+			setTimeout(function(){callback()},300)
+
+		},function(e){
+
+		})
+
+
+}
+
+
+//get contact list
+$.mobile.loading('show');
+get_contact_list(1,'.contact-list');
+
+
+
+
+ 	var searchTimeout;
+
+ 	$('#people-search').keyup(function(){
+ 		clearTimeout(searchTimeout);
+
+ 		var parent=this;
+ 		searchTimeout=setTimeout(function(){
+ 			
+ 			//must not be empty
+ 			if($(parent).val().length<1){
+ 				$('.contact-search').hide()
+ 				$.mobile.loading('hide')
+ 				$('.contact-list').show();
+ 			}else{
+ 				//do searching
+
+ 				searchPeople($(parent).val(),1,'.contact-search',function(e){
+ 					$.mobile.loading('hide')
+
+ 				})
+ 			}
+
+ 		},700)
+
+ 		//hide list
+ 		$('.contact-list').hide();
+
+ 		//show loading
+
+ 		$('.contact-search').show().html('Loading . . .')
+
+ 		//show mobile loading
+ 		$.mobile.loading('show')
+ 	})
  </script>

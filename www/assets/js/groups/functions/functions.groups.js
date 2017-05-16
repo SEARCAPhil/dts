@@ -81,8 +81,8 @@ function show_more_group_members(e){
 
 function show_more_contacts(e){
 	if(window.sessionStorage.getItem('contacts_page')==null){
-		var nextPage=1
-		window.sessionStorage.setItem('contacts_page',1)	
+		var nextPage=2
+		window.sessionStorage.setItem('contacts_page',2)	
 	}else{
 		var nextPage=parseInt(window.sessionStorage.getItem('contacts_page'))+1;
 		window.sessionStorage.setItem('contacts_page',nextPage);
@@ -387,8 +387,11 @@ function get_contact_list(page,target,callback=function(){}){
 			
 		}
 
-		html+=`<div class="col col-md-12 text-center text-muted" style="background:rgb(250,250,250);padding:4px;margin-top:20px;margin-bottom:20px;"  onclick="show_more_contacts(this)">Show more</div>`
+		if(contact_count>0){
 
+			html+=`<div class="col col-md-12 text-center text-muted" style="background:rgb(250,250,250);padding:4px;margin-top:20px;margin-bottom:20px;"  onclick="show_more_contacts(this)">Show more</div>`
+		}
+			
 		$(target).append(html)
 		callback(e,contact_count)
 	});

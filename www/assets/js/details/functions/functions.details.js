@@ -547,9 +547,15 @@ function uploadAttachment(file,target){
 							    <p><b>`+fullName+`</b></p>
 							    <small>
 								    <p></p>
-									<p>`+__config.session.position+`</p>
+									<p>`+__config.session.position+`<i class="material-icons text-muted visible-closed" style="font-size: 18px; display: none;">lock</i></p>
 								</small>
-								<div class="row col-md-12"><span class="tags" style="background:rgb(200,200,200);height:auto;" onclick="this.style.width=this.style.width!='auto'?'auto':'150px';this.style.height=this.style.height!='auto'?'auto':'25px';">Select Category <i class="material-icons md-18 md-dark inactive">add</i></span></div>
+								<div class="row col-md-12">
+									<span class="tags tags-`+parent+`" style="background:rgb(200,200,200);height:auto;" onclick="this.style.width=this.style.width!='auto'?'auto':'150px';this.style.height=this.style.height!='auto'?'auto':'25px';download(this);">
+								
+								 		<span><i class="material-icons" style="font-size:18px;">file_download</i></span>
+								 		<span class="category tags-`+parent+`" >Select Category</span>
+								 	</span>
+								 </div>
 								
 								<div class="col col-md-12 row">
 									<br/>	
@@ -569,15 +575,6 @@ function uploadAttachment(file,target){
 										</div>	
 									</details>
 								</div>
-									<!--<div class="form-group form-input-group">
-										<div class="col col-md-8 parent-category-selector-section">
-											<div class="subcategory-section subcategory-section-preselected"></div>
-										</div>	
-									</div>
-									
-
-									<button class="btn btn-default btn-xs"><i class="material-icons md-18 md-dark inactive">save</i> Save</button>	-->	
-
 							  </div>
 							</div>
 
@@ -614,25 +611,25 @@ function uploadAttachment(file,target){
 	xhr.onreadystatechange = function(e) {
         if ( 4 == this.readyState ) {
             var data=JSON.parse(xhr.responseText);
+            var category=data.category==null?'Uncategorized':data.category;
             var htm=`<a href="#" class="dropdown-toggle" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="false">
 									<i class="material-icons" style="font-size:18px;">keyboard_arrow_down</i>
 								</a>
 								<ul class="list-unstyled dropdown-menu pull-right">
-									<li data-resources="`+data.id+`" onclick="download(this)">
-										<a href="#"><i class="material-icons" style="font-size:18px;">file_download</i> <span>Download</span></a>
-									</li>
-									<li data-resources="`+data.id+`" data-toggle="modal" data-target="#myModal">
+									<li data-resources="`+data.id+`" data-toggle="modal" data-target="#myModal" class="visible-open">
 										<a href="remove_attachment.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" data-resources="`+data.id+`">
 											<i class="material-icons">remove_circle</i> <span>Remove</span>
 										</a>
 									</li>
-									<li data-resources="`+data.id+`">
-										<a href="#"><i class="material-icons" style="font-size:18px;">edit</i><span>Category</span></a>
+									<li data-resources="`+data.id+`" class="visible-open" data-toggle="modal" data-target="#myModal">
+										<a href="attachment_category.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" data-resources="`+data.id+`" data-category="`+category+`"><i class="material-icons" style="font-size:18px;">edit</i><span>Category</span></a>
 									</li>
-									<li data-resources="`+data.id+`">
-										<a href="#"><i class="material-icons" style="font-size:18px;">lock_open</i><span>Close</span>
+									<li data-resources="`+data.id+`" data-toggle="modal" data-target="#myModal">
+										<a href="update_attachment_status.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" data-resources="`+data.id+`"><i class="material-icons" style="font-size:18px;">lock</i><span>Close Attachment</span>
 									</li>
 								</ul>`
+
+			$('.tags-'+parent).attr('data-resources',data.id)
 			//append to menu section
 			$('#attachment-menu-'+parent).html(htm);
 

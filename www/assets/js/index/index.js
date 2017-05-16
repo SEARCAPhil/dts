@@ -146,6 +146,8 @@ function attachEventToList(){
 		$(this).addClass('active')
 
 		var element=this;
+
+
 		//load content
 		loadDetailsPage(function(e){
 			if($(element).attr('data-list')!='undefined'){
@@ -155,7 +157,7 @@ function attachEventToList(){
 			}
 			
 			$('#activity-tab').click(function(){
-				loadActivityContent('id='+$(element).attr('data-list')+'&token='+__config.session.token,function(e){ console.log(e)
+				loadActivityContent('id='+$(element).attr('data-list')+'&token='+__config.session.token,function(e){ 
 					
 				})
 			})
@@ -173,7 +175,8 @@ function attachEventToList(){
 
 
 function attachEventToMenu(callback){
-	$('.main-menu li:not([data-role="none"])').click(function(){
+	//$('.main-menu li:not([data-role="none"])').off('click');
+	$('.main-menu li:not([data-role="none"])').on('click',function(){
 		$('.main-menu li').removeClass('active');
 		$(this).addClass('active')
 
@@ -182,7 +185,7 @@ function attachEventToMenu(callback){
 
 	});
 
-}
+}	
 
 
 
@@ -201,12 +204,28 @@ function deviceReady(){
 
 
 	attachEventToMenu(function(e){
-	
+		//clear basket page
+		window.sessionStorage.setItem('basket_page',1)	
+
+
+		//clear list section
+		//$('.list-container').html('')
+
+
+
 		if((e.id!='groups')&&(e.id!='new')){
 			//hide ajax section
 			$('.container-ajax').hide();
 			//show main-page
 			$('.container-main').show();
+
+			//read from storage
+			__getListFromStorage($(e).attr('data-status'));
+
+
+			
+					
+
 			//load list
 			loadListContent({token:__config.session.token,page:1,status:$(e).attr('data-status')},function(e){
 				setTimeout(function(){

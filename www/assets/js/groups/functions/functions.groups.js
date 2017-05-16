@@ -366,7 +366,7 @@ function get_contact_list(page,target,callback=function(){}){
 
 
 								<!--contacts-->
-								<div class="col col-md-12 groups phone-book">
+								<div class="col col-md-12 col-xs-12 groups phone-book">
 									<div class="col col-md-1"><div class="media-circles circle-sm"><img src="assets/images/user.png" width="100%;"></div></div>
 									<div class="col col-md-10">
 										<small style="line-height: 10px;">

@@ -161,6 +161,8 @@ function bindEventToAttachmentMenu(){
 
 function getDetails(data,callback){
 	
+	//clear menu
+	clearLoadTopMenu();
 
  	 __ajax_details(data,function(e){
 
@@ -168,6 +170,7 @@ function getDetails(data,callback){
  	 	try{
 
  	 		var data=JSON.parse(e)
+ 	 		//console.log(data)
  	 	}catch(e){
  	 		$('.main-page-content').html(`
  	 			<center>
@@ -385,7 +388,7 @@ function getCollaborators(data,callback){
  	 	for(var x=0;x<data.collaborators.length;x++){
 
  	 		var checked='';
-console.log(data.collaborators[x])
+
  	 		if(data.collaborators[x].read_only){
  	 			checked='checked="checked"';
  	 		}

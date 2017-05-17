@@ -151,6 +151,17 @@ function loadBasketDeleteMenu(id,target,callback=function(e){}){
 	callback(target);
 }
 
+function loadBasketUpdateMenu(id,target,callback=function(e){}){
+	$(target).html(`
+		<h3>Update</h3>
+		<div>
+			
+			<p class="text-muted"><i class="material-icons">shopping_basket</i> Update description of this basket.</p>
+			<p> <button class="btn btn-default" data-toggle="modal" data-target="#myModal"><a href="update_basket_description.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" data-resources="`+id+`">Update</a></button> </p>
+		</div><hr/><br/>`)
+	callback(target);
+}
+
 function bindEventToAttachmentMenu(){
 	$('.content-menu-attachment').click(function(){
 		$('.content-menu-attachment-input').click();
@@ -164,12 +175,16 @@ function getDetails(data,callback){
 	//clear menu
 	clearLoadTopMenu();
 
+	//clear update menu
+	$('.basket_update_menu').html('')
+
  	 __ajax_details(data,function(e){
 
  	 	
  	 	try{
 
  	 		var data=JSON.parse(e)
+ 	 		window.sdft.category=data.details.category;
  	 		//console.log(data)
  	 	}catch(e){
  	 		$('.main-page-content').html(`
@@ -189,6 +204,7 @@ function getDetails(data,callback){
 
 		if(data.details.status=='open'){
 			loadBasketCloseMenu(data.details.id,'.basket_status_menu',function(e){})
+			loadBasketUpdateMenu(data.details.id,'.basket_update_menu',function(e){})
 		}else if(data.details.status=='closed'){
 			loadBasketOpenMenu(data.details.id,'.basket_status_menu',function(e){})
 		}else{
@@ -198,6 +214,7 @@ function getDetails(data,callback){
 		//publish menu
 		if(data.details.status=='draft'){
 			loadPublishButton(data.details.id,'.details-menu');
+			loadBasketUpdateMenu(data.details.id,'.basket_update_menu',function(e){})
 		}
 
 		//delete menu
@@ -242,7 +259,9 @@ function getDetails(data,callback){
  	 		
 	 	 	html+=`<!--attachments-->
 						<div class="col col-md-12 attachments `+attachments[x].files.status+` attachments-`+attachments[x].files.id+`">
-							<div class="attachments-menu-section dropdown">
+						`
+				if(data.details.status!='closed'){			
+					html+=`<div class="attachments-menu-section dropdown">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="false">
 									<i class="material-icons" style="font-size:18px;">keyboard_arrow_down</i>
 								</a>
@@ -268,13 +287,13 @@ function getDetails(data,callback){
 									if(attachments[x].files.status=='open'){
 										html+=`
 											<li data-resources="`+attachments[x].files.id+`" data-toggle="modal" data-target="#myModal">
-												<a href="update_attachment_status.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" data-resources="`+attachments[x].files.id+`"><i class="material-icons" style="font-size:18px;">lock</i><span>Close Attachment</span>
+												<a href="update_attachment_status.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" data-resources="`+attachments[x].files.id+`" data-category="`+category+`"><i class="material-icons" style="font-size:18px;">lock</i><span>Close Attachment</span>
 											</li>
 											`
 									}else{
 										html+=`
 											<li data-resources="`+attachments[x].files.id+`" data-toggle="modal" data-target="#myModal">
-										 		<a href="update_attachment_status_open.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" data-resources="`+attachments[x].files.id+`">
+										 		<a href="update_attachment_status_open.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" data-resources="`+attachments[x].files.id+`" data-category="`+category+`">
 										 			<i class="material-icons" style="font-size:18px;">lock_open</i><span>Open Attachment</span>
 												</a>
 											</li>
@@ -285,9 +304,10 @@ function getDetails(data,callback){
 
 									html+=`
 								</ul>
-							</div>
+							</div>`
+				}
 							
-							<!--media-->
+					html+=`		<!--media-->
 							<div class="media">
 							  <div class="media-left">
 							    <a href="#">
@@ -301,7 +321,9 @@ function getDetails(data,callback){
 									<p>`+attachments[x].author.position+` `
 
 									if(attachments[x].files.status=='closed'){
-										html+=`<i class="material-icons text-muted visible-closed" style="font-size:18px;">lock</i>`;
+										html+=`<span class="data-attachment-status" data-resources="`+attachments[x].files.id+`"><i class="material-icons text-muted visible-closed" style="font-size:18px;">lock</i></span>`;
+									}else{
+										html+=`<span class="data-attachment-status" data-resources="`+attachments[x].files.id+`"></span>`;	
 									}
 
 									html+=
@@ -315,7 +337,7 @@ function getDetails(data,callback){
 									<span class="category" data-resources="`+attachments[x].files.id+`">`+category+`</span>
 									</span>
 								</div>
-								<small><p>2017-01-01 5:00:00</p></small>
+								<small><p>`+attachments[x].files.date_modified+`</p></small>
 								<div class="row col-md-12">
 									<details>
 										<summary>File Info</summary>
@@ -340,9 +362,16 @@ function getDetails(data,callback){
 					<!--/attachments-->`;
 		}
 
-		html+='</div>';
+		html+='<div class="expand-attachments-section text-center" onclick="console.log(this.parentNode.style.maxHeight=\'none\');this.parentNode.removeChild(this);"><div class="col col-xs-12 text-center align-center">Some items collapsed.Show all attachments &raquo;</div></div></div>';
  	 	//load view
  	 	$('.home-content').html(html);
+
+ 	 	//show more section
+ 	 	try{
+	 	 	if(parseInt(window.getComputedStyle($('.attachment-section')[0]).getPropertyValue('height'))>=670){
+	 	 			$('.expand-attachments-section').show();	
+	 	 	}
+	 	 }catch(e){}
 
  	 	callback(e)
  	 	
@@ -530,7 +559,7 @@ function uploadAttachment(file,target){
 			var index=window.sdft.uploading.indexOf(target);
 			window.sdft.uploading.splice(index,1);
 
-			var fullName=__config.session.fullName.length<=0?__config.session.firstName+' '+__config.session.firstName:__config.session.fullName
+			var fullName=__config.session.fullName.length<=0?__config.session.firstName+' '+__config.session.lastName:__config.session.fullName
 
  
 			//show in uploaded section
@@ -553,7 +582,7 @@ function uploadAttachment(file,target){
 									<span class="tags tags-`+parent+`" style="background:rgb(200,200,200);height:auto;" onclick="this.style.width=this.style.width!='auto'?'auto':'150px';this.style.height=this.style.height!='auto'?'auto':'25px';download(this);">
 								
 								 		<span><i class="material-icons" style="font-size:18px;">file_download</i></span>
-								 		<span class="category tags-`+parent+`" >Select Category</span>
+								 		<span class="category tags-`+parent+`" >Uncategorized</span>
 								 	</span>
 								 </div>
 								
@@ -583,24 +612,7 @@ function uploadAttachment(file,target){
 			$('.'+parent).remove();
 
 
- 	 		getCategories(59,function(e){
- 	 			var data=JSON.parse(e)
-				var categories=(typeof data.categories!='undefined')?data.categories:[];
-
-				var htm=``;
-
-				for(var x=0; x<categories.length;x++){
-					htm+='<option value="'+categories[x].id+'" class="subcategory">'+categories[x].name+'</option>'
-				}
-
-				//empty result
-				if(categories.length<=0) return 0;
-
-				$('.subcategory-section-preselected').html(`<div><select class="form-control parent-category-selector">`+htm+`</select><div class="subcategory-section"><div></div>`);
-				attachEventToCategorySelector()
-
- 	 		});
-
+ 	 		
 		}
 
 
@@ -672,6 +684,7 @@ function remove_attachment(){
 function close_attachment(){
 	
 	var id=($(window.modal.recentlySelected).attr('data-resources'))
+	var category=($(window.modal.recentlySelected).attr('data-category'))==undefined?'Uncategorized':($(window.modal.recentlySelected).attr('data-category'));
 	var data={
 		id:id,
 		token:__config.session.token
@@ -690,7 +703,7 @@ function close_attachment(){
 	 	}else{
 	 		//changed to open
 	 		var htm=`
-		 		<a href="update_attachment_status_open.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" data-resources="`+id+`">
+		 		<a href="update_attachment_status_open.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" data-resources="`+id+`" data-category="`+category+`">
 		 			<i class="material-icons" style="font-size:18px;">lock_open</i><span>Open Attachment</span>
 				</a>
 	 		`;
@@ -699,7 +712,7 @@ function close_attachment(){
 	 		$('.visible-open').parent().children('.visible-open').remove();
 
 	 		//add closed sign
-	 		$('.visible-closed').show();
+	 		$('.data-attachment-status[data-resources="'+id+'"]').html('<i class="material-icons text-muted visible-closed" style="font-size:18px;">lock</i>');
 	 	}
 
 	 },function(){
@@ -713,6 +726,7 @@ function close_attachment(){
 function open_attachment(){
 	
 	var id=($(window.modal.recentlySelected).attr('data-resources'))
+	var category=($(window.modal.recentlySelected).attr('data-category'))==undefined?'Uncategorized':($(window.modal.recentlySelected).attr('data-category'));
 	var data={
 		id:id,
 		token:__config.session.token,
@@ -733,7 +747,7 @@ function open_attachment(){
 	 		//changed to open
 	 		var htm=`
 	 			<li data-resources="`+id+`" data-toggle="modal" data-target="#myModal">
-			 		<a href="update_attachment_status.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" data-resources="`+id+`">
+			 		<a href="update_attachment_status.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" data-resources="`+id+`"  data-category="`+category+`">
 			 			<i class="material-icons" style="font-size:18px;">lock</i><span>Close Attachment</span>
 					</a>
 				</li>
@@ -745,15 +759,15 @@ function open_attachment(){
 												<i class="material-icons">remove_circle</i> <span>Remove</span>
 											</a>
 										</li>
-										<li data-resources="`+id+`" class="visible-open">
-											<a href="#"><i class="material-icons" style="font-size:18px;">edit</i><span>Category</span></a>
+										<li data-resources="`+id+`" data-toggle="modal" data-target="#myModal" class="visible-open">
+											<a href="attachment_category.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" data-resources="`+id+`" data-category="`+category+`"><i class="material-icons" style="font-size:18px;">edit</i><span>Category</span></a>
 										</li>`);
 
 	 		$(window.modal.recentlySelected).parent().parent().append(htm)
 	 		$(window.modal.recentlySelected).parent().children(window.modal.recentlySelected).remove();	
 
 	 		//remove closed sign
-	 		$('.visible-closed').hide();
+	 		$('.data-attachment-status[data-resources="'+id+'"]').html('');
 	 	}
 
 	 },function(){
@@ -846,7 +860,7 @@ function open_basket(){
 
 function publish_basket(status){
 	
-	var id=($(window.modal.recentlySelected).attr('data-resources'))
+	var id=window.sdft.active;
 	var data={
 		id:id,
 		status:status,
@@ -926,9 +940,41 @@ function delete_basket(status){
 	
 }
 
+function update_basket_description(description,callback=function(e){}){
+	
+	var id=($(window.modal.recentlySelected).attr('data-resources'))
+	var data={
+		id:id,
+		description:description,
+		token:__config.session.token
+	}
+
+	__ajax_basket_update_description(data,function(e){
+	 	var result=JSON.parse(e);
+	 	
+	 	$('#myModal').modal('hide');
+
+	 	if(result.status!=200){
+	 		setTimeout(function(){ 
+	 			 
+	 			alert('Unable to update this basket.Please try again later.');
+
+	 		},700);
+
+	 	}else{
+	 		callback(e)
+	 	}
+
+	 },function(){
+	 	alert('Unable to update this basket.Please try again later.');
+	 });
+
+	
+}
+
+
 
 function change_attachment_category(e){
-
 
 	var id=($(window.modal.recentlySelected).attr('data-resources'))
 	var data={
@@ -937,9 +983,13 @@ function change_attachment_category(e){
 		token:__config.session.token
 	}
 
+	
+
+	console.log($('.parent-category-selector')[1].options.selectedIndex)
+
 	//filter selected category text
 	//[0] is hidden -default for RFP etc..
-	if($('.parent-category-selector')[1].options.selectedIndex==0) return 0;
+	////if($('.parent-category-selector')[1].options.selectedIndex==0) return 0;
 
 	//show loading
 	$.mobile.loading('show'); 

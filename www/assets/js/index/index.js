@@ -84,6 +84,7 @@ function loadDetailsPage(callback){
 
 		    </div>
 		    <div role="tabpanel" class="tab-pane" id="route" style="padding-top: 30px;">
+		    	<div class="basket_update_menu"></div>
 		    	<div class="basket_status_menu"></div>
 		    	<div class="basket_delete_menu"></div>
 		    </div>
@@ -150,7 +151,7 @@ function attachEventToList(){
 
 		//load content
 		loadDetailsPage(function(e){
-			if($(element).attr('data-list')!='undefined'){
+			if($(element).attr('data-list')!='undefined'){ 
 				window.sdft.active=$(element).attr('data-list');
 				loadDetailsInit('id='+$(element).attr('data-list')+'&token='+__config.session.token)	
 

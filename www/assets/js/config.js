@@ -119,6 +119,11 @@ __config.endpoint.basket.delete={
 	method:'DELETE',
 }
 
+__config.endpoint.basket.update={
+	url:'http://192.168.80.53/rfps/api/basket_update.php',
+	method:'PUT',
+}
+
 
 //-------------------------
 // Attachments

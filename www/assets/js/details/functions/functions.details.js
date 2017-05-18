@@ -18,7 +18,7 @@ function loadContent(callback){
 
 function loadTopMenu(status){
 	var publish_button='';
-	var update_button='<li><button class="btn btn-xs btn-default" title="update"><i class="material-icons">update</i></button></li>';
+	var update_button='<li><button class="btn btn-xs btn-default" title="Reload page" onclick="reloadDetails()"><i class="material-icons">refresh</i></button></li>';
 
 	if(status=='draft'){
 		publish_button=`<li><button class="btn btn-xs btn-default" title="publish" data-toggle="modal" data-target="#myModal" href="publish.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)"><span><i class="material-icons">device_hub</i></span></button></li>`
@@ -368,7 +368,7 @@ function getDetails(data,callback){
 
  	 	//show more section
  	 	try{
-	 	 	if(parseInt(window.getComputedStyle($('.attachment-section')[0]).getPropertyValue('height'))>=670){
+	 	 	if(parseInt(window.getComputedStyle($('.attachment-section')[0]).getPropertyValue('height'))>=690){
 	 	 			$('.expand-attachments-section').show();	
 	 	 	}
 	 	 }catch(e){}
@@ -1110,6 +1110,11 @@ function removeFromCollaboratorsList(element){
 	 },function(){
 	 	alert('Unable to save the data.Please try again later.');
 	 })	
+}
+
+function reloadDetails(){
+	//force reload
+	loadDetailsInit('id='+window.sdft.active+'&token='+__config.session.token)
 }
 
 

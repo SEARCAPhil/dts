@@ -33,8 +33,8 @@ function __show_list(json,target){
 			</div>-->
 
 		`;
-
- 	for(var x=0; x<baskets.length;x++){
+	var x=0;
+ 	for(x=0; x<baskets.length;x++){
 		 	html+=`	<!--list-->
 		 	<div class="list `+baskets[x].status+`" data-list="`+baskets[x].id+`">
 		 		<div class="col col-md-12">
@@ -56,9 +56,11 @@ function __show_list(json,target){
 		`;	
  	}
 
- 	html+=`<div class="list" data-role="none" style="background:none;">
- 		<span class="col col-xs-12 text-center" data-category="`+data.category+`" onclick="loadMoreBaskets(this)"><a href="#" class="text-muted">More Baskets</a></span>
- 	</div>`;
+ 	if(x>0){
+ 		html+=`<div class="list" data-role="none" style="background:none;">
+	 		<span class="col col-xs-12 text-center" data-category="`+data.category+`" onclick="loadMoreBaskets(this)"><a href="#" class="text-muted">More Baskets</a></span>
+	 	</div>`;
+	}
 
 
  	$(target).append(html)	

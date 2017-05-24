@@ -56,9 +56,9 @@ function __show_list(json,target){
 		`;	
  	}
 
- 	if(x>0){
+ 	if(x>=20){
  		html+=`<div class="list" data-role="none" style="background:none;">
-	 		<span class="col col-xs-12 text-center" data-category="`+data.category+`" onclick="loadMoreBaskets(this)"><a href="#" class="text-muted">More Baskets</a></span>
+	 		<span class="col col-xs-12 text-center show-more" data-category="`+data.category+`" onclick="loadMoreBaskets(this)"><a href="#" class="text-muted">More Baskets</a></span>
 	 	</div>`;
 	}
 
@@ -71,6 +71,7 @@ function __show_list(json,target){
 function __get_list(data,callback=function(){}){
 
 	var status=data.status;
+				
 
 	__ajax_list(data,function(e){
 
@@ -94,6 +95,12 @@ function __get_list(data,callback=function(){}){
 		 		//$('.docker-menu-toggle-content').addClass('hide')
 		 		$('#main-page').addClass('show')
 		 		//$('.list-container').html('')
+
+		 		//callback
+		 		setTimeout(function(){
+		 			callback(e)
+		 		},300)
+
 		 	}else{
 
 		 		//clear section for page 1
@@ -154,6 +161,8 @@ function modal_ajax(event,e){
 function loadMoreBaskets(element){
 
 
+
+
 	var status=$(element).attr('data-category')
 
 	//loading
@@ -168,6 +177,8 @@ function loadMoreBaskets(element){
 		window.sessionStorage.setItem('basket_page',nextPage);
 	}
 
+		//hide loading
+	$(element).remove()
 		
 	setTimeout(function(){
 
@@ -201,7 +212,6 @@ function loadMoreBaskets(element){
 				
 		});	
 
-		//hide loading
-		$(element).html('')
+
 	},700);
 }

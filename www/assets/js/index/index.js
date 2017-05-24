@@ -16,6 +16,16 @@ function deviceReadyForMobile(){
 
 }
 
+
+
+
+
+
+/*-------------------------------------------------
+| DETAILS PAGE
+| show details when an item in Basket List is click
+|---------------------------------------------------*/
+
 function loadDetailsPage(callback){
 	//show loading
 	$.mobile.loading('show');  
@@ -95,13 +105,15 @@ function loadDetailsPage(callback){
 	$('.main-page-content').html(html)
 
 	
-		callback(this)
-	
-		
-	
+	callback(this)
+
 }
 
 
+/*------------------------------------------------
+| Show LIST
+| Load Basket List 
+|-------------------------------------------------*/
 
 function loadListContent(data,callback){
 
@@ -114,6 +126,12 @@ function loadListContent(data,callback){
 	
 }
 
+
+
+/*------------------------------------------------
+| Show ACTIVITIES
+|-------------------------------------------------*/
+
 function loadActivityContent(data,callback){
 	getActivities(data,function(){
 		callback(this)
@@ -121,6 +139,10 @@ function loadActivityContent(data,callback){
 	
 }
 
+
+/*------------------------------------------------
+| Show SETTINGS
+|-------------------------------------------------*/
 function loadRouteContent(id){
 	$('#route').load('routes.html');
 }
@@ -182,8 +204,6 @@ function attachEventToMenu(callback){
 		$(this).addClass('active')
 
 		callback(this);
-		
-
 	});
 
 }	
@@ -205,13 +225,18 @@ function deviceReady(){
 
 
 	attachEventToMenu(function(e){
-		//clear basket page
+		//clear basket paging
 		window.sessionStorage.setItem('basket_page',1)	
 
-
-		//clear list section
-		//$('.list-container').html('')
-
+		
+		/*-----------------------------------------------
+		| Autohide Docker Sidebar
+		| Hide sidebar whenever a menu is click.This is only 
+		| applicable in mobile
+		|------------------------------------------------*/
+		if(window.sdft.deviceInstance=='mobile'){
+			$('#docker-sidebar').removeClass('docker-toggle-open');
+		}
 
 
 		if((e.id!='groups')&&(e.id!='new')){
@@ -224,11 +249,35 @@ function deviceReady(){
 			__getListFromStorage($(e).attr('data-status'));
 
 
-			
-					
 
 			//load list
 			loadListContent({token:__config.session.token,page:1,status:$(e).attr('data-status')},function(e){
+
+				/*----------------------------------------------------------
+				| Show no content available if no count is 0
+				| This should only applied for small and medium devices
+				|----------------------------------------------------------*/
+
+				if(e.basket_count<=0){
+					$('.list-container').html(`
+		 	 			<div class="col col-xs-12 col-md-12 visible-xs visible-sm" style="background:rgb(255,255,255);border-radius:5px;"><center>
+							<h3 class="text-muted"><i class="material-icons" style="font-size: 5em;">local_mall</i></h3>
+							<h4>No Content Available</h4>
+							<p class="text-muted"><small>Your basket list is empty.Please create a new one.</small></p>
+						</center><br/><br/></div>`)
+				}
+
+
+
+				/*-----------------------------------------------
+				| Show List section only if it is hidden
+				| This is only applicable for mobile device
+				|------------------------------------------------*/
+				if(!$('#item-docker-menu').hasClass('show')&&window.sdft.deviceInstance=='mobile'&&e.basket_count>0){
+					$('.docker-menu-toggle-content')[0].click()
+				}
+
+
 				setTimeout(function(){
 					changeDockerSize('#item-docker-menu');	
 					//materiaize input field in list
@@ -238,47 +287,63 @@ function deviceReady(){
 					//attach list event
 					attachEventToList()
 
-					//autoclick list for desktop
-					if(window.sdft.deviceInstance=='desktop'){
-						//$('.list:not([data-role="none"])')[0].click();
-					}else{
-						//if show list page is hidden -> show list
-						var itemCssDefaultDisplay=window.getComputedStyle($('#item-docker-menu')[0]).display;
-
-						if(itemCssDefaultDisplay=='none'&&($('.list:not([data-role="none"])')[0]!='undefined')){
-							//$('.docker-menu-toggle-content')[0].click()
-						}
-
-					}
-
 
 				},300)
+
+
+				/*--------------------------------------------------
+				| Autoload more baskets in list
+				| click showmore button when scrolled down
+				|--------------------------------------------------*/
+				$(window).scroll(function() {
+
+					//if show more is present
+					if($('.show-more')[0]!=undefined){ 
+	  					if(($('.show-more')[0].offsetTop-$(window).scrollTop())<500){
+	  						$('.show-more')[0].click()
+	  					}
+	  				}
+				});
+								
+
 					
 			});	
 		}
 		
 	});
 	
+
+	/*--------------------------------------------------------------
+	| Autoload welcome page
+	|---------------------------------------------------------------*/
 	$('.main-page-content').load('welcome.html')
 
-	//show list after attachEventToMenu
+
+	/*--------------------------------------------------------------
+	| Autoclick recent menu
+	|---------------------------------------------------------------*/
 	setTimeout(function(){
 		$('.main-menu li:not([data-role="none"])')[0].click();
 	},300)
 
 
+	/*--------------------------------------------------------------
+	| Toggle list section when .docker-menu-toggle-content is click
+	|---------------------------------------------------------------*/
+	toggleDocker()
 
 
+}
 
-	//loadActivityContent(1)
-
-	//loadRouteContent(1)
-
+/*--------------------------------------------------
+| Toggle list section
+| click showmore button when scrolled down
+|--------------------------------------------------*/
+function toggleDocker(){
 
 	$('.docker-menu-toggle-content').click(function(e){
 		var itemCssDefaultDisplay=window.getComputedStyle($('#item-docker-menu')[0]).display
 
-		
 		if(itemCssDefaultDisplay=='none'){
 			$('#main-page').removeClass('show');
 			$('#main-page').addClass('hide');
@@ -292,7 +357,6 @@ function deviceReady(){
 		}
 	})
 
-
 }
 
 
@@ -301,19 +365,14 @@ function init(){
 	document.addEventListener("deviceready",deviceReady,false);
 	document.addEventListener("deviceready",deviceReadyForMobile,false);
 
-	//-----------------------------------
-	// DESKTOP DETECTION
-	// Load function if deviceinstance is non-mobile
-	//----------------------------------
+	/*------------------------------------------------
+	| DESKTOP INIT DETECTION
+	| Load function if deviceinstance is non-mobile
+	|-------------------------------------------------*/
 	setTimeout(function(){ 
 		if(window.sdft.deviceInstance=='desktop'){
-			$(document).ready(function(){
-				
+			$(document).ready(function(){				
 				deviceReady();
-
-
-
-
 			});
 		}else{}
 	},300)
@@ -336,13 +395,16 @@ function deviceOnline(){
 
 document.addEventListener("offline",deviceOffline,false);
 document.addEventListener("online",deviceOnline,false);
-/*
-*/
-
 window.addEventListener('orientationchange', function(){
     changeDockerSize('#item-docker-menu');
 
 });
+
+
+/*------------------------------------------------
+| SIGNOUT
+| clear all datainside localStorage
+|-------------------------------------------------*/
 
 function signOut(){
 	window.localStorage.clear();

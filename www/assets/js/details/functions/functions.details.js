@@ -230,7 +230,9 @@ function getDetails(data,callback){
  	 	
 
  	 	//description
- 	 	$('.description').text(data.details.description);
+ 	 	var description=data.details.description;
+ 	 	if(description.length>200) description=description.substr(0,100)+' <a href="#">read more</a>';
+ 	 	$('.description').html(description);
 
 
 

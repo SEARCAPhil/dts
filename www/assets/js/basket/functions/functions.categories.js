@@ -73,8 +73,19 @@ function attachEventToBasketButton(){
 		__ajax_post_basket({token:__config.session.token,basket_name:$('#basket_name').val(),description:$('#description').val(),keywords:$('#keywords').val(),category:window.selectedCategory},function(e){
 			var data=JSON.parse(e)
 			if(typeof data.id!='undefined'){
+				$.mobile.loading('show')
 				//proceed to draft
 				$('#draft-menu').click();
+
+				//clear main page content
+				$('.main-page-content').html(`
+					<center>
+						<p>
+							<i class="material-icons" style="font-size: 5em;">inbox</span>
+						</p>
+						<h3>Please select a basket on the list.</h3>
+					</center>
+					`);
 			}
 
 		},function(){

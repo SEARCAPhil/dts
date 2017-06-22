@@ -168,7 +168,11 @@ function bindEventToAttachmentMenu(){
 	})
 }
 
-
+function showMoreDescription(el){
+	var target=$(el).attr('data-target');
+	var content=$(el).attr('data-content');
+	$(target).text(content);
+}
 
 function getDetails(data,callback){
 	
@@ -231,7 +235,7 @@ function getDetails(data,callback){
 
  	 	//description
  	 	var description=data.details.description;
- 	 	if(description.length>200) description=description.substr(0,100)+' <a href="#">read more</a>';
+ 	 	if(description.length>200) description=description.substr(0,100)+' <a href="#" data-target=".description" data-content="'+data.details.description+'" onclick="showMoreDescription(this);"><small><u>read more</u></small></a>';
  	 	$('.description').html(description);
 
 

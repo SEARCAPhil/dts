@@ -1,9 +1,15 @@
+/*--------------------------------------------------
+| SAVE TO STORAGE
+| save items to cache
+|--------------------------------------------------*/
+
 function __saveListToStorage(json,status){
 	window.localStorage.setItem('cached_list_'+status,json);
 }
 
-function __getListFromStorage(status){
 
+
+function __getListFromStorage(status){
 
 	//show from list only
 	var json_data=window.localStorage.getItem('cached_list_'+status);
@@ -11,10 +17,16 @@ function __getListFromStorage(status){
 	try{
 		__show_list(json_data,'.list-container');
 		return json_data;
-	}catch(e){
-
-	}
+	}catch(e){}
 }
+
+
+
+
+/*-------------------------------------------------------------
+| SHOW LIST
+| show items in list section
+|--------------------------------------------------------------*/
 
 function __show_list(json,target){
 
@@ -23,16 +35,7 @@ function __show_list(json,target){
 	var baskets=(typeof data.baskets!='undefined')?data.baskets:[];
 	var basket_count=baskets.length;
 
- 	var html=`<!--search and page-->
-			<!--<div class="list" data-role="none"><br/><br/>
-				<div class="col col-md-12"><label>Page :  1/15</label></div>
-				<div class="col col-md-12"><input type="number" class="form-control" min="1" value="1"  data-role="none"/></div>
-
-				<div class="col col-md-12"><input type="text" class="form-control" placeholder="Looking for ?"  data-role="none"/></div>
-				
-			</div>-->
-
-		`;
+ 	var html=`<!--LIST PAGE-->`;
 	var x=0;
  	for(x=0; x<baskets.length;x++){
 		 	html+=`	<!--list-->
@@ -62,17 +65,21 @@ function __show_list(json,target){
 	 	</div>`;
 	}
 
-
  	$(target).append(html)	
-
 
 }
 
+
+
+
+/*--------------------------------------------------------------
+| GET LIST
+| get baskets from remote server
+|---------------------------------------------------------------*/
 function __get_list(data,callback=function(){}){
 
 	var status=data.status;
 				
-
 	__ajax_list(data,function(e){
 
 
@@ -85,7 +92,7 @@ function __get_list(data,callback=function(){}){
 
 			}
 
-			//updatebasket count
+			//update basket count
 	 		var baskets=(typeof data.baskets!='undefined')?data.baskets:[];
 	 		basket_count=baskets.length;
 
@@ -104,7 +111,7 @@ function __get_list(data,callback=function(){}){
 		 	}else{
 
 		 		//clear section for page 1
-
+		 		//this will prevent double entry of item in the list
 				if(window.sessionStorage.getItem('basket_page')==1){
 					$('.list-container').html('')
 				}
@@ -127,40 +134,32 @@ function __get_list(data,callback=function(){}){
 
 
 
-function loadDetailsInit(data){
-	    
-	loadContent(function(){
-		//load details
-		getDetails(data,function(){
-			//load groups after loading details
-			 getCollaborators(data,function(){
 
-			 });
-		});
-	});
+/*--------------------------------------------------
+| SEARCH LIST FROM REMOTE SERVER
+| call search to remote via ajax
+|--------------------------------------------------*/
+function __search_list(data,callback=function(){},error_callback=function(){}){
+
+	var status=data.status;
+				
+
+	__ajax_list_search(data,function(e){
+		//callback
+ 		setTimeout(function(){
+ 			callback(e)
+ 		},300)
+	},function(e){
+		error_callback(e);
+	})
 }
 
 
-
-
-
-
-function modal_ajax(event,e){
-	event.preventDefault()
-
-	var page=('modal/'+$(e).attr('href'))
-	
-	$($(e).attr('data-target')).load(page);
-
-	window.modal={}
-	window.modal.recentlySelected=e;
-}
-
-
-//show more baskets
+/*--------------------------------------------------
+| Show more baskets in the list
+| load next page
+|--------------------------------------------------*/
 function loadMoreBaskets(element){
-
-
 
 
 	var status=$(element).attr('data-category')
@@ -215,3 +214,161 @@ function loadMoreBaskets(element){
 
 	},700);
 }
+
+
+/*--------------------------------------------------
+| SEARCH LIST FROM SERVER
+| look items in the remote server
+|--------------------------------------------------*/
+function loadSearchResultsFromServer(param,status){
+	$('.search-help-text').html(`<div class="col col-md-12">
+			<small class="data-role="none"><a href=""><i class="material-icons">search</i>searching from server . . .</a></small>
+		</div>`);
+
+		//show loading bar
+		$.mobile.loading('show');
+
+		var data='param='+param+'&token='+__config.session.token+'&status='+status;
+		 __search_list(data,function(result){
+
+		 			//remove list
+					$('.list[data-role!="none"]').remove();
+
+
+		 		__show_list(result,'.list-container');
+
+				setTimeout(function(){
+					//attach list event
+					attachEventToList()
+				},800)
+		 },function(e){
+		 	$('.search-help-text').html(`<div class="col col-md-12">
+				<small class="data-role="none"><a href=""><i class="material-icons">search</i>unable to connect to server . . .	</a></small>
+			</div>`);
+		 })
+}
+
+
+
+/*--------------------------------------------------
+| SEARCH LIST
+| search items in cache and detect user's keyboard interaction
+| look in the remote server when enter key is pressed
+|--------------------------------------------------*/
+function searchList(event,element){
+
+	var status=window.sdft.active_category;
+	var json_data=window.localStorage.getItem('cached_list_'+status);
+	var data=JSON.parse(json_data);
+
+	var value=$(element).val();
+
+	var __data={}
+	__data=data;
+
+	//empty data.baskets
+	var __res=[];
+
+	for (var i = 0; i<data.baskets.length; i++) { 
+		if(data.baskets[i].name.indexOf(value)>-1){
+			__res.push(data.baskets[i]);
+			
+		}
+	}
+
+	__data.baskets=__res;
+
+	//remove list
+	$('.list[data-role!="none"]').remove();
+
+	//add show more from server
+
+	var htm=`<div class="list search-help-text" style="background:none;box-shadow:none;"><br>
+
+		<div class="col col-md-12">
+			<small class="data-role="none"><a href=""><i class="material-icons">keyboard_return</i>press enter key or click this link to load more results from server</a></small>
+		</div>
+		
+	</div>`;
+
+	$('.list-container').append(htm)
+
+
+
+	__show_list(JSON.stringify(__data),'.list-container');
+
+	setTimeout(function(){
+		//attach list event
+		attachEventToList()
+
+		//remove search link
+		$('.search-help-text').off('click')
+
+		$('.search-help-text').on('click',function(){
+			loadSearchResultsFromServer(value,status)
+		})
+
+
+	},800)
+
+
+
+	/*--------------------------------------------------
+	| CALL search to remote server
+	|--------------------------------------------------*/
+
+	if(value.length<1) return false;
+
+	//press enter key
+	if(event.keyCode==13||event.which==13){
+		
+		loadSearchResultsFromServer(value,status)
+
+	}
+
+
+	
+}
+
+
+
+
+
+
+/*--------------------------------------------------
+| MODAL
+| dynamic modal popup
+|--------------------------------------------------*/
+function modal_ajax(event,e){
+	event.preventDefault()
+
+	var page=('modal/'+$(e).attr('href'))
+	
+	$($(e).attr('data-target')).load(page);
+
+	window.modal={}
+	window.modal.recentlySelected=e;
+}
+
+
+
+
+
+
+/*--------------------------------------------------
+| LOAD details
+| load content including cllaboratrs
+|--------------------------------------------------*/
+function loadDetailsInit(data){
+	    
+	loadContent(function(){
+		//load details
+		getDetails(data,function(){
+			//load groups after loading details
+			 getCollaborators(data,function(){
+
+			 });
+		});
+	});
+}
+

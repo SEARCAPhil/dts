@@ -4,9 +4,15 @@ window.sdft.deviceInstance='desktop';
 
 function changeDockerSize(parent){
 	//get height of list
-	var list_height=($(parent).height()+200) 
+	//var list_height=($(parent).height()+200) 
 	//set docker height to full height
-	document.querySelector('#docker-sidebar > .content').style.height=((list_height>(document.body.clientHeight+200)?list_height:document.body.clientHeight+200))+'px';	
+	//document.querySelector('#docker-sidebar > .content').style.height=((list_height>(document.body.clientHeight+200)?list_height:document.body.clientHeight+200))+'px';	
+
+
+	var physicalScreenWidth = window.screen.width * window.devicePixelRatio;
+	var physicalScreenHeight = window.screen.height * window.devicePixelRatio;
+
+	document.querySelector('#docker-sidebar > section.content').style.height=window.screen.height+'px';
 }
 
 
@@ -19,10 +25,8 @@ function deviceReadyForMobile(){
 
 
 
-
-
 /*-------------------------------------------------
-| DETAILS PAGE
+| DETAILS PAGE TEMPLATE
 | show details when an item in Basket List is click
 |---------------------------------------------------*/
 
@@ -72,11 +76,7 @@ function loadDetailsPage(callback){
 			<p class="description"></p>
 
 
-			
-
-
-			
-
+	
 		  <!-- Nav tabs -->
 		  <ul class="nav nav-tabs" role="tablist" style="max-height: 80px;">
 		    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab"><i class="material-icons">folder_shared</i> Content</a></li>
@@ -203,6 +203,7 @@ function attachEventToMenu(callback){
 		$('.main-menu li').removeClass('active');
 		$(this).addClass('active')
 
+		window.sdft.active_category=$(this).attr('data-status');
 		callback(this);
 	});
 
@@ -265,6 +266,15 @@ function deviceReady(){
 							<h4>No Content Available</h4>
 							<p class="text-muted"><small>Your basket list is empty.Please create a new one.</small></p>
 						</center><br/><br/></div>`)
+				}else{
+					//remove then reinsert search in DOM
+					$('.search-section').remove();
+				 	$('.list-container').prepend(`<!--search and page-->
+						<div class="list search-section" data-role="none"><br/>
+
+							<div class="col col-md-12"><input type="text" class="form-control search-box" onkeyup="searchList(event,this)" placeholder="SEARCH"  data-role="none"/></div>
+							
+						</div>`);
 				}
 
 
@@ -279,7 +289,7 @@ function deviceReady(){
 
 
 				setTimeout(function(){
-					changeDockerSize('#item-docker-menu');	
+					//changeDockerSize('#item-docker-menu');	
 					//materiaize input field in list
 				    //materialize
 					$.material.init();
@@ -374,7 +384,21 @@ function init(){
 			$(document).ready(function(){				
 				deviceReady();
 			});
-		}else{}
+		}else{
+
+			/*------------------------------------------------
+			| Load mbile settings
+			|-------------------------------------------------*/
+
+			//change docker size
+			changeDockerSize('#item-docker-menu');
+
+			//prevent overflow in docker sidebar
+			document.querySelector('#docker-sidebar > section.content').style.overflowY='scroll';
+			document.querySelector('#docker-sidebar > section.content').style.overflowX='hidden';
+
+		}
+
 	},300)
 
 	

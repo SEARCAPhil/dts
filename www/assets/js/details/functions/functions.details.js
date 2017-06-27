@@ -9,7 +9,6 @@ function deviceReadyForMobile(){
 
  	
 function loadContent(callback){
-
 	setTimeout(function(){
 		$('#home').html('<div class="home-content"></div><div class="group-content"></div>');
 		callback(this)
@@ -91,6 +90,8 @@ function loadTopMenu(status){
 	 	 	
 
 }
+
+
 function clearLoadTopMenu(){
 	$('.top-menu-section-xs').html('');
 	$('.top-menu-section-md').html('');
@@ -235,7 +236,7 @@ function getDetails(data,callback){
 
  	 	//description
  	 	var description=data.details.description;
- 	 	if(description.length>200) description=description.substr(0,100)+' <a href="#" data-target=".description" data-content="'+data.details.description+'" onclick="showMoreDescription(this);"><small><u>read more</u></small></a>';
+ 	 	if(description.length>600) description=description.substr(0,600)+' <a href="#" data-target=".description" data-content="'+data.details.description+'" onclick="showMoreDescription(this);"><small><u>read more</u></small></a>';
  	 	$('.description').html(description);
 
 

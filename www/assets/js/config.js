@@ -60,6 +60,16 @@ __config.endpoint.list={
 }
 
 
+//-------------------------
+// List SEARCH
+//------------------------
+__config.endpoint.list.search={
+	url:'http://192.168.80.53/rfps/api/list_search.php',
+	method:'GET'
+}
+
+
+
 
 //-------------------------
 // Details

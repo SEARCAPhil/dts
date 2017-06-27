@@ -65,6 +65,7 @@
 	background: rgba(0,0,0,0.7);
 	color:rgb(2245,245,245);
 	padding-top: 20px;
+	height: 1000px;
 }
 
 #item-docker-menu{
@@ -199,7 +200,6 @@
 .tags{
 	float: left;
 	min-width: 150px;
-	height: 33px;
 	text-align: center;
 	background: rgb(255,184,12);
 	font-weight: bold;
@@ -362,7 +362,7 @@
 	bottom: 0;
 	width: 100%;
 	padding: 20px;
-	background: rgb(255,255,255);
+	background: rgba(255,255,255,0.9);
 	cursor: pointer;
 	color: rgb(220,220,220);
 	display: none;

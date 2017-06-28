@@ -73,7 +73,11 @@
 	height: 100%;
 }
 
-
+/*container*/
+.container-notifications{
+	display: none;
+	padding-top: 100px;
+}
 
 .main-page-content{
 	background: rgb(255,255,255);

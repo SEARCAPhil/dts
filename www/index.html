@@ -29,7 +29,8 @@
   <header class="navbar navbar-default navbar-fixed-top navbar-black" data-role="header">
     <div class="container-fluid">
       <div class="navbar-header">
-        <a class="navbar-brand docker-menu" href="javascript:void(0)" data-target=".docker"><i class="material-icons header_menu">menu</i><div class="ripple-container"></div></a>
+        <a class="navbar-brand docker-menu" href="javascript:void(0)" data-target=".docker"><i class="material-icons header_menu">menu</i></a>
+        <a class="navbar-brand notification-icon" href="javascript:void(0)" data-target=".container-main"><i class="material-icons header_menu">public</i></a>
         <span class="visible-xs top-menu-section-xs"></span>
 
       </div>
@@ -79,6 +80,7 @@
 
 
 <div class="container-fluid container-ajax" data-role="content"></div>
+<div class="container-fluid container-notifications" data-role="content"></div>
 <div class="container-fluid container-main" data-role="content">
 	<div class="row">
 		
@@ -120,7 +122,26 @@
 <script type="text/javascript" src="assets/js/details/functions/functions.details.js"></script>
 <script type="text/javascript" src="assets/js/basket/ajax/ajax.categories.js"></script>
 <script type="text/javascript" src="assets/js/basket/functions/functions.categories.js"></script>
+<script type="text/javascript" src="assets/js/socket.io.js"></script>
+<script type="text/javascript">
+	'use strict';
+	/*-----------------------------
+	|
+	| SOCKET CONNECTION
+	|------------------------------*/
 
+	var socket=io.connect('http://localhost:8082');
+
+	socket.on('handshake',function(data){
+		if(data.message=='hello'){
+			socket.emit('handshake',{message:'hi',token:__config.session.token})
+		}
+	})
+
+	socket.on('notification',(data)=>{
+		console.log(data)
+	})
+</script>
 
 <script type="text/javascript">
 if(window.localStorage.getItem('token')==null){
@@ -128,6 +149,11 @@ if(window.localStorage.getItem('token')==null){
 }
 
 $(document).ready(function(){
+
+	//load notification
+	$('.container-notifications').load('notifications.html')
+
+
 	$('#groups').on('click',function(){
 		//loading
 		$.mobile.loading('show'); 
@@ -161,6 +187,20 @@ $(document).ready(function(){
 			$.mobile.loading('hide'); 	
 		})
 
+	})
+
+	$('.notification-icon').on('click',function(){
+		var target=$(this).attr('data-target');
+		var itemCssDefaultDisplay=window.getComputedStyle($(target)[0]).display
+
+		if(itemCssDefaultDisplay=='none'){
+			$(target).fadeIn();
+			$('.container-notifications').hide();
+		}else{
+			$(target).hide();
+			$('.container-notifications').fadeIn();
+		}
+		
 	})
 
 })

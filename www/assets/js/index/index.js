@@ -243,6 +243,7 @@ function deviceReady(){
 		if((e.id!='groups')&&(e.id!='new')){
 			//hide ajax section
 			$('.container-ajax').hide();
+			$('.container-notifications').hide();
 			//show main-page
 			$('.container-main').show();
 

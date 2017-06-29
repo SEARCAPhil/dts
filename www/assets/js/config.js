@@ -202,6 +202,15 @@ __config.endpoint.categories={
 
 
 
+//-------------------------
+// Notifications
+//------------------------
+__config.endpoint.notifications={
+	url:'http://192.168.80.53/rfps/api/notifications.php',
+	method:'GET',
+	page:1,
+	id:null,
+}
 
 
 

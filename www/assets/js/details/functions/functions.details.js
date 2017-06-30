@@ -354,7 +354,7 @@ function getDetails(data,callback){
 												<div class="col col-md-8 col-xs-10">
 									    			<p class="text-danger">`+file_name+` &emsp;<span class="file-icon file-icon-xs" data-type="`+type+`"></span></p>
 									    			<p><b>File Type :</b> <b>`+type+`</b></p>
-									    			<p><b>Size :</b> <b>`+size+`</b></p>
+									    			<p><b>Size :</b> <b>`+(size/1000)+` KB</b></p>
 												</div>
 									    		
 									    	</small>
@@ -484,8 +484,8 @@ function getCollaborators(data,callback){
 			<!--details-->
 				<div class="col col-md-12 col-xs-12 activities" style="margin-bottom: 20px;">
 					<small>
-						<div class="col col-md-2 col-lg-1 col-xs-4"><div class="media-circles circle-md"><img src="assets/images/user.png" width="100%;"></div></div>
-						<div class="col col-md-8 col-xs-8">
+						<div class="col col-md-1 col-lg-1 col-xs-3"><div class="media-circles circle-md"><img src="assets/images/user.png" width="100%;"></div></div>
+						<div class="col col-md-8 col-xs-9 col-md-11">
 							<p><b>`+activities[x].name+`</b></p>
 							<p class="text-danger">`+activities[x].logs+`</p>
 							<p>`+activities[x].date_created+`</p>
@@ -604,7 +604,7 @@ function uploadAttachment(file,target){
 													<p><b>Author :</b> `+fullName+`</p>
 									    			<p class="text-danger"><b>File Name :</b>`+fileName+` <span class="file-icon file-icon-xs" data-type="`+fileType+`"></span></p>
 									    			<p><b>File Type :</b> <b>`+file.type+`</b></p>
-									    			<p><b>Size :</b> <b>`+size+`</b></p>
+									    			<p><b>Size :</b> <b>`+size+` KiB</b></p>
 												</div>
 									    		
 									    	</small>

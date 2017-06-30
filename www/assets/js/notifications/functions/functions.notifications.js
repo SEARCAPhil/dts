@@ -173,6 +173,7 @@ function bindViewNotification(){
 				//change to read
 				$(element).children().children().children('p.notification-message').removeClass('text-info')
 				$(element).css({background:'none'})
+				window.sdft.active=$(element).attr('data-list');
 				
 
 			}
@@ -186,7 +187,11 @@ function bindViewNotification(){
 
 		//hide list for mobile
 		if(window.sdft.deviceInstance=='mobile'){ 
-			$('.docker-menu-toggle-content')[1].click()
+			//$('.docker-menu-toggle-content')[1].click()
+			
+			if($('#item-docker-menu').hasClass('show')){
+				$('.docker-menu-toggle-content')[1].click()
+			}
 		}
 	})
 }

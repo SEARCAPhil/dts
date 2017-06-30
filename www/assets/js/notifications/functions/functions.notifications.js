@@ -73,14 +73,14 @@ function __showNotifications(json,target,callback=function(json){}){
 
 
 		var html=`<!--details-->
-					<div class="col col-md-12 col-xs-12 activities " style="padding:10px 5px 10px 5px;`+active_section_css+`">
+					<div class="col col-md-12 col-xs-12 notifications " style="padding:10px 5px 10px 5px;`+active_section_css+`" data-list="`+json.notifications[x].basket_id+`" data-notif="`+json.notifications[x].id+`">
 						<small>
 							<div class="col col-md-2 col-lg-1 col-xs-2 text-muted">
 								`+icon+`
 							</div>
 							<div class="col col-md-8 col-xs-10">
 								<p><b>`+json.notifications[x].sender.name+`</b></p>
-								<p class=" `+active_css+`">`+json.notifications[x].message+`</p>
+								<p class="notification-message `+active_css+`">`+json.notifications[x].message+`</p>
 								<p>`+json.notifications[x].date_created+`</p>
 							</div>
 						</small>
@@ -136,6 +136,8 @@ function showMoreNotifications(){
 						bindShowMoreNotifications();
 
 					}
+
+					bindViewNotification()
 				}); 
 			},800);
 		});
@@ -150,6 +152,43 @@ function showMoreNotifications(){
 function bindShowMoreNotifications(){
 	$('.load-more-notification-button').off('click')
 	$('.load-more-notification-button').on('click',showMoreNotifications);
+}
+
+function bindViewNotification(){
+	$('.notifications').off('click');
+
+	$('.notifications').on('click',function(e){
+		//toggle page
+		$('.notification-icon').click();
+		//show loading
+		$.mobile.loading('show')
+
+		var element=this;
+		//load content
+		loadDetailsPage(function(e){
+			if($(element).attr('data-list')!='undefined'){ 
+				window.sdft.active=$(this).attr('data-list');
+				loadDetailsInit('id='+$(element).attr('data-list')+'&token='+__config.session.token+'&notification=true&notif='+$(element).attr('data-notif'))
+				
+				//change to read
+				$(element).children().children().children('p.notification-message').removeClass('text-info')
+				$(element).css({background:'none'})
+				
+
+			}
+			
+			$('#activity-tab').click(function(){
+				loadActivityContent('id='+$(element).attr('data-list')+'&token='+__config.session.token,function(e){ 
+					
+				})
+			})
+		});
+
+		//hide list for mobile
+		if(window.sdft.deviceInstance=='mobile'){ 
+			$('.docker-menu-toggle-content')[1].click()
+		}
+	})
 }
 
 

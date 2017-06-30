@@ -205,9 +205,15 @@ $(document).ready(function(){
 		if(itemCssDefaultDisplay=='none'){
 			$(target).fadeIn();
 			$('.container-notifications').hide();
+
+			//show top menu option for details
+			$('.top-menu').show();
 		}else{
 			$(target).hide();
 			$('.container-notifications').fadeIn();
+
+			//hide top menu option for details
+			$('.top-menu').hide();
 		}
 		
 	})

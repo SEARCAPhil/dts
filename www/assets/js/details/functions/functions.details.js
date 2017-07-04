@@ -1125,8 +1125,50 @@ function reloadDetails(){
 }
 
 
-function download(target){
+function download(target){ console.log(window.sdft.deviceInstance)
+	if(window.sdft.deviceInstance!='mobile'){
+		//download for desktop
+		download_desktop(target);
+	}else{
+		//download for mobile
+		download_mobile(target);
+	}
+}
+
+
+function download_desktop(target){
 	var id=($(target).attr('data-resources'))
 	window.open(__config.endpoint.basket.attachments.url+'?id='+id+'&token='+__config.session.token);
 }
+
+function download_mobile(target){
+	var id=($(target).attr('data-resources'))
+	var fileTransfer = new FileTransfer();
+	var uri=encodeURI(__config.endpoint.basket.attachments.url+'?id='+id+'&token='+__config.session.token);
+
+	window.requestFileSystem(LocalFileSystem.PERSISTENT,0,function(fileSystem){
+		console.log(fileSystem);
+		/*
+		fileTransfer.download(
+		uri,
+	    fileURL,
+	    function(entry) {
+	        console.log("download complete: " + entry.toURL());
+	    },
+	    function(error) {
+	        console.log("download error source " + error.source);
+	        console.log("download error target " + error.target);
+	        console.log("download error code" + error.code);
+	    },false);*/
+
+
+	},function(){
+		alert('downloading failed');
+	})
+
+
+}
+
+
+
 

@@ -3,15 +3,15 @@
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" data-role="none"><span aria-hidden="true">&times;</span></button>
         	
-        	<div class="col col-md-5">
+        	<div class="col col-md-5 col-sm-5 col-xs-12"">
         		<h4 class="modal-title" id="myModalLabel"><i class="material-icons">folder_shared</i> Share basket</h4>
         		<hr class="visible-xs" />
         	</div>
 
-        	<div class="col col-md-1 col-xs-1">
+        	<div class="col col-md-1 col-xs-1 col-sm-1">
         		<i class="material-icons">search</i>
         	</div>
-        	<div class="col col-md-5 col-xs-10">
+        	<div class="col col-md-5 col-xs-10 col-sm-5">
         		<input type="text" name="" class="form-control" placeholder="Search people" data-role="none" id="people-search">
         	</div>
         
@@ -139,8 +139,8 @@
 		</div>
       	 
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      <div class="modal-footer" style="padding: 60px;">
+       
       </div>
     </div>
   </div>
@@ -162,19 +162,26 @@ function searchPeople(param,page=1,target,callback=function(e){}){
 
 				for(var x=0; x<contacts.length;x++){ 
 					html+=`
+
 						<!--contacts-->
-						<div class="col col-md-12 groups phone-book" style="margin-bottom:20px;">
-							<div class="col col-md-1"><div class="media-circles circle-sm"><img src="assets/images/user.png" width="100%;"></div></div>
-							<div class="col col-md-10">
-								<small style="line-height: 10px;">
-									<p><b>`+contacts[x].name+`</b></p>
-									<p class="text-muted">`+contacts[x].department+`</p>
-									<p class="text-muted">`+contacts[x].position+`</p>
-									<p><button class="btn btn-default btn-xs" data-name="`+contacts[x].name+`" data-department="`+contacts[x].department+`" data-resources="`+contacts[x].id+`" onclick="addToSendingList(this);"><i class="material-icons md-18">add</i></button></p>
-								</small>
-							</div>
-						</div>
+						<div class="col col-md-12 col-xs-12 groups phone-book">
+
+									<div class="col col-md-10 col-sm-10 col-xs-9"  style="margin-top:10px;">
+										<small class="text-muted">
+											<p><b>`+contacts[x].name+`</b></p>
+
+										</small>
+									</div>
+
+									<div class="col col-md-2 col-sm-2 col-xs-3">
+										<button class="btn btn-default btn-xs" data-name="`+contacts[x].name+`" data-department="`+contacts[x].department+`" data-resources="`+contacts[x].id+`" onclick="addToSendingList(this);"><i class="material-icons md-18">add</i></button>
+									</div>
+
+									
+
+								</div>
 						<!--contacts-->	`;
+				
 				}
 
 

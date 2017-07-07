@@ -12,6 +12,9 @@ function __save_user_details_to_storage(data){
     window.localStorage.setItem('cached_department',data.details.department);
     window.localStorage.setItem('cached_alias',data.details.alias);
     window.localStorage.setItem('cached_position',data.details.position);
+    window.localStorage.setItem('cached_uid',data.details.uid);
+
+    window.localStorage.setItem('cached_user_data',JSON.stringify(data));
 };
 
 

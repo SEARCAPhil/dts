@@ -367,6 +367,36 @@ function loadDetailsInit(data){
 			//load groups after loading details
 			 getCollaborators(data,function(){
 
+			 	//get basket id of first collaborator
+			 	//if failed get the current active basket
+			 	try{
+			 		var basket_id=window.sdft.collaborators[0].basket_id;
+			 	}catch(e){
+			 		var basket_id=(window.sdft.active)
+			 	}
+
+			 	//create a pool of collaborators
+			 	//send notification to socket
+
+			 	var collaborators_pool={};
+				for(var x=0;x<window.sdft.collaborators.length;x++){
+					collaborators_pool[window.sdft.collaborators[x].uid]=(window.sdft.collaborators[x].uid);
+				}
+
+
+			
+
+				/*-----------------------------
+				|
+				| SOCKET CONNECTION
+				|------------------------------*/
+
+				'use strict';
+
+				var socket=window.sdft.socket;
+
+				socket.emit('basket',{message:window.sdft.socket_id,token:__config.session.token,collaborators:collaborators_pool,basket_id:basket_id,uid:__config.session.uid});
+
 			 });
 		});
 	});

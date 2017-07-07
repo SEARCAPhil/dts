@@ -33,6 +33,7 @@ __config.session.fullName=window.localStorage.getItem('cached_full_name');
 __config.session.firstName=window.localStorage.getItem('cached_first_name');
 __config.session.lastName=window.localStorage.getItem('cached_last_name');
 __config.session.position=window.localStorage.getItem('cached_position');
+__config.session.uid=window.localStorage.getItem('cached_uid');
 
 
 

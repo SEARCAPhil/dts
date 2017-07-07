@@ -31,15 +31,24 @@ function __get_notifications(data,callback=function(e){}){
 
 
 
-function __showNotifications(json,target,callback=function(json){}){
+function __showNotifications(json,target,callback=function(json){},sort='append'){
 
-
+	var sort=typeof sort!='undefined'?sort:'append';
 	/*-----------------------------------------
 	| Define stack for empty notification
 	|----------------------------------------*/
 	if(typeof json.notifications =='undefined'){
 		json.notifications=[];
 	}
+
+	//set notification to 0
+	if(window.sdft.notification_count==null){
+		window.sdft.notification_count=0;
+	}
+
+
+
+
 
 
 
@@ -69,16 +78,21 @@ function __showNotifications(json,target,callback=function(json){}){
 		if(json.notifications[x].flag=='unread'){
 			active_css='text-info';
 			active_section_css="background:rgba(230,230,230,0.1);border-bottom:1px solid rgba(225,225,225,0.4);"
+
+				//increment notification count for unread messages
+				if(json.notifications.length>0){
+					window.sdft.notification_count++;
+				}
 		}
 
 
 		var html=`<!--details-->
-					<div class="col col-md-12 col-xs-12 notifications " style="padding:10px 5px 10px 5px;`+active_section_css+`" data-list="`+json.notifications[x].basket_id+`" data-notif="`+json.notifications[x].id+`">
+					<div class="col col-md-12 col-xs-12 notifications " data-flag="`+json.notifications[x].flag+`" style="padding:10px 5px 10px 5px;`+active_section_css+`" data-list="`+json.notifications[x].basket_id+`" data-notif="`+json.notifications[x].id+`">
 						<small>
-							<div class="col col-md-2 col-lg-1 col-xs-2 text-muted">
+							<div class="col col-md-1 col-lg-1 col-xs-2 col-sm-2 text-muted">
 								`+icon+`
 							</div>
-							<div class="col col-md-8 col-xs-10">
+							<div class="col col-md-9 col-xs-10 col-sm-10">
 								<p><b>`+json.notifications[x].sender.name+`</b></p>
 								<p class="notification-message `+active_css+`">`+json.notifications[x].message+`</p>
 								<p>`+json.notifications[x].date_created+`</p>
@@ -86,8 +100,19 @@ function __showNotifications(json,target,callback=function(json){}){
 						</small>
 					</div>
 				<!--/details-->`;
-		$(target).append(html)
+
+		if(sort=='append')	$(target).append(html)
+		if(sort=='prepend')	$(target).prepend(html)
+
+
 	}
+
+	//show notification count section
+	if(window.sdft.notification_count>0){
+		$('.notification-count-section-content').html(window.sdft.notification_count);
+		$('.notification-count-section').show();
+	}
+
 
 	//callback
 	setTimeout(function(){ callback(json); },600);
@@ -164,8 +189,11 @@ function bindViewNotification(){
 		$.mobile.loading('show')
 
 		var element=this;
+
 		//load content
 		loadDetailsPage(function(e){
+
+
 			if($(element).attr('data-list')!='undefined'){ 
 				window.sdft.active=$(this).attr('data-list');
 				loadDetailsInit('id='+$(element).attr('data-list')+'&token='+__config.session.token+'&notification=true&notif='+$(element).attr('data-notif'))
@@ -195,5 +223,16 @@ function bindViewNotification(){
 		}
 	})
 }
+
+
+function push_upload_notification(data){
+	window.sdft.socket.emit('upload',data)
+}
+
+
+function read_notifications(){
+	window.sdft.socket.emit('notifications',{data:window.sdft.socket_id})
+}
+
 
 

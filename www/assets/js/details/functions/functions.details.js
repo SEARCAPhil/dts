@@ -225,7 +225,7 @@ function getDetails(data,callback){
 		//delete menu
 		loadBasketDeleteMenu(data.details.id,'.basket_delete_menu',function(e){})
 
- 	 	
+ 	 	window.sdft.details=data.details;
  	 	
  	 	//author
  	 	$('.author-name').text(data.details.author.name);
@@ -395,8 +395,15 @@ function getDetails(data,callback){
 
 
 function getCollaborators(data,callback){
+	//empty collaborator first
+	window.sdft.collaborators=[];
+
  	 __ajax_collaborators(data,function(e){
  	 	var data=JSON.parse(e)
+
+
+ 	 	//assign collaborators to window
+ 	 	window.sdft.collaborators=data.collaborators;
 
  	 	var htm=`<div class="col col-md-12 row" style="margin-bottom: 20px;position:relative;">
 					<br/><br/>
@@ -433,7 +440,7 @@ function getCollaborators(data,callback){
 				<div class="content-more-details collaborators" data-resources="`+data.collaborators[x].collaborator_id+`">
 					<span href="remove_collaborator.html" data-toggle="modal" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" data-resources="`+data.collaborators[x].collaborator_id+`"  style="position:absolute;right:5px;width:10px;height:10px;">x</span>
 					<small>
-						<span><div class="media-circles circle-sm"><img src="assets/images/user.png" width="100%;"></div></span>
+						<span><i class="material-icons md-24">account_circle</i></span>
 						<span style="font-size:smaller;"> &nbsp;<b>`+data.collaborators[x].name+`</b></span>
 						<p class="text-muted" style="font-size:smaller;"> &nbsp;`+data.collaborators[x].department+`</p>
 					</small>
@@ -462,6 +469,13 @@ function getCollaborators(data,callback){
  	 	$('.collaborators').click(function(e){
  	 		console.log($(this).children('div.ajax-span-container').slideToggle('fast'))
  	 	})
+
+ 	 	/*-------------
+ 	 	| Callback
+ 	 	|--------------*/
+ 	 	callback(e)
+
+
  	 	
  	 },function(e){
 
@@ -484,8 +498,8 @@ function getCollaborators(data,callback){
 			<!--details-->
 				<div class="col col-md-12 col-xs-12 activities" style="margin-bottom: 20px;">
 					<small>
-						<div class="col col-md-1 col-lg-1 col-xs-3"><div class="media-circles circle-md"><img src="assets/images/user.png" width="100%;"></div></div>
-						<div class="col col-md-8 col-xs-9 col-md-11">
+						<div class="col col-md-1 col-lg-1 col-xs-3 hidden-xs"><div class="media-circles circle-md"><img src="assets/images/user.png" width="100%;"></div></div>
+						<div class="col col-md-8 col-xs-12 col-sm-9 col-md-11">
 							<p><b>`+activities[x].name+`</b></p>
 							<p class="text-danger">`+activities[x].logs+`</p>
 							<p>`+activities[x].date_created+`</p>
@@ -510,7 +524,7 @@ function appendColaborators(data,target){
 				<div class="content-more-details collaborators">
 					<span style="position:absolute;right:5px;width:10px;height:10px;">x</span>
 					<small>
-						<span><div class="media-circles circle-sm"><img src="assets/images/user.png" width="100%;"></div></span>
+						<span><i class="material-icons">account_circle</i></span>
 						<span style="font-size:smaller;"> &nbsp;<b>ssss</b></span>
 						<p class="text-muted" style="font-size:smaller;"> &nbsp;ssss</p>
 					</small>
@@ -649,11 +663,21 @@ function uploadAttachment(file,target){
 								</ul>`
 
 			$('.tags-'+parent).attr('data-resources',data.id)
+
 			//append to menu section
 			$('#attachment-menu-'+parent).html(htm);
 
 			//removed no data content
 			$('.no-available-data').hide();
+
+
+			//send notification to socket
+			push_upload_notification({basket_id:window.sdft.active,file_id:data.id,message:'create',details:window.sdft.details});
+					
+			
+			
+
+			
         }
     };
 
@@ -679,6 +703,15 @@ function remove_attachment(){
 	 			$(window.modal.recentlySelected).parent().parent().parent().parent().slideDown(); 
 
 	 		},700);
+	 	}else{
+	 		setTimeout(function(){ 
+		 		$('#myModal > div.modal-dialog >div.modal-content').html('<center style="padding:10px;"><h4 class="text-success"><i class="material-icons md-24">check</i> Removed successfully!</h4></center>')	
+		 		$('#myModal').modal('show');
+		 	},1000);
+
+		 	setTimeout(function(){ 
+		 		$('#myModal').modal('hide');
+		 	},3000);
 	 	}
 
 	 },function(){
@@ -1168,7 +1201,6 @@ function download_mobile(target){
 
 
 }
-
 
 
 

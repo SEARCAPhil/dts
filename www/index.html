@@ -32,7 +32,10 @@
     <div class="container-fluid">
       <div class="navbar-header">
         <a class="navbar-brand docker-menu" href="javascript:void(0)" data-target=".docker"><i class="material-icons header_menu">menu</i></a>
-        <a class="navbar-brand notification-icon" href="javascript:void(0)" data-target=".container-main"><i class="material-icons header_menu">public</i></a>
+        <a class="navbar-brand notification-icon" href="javascript:void(0)" data-target=".container-main">
+        	<div class="notification-count-section"><span class="notification-count-section-content"></span></div>
+        	<i class="material-icons header_menu">public</i>
+        </a>
         <span class="visible-xs top-menu-section-xs"></span>
 
       </div>
@@ -125,25 +128,7 @@
 <script type="text/javascript" src="assets/js/basket/ajax/ajax.categories.js"></script>
 <script type="text/javascript" src="assets/js/basket/functions/functions.categories.js"></script>
 <script type="text/javascript" src="assets/js/socket.io.js"></script>
-<script type="text/javascript">
-	'use strict';
-	/*-----------------------------
-	|
-	| SOCKET CONNECTION
-	|------------------------------*/
-
-	var socket=io.connect('http://localhost:8082');
-
-	socket.on('handshake',function(data){
-		if(data.message=='hello'){
-			socket.emit('handshake',{message:'hi',token:__config.session.token})
-		}
-	})
-
-	socket.on('notification',(data)=>{
-		console.log(data)
-	})
-</script>
+<script type="text/javascript" src="assets/js/notifications/functions/functions.notifications.socket.js"></script>
 
 <script type="text/javascript">
 if(window.localStorage.getItem('token')==null){
@@ -201,6 +186,11 @@ $(document).ready(function(){
 	$('.notification-icon').on('click',function(){
 		var target=$(this).attr('data-target');
 		var itemCssDefaultDisplay=window.getComputedStyle($(target)[0]).display
+
+
+		//hide notification count
+		$('.notification-count-section').hide();
+
 
 		if(itemCssDefaultDisplay=='none'){
 			$(target).fadeIn();

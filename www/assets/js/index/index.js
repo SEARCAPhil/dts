@@ -215,6 +215,8 @@ function attachEventToMenu(callback){
 function deviceReady(){
 	console.log('device is ready . . .')
 
+	
+
 	//materialize
 	$.material.init();
 
@@ -227,7 +229,9 @@ function deviceReady(){
 
 	attachEventToMenu(function(e){
 		//clear basket paging
-		window.sessionStorage.setItem('basket_page',1)	
+		window.sessionStorage.setItem('basket_page',1)
+
+
 
 		
 		/*-----------------------------------------------
@@ -380,7 +384,14 @@ function init(){
 	| DESKTOP INIT DETECTION
 	| Load function if deviceinstance is non-mobile
 	|-------------------------------------------------*/
+
+
+	//notification socket
+	window.sdft.socket={}
+
 	setTimeout(function(){ 
+
+
 		if(window.sdft.deviceInstance=='desktop'){
 			$(document).ready(function(){				
 				deviceReady();

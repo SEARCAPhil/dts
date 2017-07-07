@@ -358,36 +358,41 @@ function get_contact_list(page,target,callback=function(){}){
 
 		for(let value in contacts){
 			contact_count++;
-			html+=`	<div class="col col-md-12 text-muted">
-						<h3>`+value+`</h3>
+			html+=`	<div class="col col-md-12 text-muted"><br/>
 						<div class="col col-md-12 row">`
-				for(var x=0; x<contacts[value].length;x++){ console.log(contacts[value][x])
-					html+=`
+				for(var x=0; x<contacts[value].length;x++){ 
+					console.log(contacts[value][x])
+					if(contacts[value][x].name.length>1){
+						html+=`
 
 
 								<!--contacts-->
 								<div class="col col-md-12 col-xs-12 groups phone-book">
-									<div class="col col-md-1"><div class="media-circles circle-sm"><img src="assets/images/user.png" width="100%;"></div></div>
-									<div class="col col-md-10">
-										<small style="line-height: 10px;">
+
+									<div class="col col-md-10 col-sm-10 col-xs-9"  style="margin-top:10px;">
+										<small>
 											<p><b>`+contacts[value][x].name+`</b></p>
-											<p class="text-muted">`+contacts[value][x].department+`</p>
-											<p class="text-muted">`+contacts[value][x].position+`</p>
-											<p><button class="btn btn-default btn-xs" data-name="`+contacts[value][x].name+`" data-department="`+contacts[value][x].department+`" data-resources="`+contacts[value][x].id+`" onclick="addToSendingList(this);"><i class="material-icons md-18">add</i></button></p>
+											<!--<p class="text-muted">`+contacts[value][x].department+`</p>
+											<p class="text-muted">`+contacts[value][x].position+`</p>-->
 										</small>
+									</div>
+
+									<div class="col col-md-2 col-sm-2 col-xs-3">
+										<button class="btn btn-default btn-xs" data-name="`+contacts[value][x].name+`" data-department="`+contacts[value][x].department+`" data-resources="`+contacts[value][x].id+`" onclick="addToSendingList(this);"><i class="material-icons md-18">add</i></button>
 									</div>
 
 									
 
 								</div>
 								<!--contacts-->	`;
+						}
 				}
 
 			html+=`</div></div>`;
 			
 		}
 
-		if(contact_count>0){
+		if(contact_count==10){
 
 			html+=`<div class="col col-md-12 text-center text-muted" style="background:rgb(250,250,250);padding:4px;margin-top:20px;margin-bottom:20px;"  onclick="show_more_contacts(this)">Show more</div>`
 		}
@@ -432,7 +437,7 @@ function addToSendingList(element){
 				<div class="content-more-details collaborators collaborators-sent-item" data-old-resources="`+id+`">
 					<span class="remove-collaborators-button-sent-item" onclick="removeFromsendingList(this);" data-resources="`+id+`" style="position:absolute;right:5px;width:10px;height:10px;">x</span>
 					<small>
-						<span><div class="media-circles circle-sm"><img src="assets/images/user.png" width="100%;"></div></span>
+						<span><div class="media-circles circle-sm"><i class="material-icons">account_circle</i></div></span>
 						<span style="font-size:smaller;"> &nbsp;<b>`+name+`</b></span>
 						<p class="text-muted" style="font-size:smaller;"> &nbsp;`+department+`</p>
 					</small>

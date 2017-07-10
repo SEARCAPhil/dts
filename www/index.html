@@ -187,6 +187,10 @@ $(document).ready(function(){
 		var target=$(this).attr('data-target');
 		var itemCssDefaultDisplay=window.getComputedStyle($(target)[0]).display
 
+		//reset notification counter when user already 
+		//checked their notification list
+		window.sdft.notification_count=0;
+
 
 		//hide notification count
 		$('.notification-count-section').hide();

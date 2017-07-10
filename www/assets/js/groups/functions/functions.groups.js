@@ -432,12 +432,12 @@ function addToSendingList(element){
 	}
 
 
-	$(element).parent().parent().parent().parent().parent().fadeOut();
+	$(element).parent().parent().fadeOut();
 	var htm=`<!--details-->
 				<div class="content-more-details collaborators collaborators-sent-item" data-old-resources="`+id+`">
 					<span class="remove-collaborators-button-sent-item" onclick="removeFromsendingList(this);" data-resources="`+id+`" style="position:absolute;right:5px;width:10px;height:10px;">x</span>
 					<small>
-						<span><div class="media-circles circle-sm"><i class="material-icons">account_circle</i></div></span>
+						<span><i class="material-icons md-24">account_circle</i></span>
 						<span style="font-size:smaller;"> &nbsp;<b>`+name+`</b></span>
 						<p class="text-muted" style="font-size:smaller;"> &nbsp;`+department+`</p>
 					</small>
@@ -448,7 +448,7 @@ function addToSendingList(element){
 				
 			`;
 
-	$('.sendingList').append(htm)
+	$('.sendingList').css({marginBottom:'50px',background:'rgba(250,250,250,0.3)',paddingTop:'10px'}).append(htm)
 
 	//load save button
 	loadCollaboratorSaveButton('.collaborators-menu');

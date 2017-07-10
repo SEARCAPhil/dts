@@ -498,7 +498,7 @@ function getCollaborators(data,callback){
 			<!--details-->
 				<div class="col col-md-12 col-xs-12 activities" style="margin-bottom: 20px;">
 					<small>
-						<div class="col col-md-1 col-lg-1 col-xs-3 hidden-xs"><div class="media-circles circle-md"><img src="assets/images/user.png" width="100%;"></div></div>
+						<!--<div class="col col-md-1 col-lg-1 col-xs-3 hidden-xs"><div class="media-circles circle-md"><img src="assets/images/user.png" width="100%;"></div></div>-->
 						<div class="col col-md-8 col-xs-12 col-sm-9 col-md-11">
 							<p><b>`+activities[x].name+`</b></p>
 							<p class="text-danger">`+activities[x].logs+`</p>

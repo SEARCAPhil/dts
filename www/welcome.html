@@ -2,21 +2,83 @@
 	.welcome-page{
 		background: rgb(255,255,255);
 		border-radius: 5px;
-		margin-top: 60px;
-		margin-bottom: 25px;
+		margin-top: 20px;
 		height: auto;
+	}
+	.carousel-indicators > li{
+		border:1px solid #ccc;
+	}
+
+	.carousel-indicators > li.active{
+		background: rgb(200,200,200);
 	}
 </style>
 <div class="welcome-page">
 	<div class="container-fluid">
 		<div class="col col-md-12">
-			<center>
-				<h3 class="text-muted"><i class="material-icons" style="font-size: 5em;">local_mall</i></h3>
-				<h3>Welcome!</h3>
-				<p>The system will help you organize your item in a much cleaner and better ways. Your files will be placed in a common basket where your team can upload simultaneously making everyone work faster and productive.</p>
-				<button type="button" class="btn btn-default" style="background: #009688;color: rgb(255,255,255);">Getting Started</button>
-			</center>
+
+
+			<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+				  <!-- Indicators -->
+				  <ol class="carousel-indicators">
+				    <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+				    <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+				    <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+				  </ol>
+
+				  <!-- Wrapper for slides -->
+				  <div class="carousel-inner" role="listbox">
+				    <div class="item active">
+				      	<center style="margin-bottom: 50px;">
+							<h3 class="text-muted"><i class="material-icons" style="font-size: 5em;">local_mall</i></h3>
+							<h3>Welcome!</h3>
+							<p>The system will help you organize your item in a much cleaner and better ways. Your files will be placed in a common basket where your team can upload files simultaneously.</p>
+							<button type="button" class="btn btn-default" style="background: #009688;color: rgb(255,255,255);">Getting Started</button>
+						</center>
+				      
+				    </div>
+				    <div class="item">
+				     
+				     	<div class="col col-md-4">
+				     		<h3 class="text-warning">Works Across Devices</h3>
+				     		<p>You can view your baskets using your tablet, mobile phones , laptop, or desktop.</p>
+				     		<p><b>It works great in all sizes!</b></p>
+				     	</div>
+
+				     	<div class="col col-md-8"><img src="assets/images/share.png" width="100%"></div>
+				    </div>
+
+				    <div class="item">
+				     	
+				     	<div class="col col-md-12 text-center">
+				     		<h3 class="text-warning">Simple</h3>
+				     		<p>Use the system with ease.Clean, simple, and fast!!</p>
+				     		<img src="assets/images/simple.png" width="100%">
+				     	</div>
+
+
+
+				     	
+				    </div>
+				   
+				  </div>
+
+			</div>
+
+
 		</div>
 	</div>
+
+
 </div>
+
+<script type="text/javascript">
+$(document).ready(function(){
+
+    $('.carousel').carousel({
+      interval: 5000
+    })
+
+})
+</script>
 

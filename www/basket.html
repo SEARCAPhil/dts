@@ -19,12 +19,12 @@
 		</section>
 
 		<!--details-->
-		<section class="col col-md-6 basket-container">
+		<section class="col col col-sm-12 col-md-12 col-lg-7 basket-container">
 
 			<div class="media">
 			  <div class="media-left">
 			    <a href="#">
-			      <div class="media-circles"><img src="assets/images/user.png" width="100%;"></div>
+			      <i class="material-icons md-48">add_box</i>
 			    </a>
 			  </div>
 			  <div class="media-body">
@@ -82,7 +82,7 @@
 
 
 
-		<section class="col col-md-6 container">
+		<section class="row container">
 
 
 
@@ -97,7 +97,7 @@
 		attachEventToBasketButton()
 		$('.author-name').html(__config.session.firstName+' '+__config.session.lastName)
 		$('.department').html(__config.session.department)
-		$('.position').html(__config.session.position)
+		$('.position').html('<span class="text-muted">'+__config.session.position.substr(0,1).toUpperCase()+''+__config.session.position.substr(1)+'</span>')
 	}
 
 

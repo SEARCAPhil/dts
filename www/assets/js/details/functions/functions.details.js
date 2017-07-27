@@ -33,7 +33,7 @@ function loadTopMenu(status){
  	 	//menu for xs devices
  	 	$('.top-menu-section-xs').html(`<input type="file" name="files[]" class="content-menu-attachment-input" multiple/><ul class="nav navbar-nav navbar-right pull-right top-menu">
 	        <li><button class="btn btn-xs btn-default content-menu-attachment"><i class="material-icons">attachment</i> attach</button></li>
-	        <li><button class="btn btn-xs btn-default" data-toggle="modal" data-target="#myModal" href="share.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" ><a style="color:rgba(250,250,250,0.5);"><i class="material-icons">folder_shared</i> Share</a></button></li>
+	        <li><button class="btn btn-xs btn-default" data-toggle="modal" data-target="#myModal" href="share.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" ><i class="material-icons">folder_shared</i> Share</button></li>
 	        `+publish_button+` `+update_button+`
 	  	 </ul>`)
 
@@ -41,7 +41,7 @@ function loadTopMenu(status){
  	 	//menu for md - lg devices
  	 	$('.top-menu-section-md').html(`<ul class="nav navbar-nav navbar-right pull-right top-menu">
 	        <li><button class="btn btn-xs btn-default content-menu-attachment"><i class="material-icons">attachment</i> attach</button></li>
-	        <li><button class="btn btn-xs btn-default" data-toggle="modal" href="share.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)"><a style="color:rgba(250,250,250,0.5);"><i class="material-icons">folder_shared</i> Share</a></button></li>
+	        <li><button class="btn btn-xs btn-default" data-toggle="modal" href="share.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)"><i class="material-icons">folder_shared</i> Share</button></li>
 	        `+publish_button+` `+update_button+`
 	  	 </ul>`);
 

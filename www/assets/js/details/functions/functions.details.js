@@ -644,6 +644,7 @@ function uploadAttachment(file,target){
 	xhr.onreadystatechange = function(e) {
         if ( 4 == this.readyState ) {
             var data=JSON.parse(xhr.responseText);
+
             var category=data.category==null?'Uncategorized':data.category;
             var htm=`<a href="#" class="dropdown-toggle" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="false">
 									<i class="material-icons" style="font-size:18px;">keyboard_arrow_down</i>
@@ -662,13 +663,26 @@ function uploadAttachment(file,target){
 									</li>
 								</ul>`
 
-			$('.tags-'+parent).attr('data-resources',data.id)
 
-			//append to menu section
-			$('#attachment-menu-'+parent).html(htm);
+			if(data.id!='undefined'){
+				$('.tags-'+parent).attr('data-resources',data.id)
 
-			//removed no data content
-			$('.no-available-data').hide();
+				//append to menu section
+				$('#attachment-menu-'+parent).html(htm);
+
+				//removed no data content
+				$('.no-available-data').hide();
+
+
+			}else{
+				//failed to upload
+				alert('Unable to upload file.Please try again later.')
+
+				//remove section
+				$('#attachment-menu-'+parent).parent().slideUp();
+			}
+
+			
 
 
 			//send notification to socket
@@ -698,9 +712,11 @@ function remove_attachment(){
 	 	$(window.modal.recentlySelected).parent().parent().parent().parent().slideUp();
 	 	$('#myModal').modal('hide');
 
-	 	if(result.id<=0){
+	 	if(result.id<=0||typeof result.id=='undefined'){
 	 		setTimeout(function(){ 
 	 			$(window.modal.recentlySelected).parent().parent().parent().parent().slideDown(); 
+
+	 			alert('Sorry!Unable to handle request.Please try again later.');
 
 	 		},700);
 	 	}else{

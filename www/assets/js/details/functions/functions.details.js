@@ -384,7 +384,7 @@ function getDetails(data,callback){
  	 	
  	 },function(e){
  	 	//hide content and show error
- 	 	$('.main-page-content').html('<center style="margin-top:30%;" class="text-muted no-available-data"><h3><i class="material-icons" style="font-size:48px;">phonelink_off</i> </h3><h3>No Available Data</h3><p>Please make sure the data you are viewing is available and not broken</p></center>')
+ 	 	$('.main-page-content').html('<center class="text-muted no-available-data"><h3><i class="material-icons" style="font-size:48px;">phonelink_off</i> </h3><h3>No Available Data</h3><p>Please make sure the data you are viewing is available and not broken</p></center>')
  	 });
 
 

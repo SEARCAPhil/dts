@@ -127,7 +127,7 @@ function loadBasketOpenMenu(id,target,callback=function(e){}){
 		<div>
 			
 			<p><i class="material-icons">info</i> Changing the status of the basket accordingly allow/prevent users to do any unappropriate action. </p>
-			<p> <button class="btn btn-default" data-toggle="modal" data-target="#myModal"><a href="update_basket_status_open.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" data-resources="`+id+`">Open</a></button> </p>
+			<p> <button class="btn btn-default" data-toggle="modal" href="update_basket_status_open.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" data-resources="`+id+`"><a href="#">Open</a></button> </p>
 		</div><hr/><br/>`)
 	callback(target);
 }
@@ -137,7 +137,7 @@ function loadBasketCloseMenu(id,target,callback=function(e){}){
 		<h3>Close</h3>
 		<div>
 			<p><i class="material-icons">info</i> Changing the status of the basket accordingly allow/prevent users to do any unappropriate action. </p>
-			<p> <button class="btn btn-default" data-toggle="modal" data-target="#myModal"><a href="update_basket_status_close.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" data-resources="`+id+`">Close</a></button> </p>
+			<p> <button class="btn btn-default" href="update_basket_status_close.html" data-target="#myModal" data-toggle="modal" data-role="none" onclick="modal_ajax(event,this)" data-resources="`+id+`"><a href="#">Close</a></button> </p>
 		</div><hr/><br/>`)
 	callback(target);
 }
@@ -147,7 +147,7 @@ function loadBasketDeleteMenu(id,target,callback=function(e){}){
 	$(target).html(`<h3 class="text-danger">Delete</h3>
 		    	<div class="alert alert-danger">
 			    	<p><i class="material-icons">info</i> This section allows you to remove the basket and its content including logs and other related activities.Please proceed with caution.</p>
-			    	<p> <button class="btn btn-danger" data-toggle="modal" data-target="#myModal"><span href="trash.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" data-resources="`+id+`">Remove</span></button> </p>
+			    	<p> <button class="btn btn-danger" data-toggle="modal" data-target="#myModal" href="trash.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" data-resources="`+id+`"><span>Remove</span></button> </p>
 			   </div>`)
 	callback(target);
 }
@@ -158,7 +158,7 @@ function loadBasketUpdateMenu(id,target,callback=function(e){}){
 		<div>
 			
 			<p class="text-muted"><i class="material-icons">shopping_basket</i> Update description of this basket.</p>
-			<p> <button class="btn btn-default" data-toggle="modal" data-target="#myModal"><a href="update_basket_description.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" data-resources="`+id+`">Update</a></button> </p>
+			<p> <button class="btn btn-default" data-toggle="modal" data-target="#myModal" href="update_basket_description.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" data-resources="`+id+`"><a href="#">Update</a></button> </p>
 		</div><hr/><br/>`)
 	callback(target);
 }

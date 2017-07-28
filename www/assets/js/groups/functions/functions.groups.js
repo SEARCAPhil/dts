@@ -378,7 +378,7 @@ function get_contact_list(page,target,callback=function(){}){
 									</div>
 
 									<div class="col col-md-2 col-sm-2 col-xs-3">
-										<button class="btn btn-default btn-xs" data-name="`+contacts[value][x].name+`" data-department="`+contacts[value][x].department+`" data-resources="`+contacts[value][x].id+`" onclick="addToSendingList(this);"><i class="material-icons md-18">add</i></button>
+										<span data-name="`+contacts[value][x].name+`" data-department="`+contacts[value][x].department+`" data-resources="`+contacts[value][x].id+`" onclick="addToSendingList(this);" style="cursor:pointer;"><i class="material-icons md-28">add_box</i></span>
 									</div>
 
 									

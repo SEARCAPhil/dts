@@ -1119,12 +1119,14 @@ function saveCollaborators(){
 		 		}
 
 		 		setTimeout(function(){
-							 		//apend to collaborators
+					//apend to collaborators
 			 		$('.collaborators-list').append($('.sendingList').html());
 
 			 		//clear sending list
-			 		$('.sendingList').html('') 			
-		 		},800)
+			 		$('.sendingList').html('') 	
+			 		//
+			 		window.sessionStorage.removeItem('sending_list')		
+		 		},600)
 
 
 		 	}

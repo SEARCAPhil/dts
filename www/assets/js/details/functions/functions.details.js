@@ -1194,9 +1194,9 @@ function download_mobile(target){
 	var fileTransfer = new FileTransfer();
 	var uri=encodeURI(__config.endpoint.basket.attachments.url+'?id='+id+'&token='+__config.session.token);
 
-   var url = encodeURI(uri);
-   var filename = url.split("/").pop();
-   var fileURL = cordova.file.externalRootDirectory + filename;
+   var uri = encodeURI(uri);
+   var filename = uri.split("/").pop();
+   var fileURL = cordova.file.externalRootDirectory + filename+'.pdf';
 
    fileTransfer.download(
       uri, fileURL, function(entry) {

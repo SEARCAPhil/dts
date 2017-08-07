@@ -253,7 +253,7 @@ function getDetails(data,callback){
  	 		html+='<center class="text-muted no-available-data"><h3><i class="material-icons" style="font-size:48px;">phonelink_off</i> </h3><h3>No Available Data</h3><p>Please make sure that someone uploaded a file for viewing </p></center>';
  	 	}
 
- 	 	for(var x=0;x<attachments.length;x++){
+ for(var x=0;x<attachments.length;x++){
 
  	 		var type=attachments[x].files.type;
  	 		var category=attachments[x].files.category==null?'Uncategorized':attachments[x].files.category;
@@ -322,10 +322,9 @@ function getDetails(data,callback){
 							    </a>
 							  </div>
 							  <div class="media-body">
-							    <p><b>`+attachments[x].author.name+`</b></p>
+							    <p><b>`+file_name+`</b>
 							    <small>
-								    <p>`+attachments[x].author.department+`</p>
-									<p>`+attachments[x].author.position+` `
+									 `
 
 									if(attachments[x].files.status=='closed'){
 										html+=`<span class="data-attachment-status" data-resources="`+attachments[x].files.id+`"><i class="material-icons text-muted visible-closed" style="font-size:18px;">lock</i></span>`;
@@ -334,11 +333,10 @@ function getDetails(data,callback){
 									}
 
 									html+=
-									`</p>
-								</small>
+									`
+								</small></p>
 								<div class="row col-md-12">
 									<span class="tags `+categoryTagClass+`"  data-resources="`+attachments[x].files.id+`" onclick="this.style.width=this.style.width!='auto'?'auto':'150px';this.style.height=this.style.height!='auto'?'auto':'32px';download(this);">
-
 											<span><i class="material-icons" style="font-size:18px;">file_download</i></span>
 									
 									<span class="category" data-resources="`+attachments[x].files.id+`">`+category+`</span>
@@ -352,19 +350,18 @@ function getDetails(data,callback){
 											<small>
 												<!--<div class="col col-md-2 col-xs-2 col-lg-1"><div class="media-circles circle-md"><img src="`+attachments[x].author.image+`" width="100%;"></div></div>-->
 												<div class="col col-md-8 col-xs-10">
-									    			<p class="text-danger">`+file_name+` &emsp;<span class="file-icon file-icon-xs" data-type="`+type+`"></span></p>
+													<p><b>Author : `+attachments[x].author.name+`</b></p>
+									    			<p class="text-danger"><b>File name : </b>`+file_name+` &emsp;</p>
 									    			<p><b>File Type :</b> <b>`+type+`</b></p>
 									    			<p><b>Size :</b> <b>`+(size/1000)+` KB</b></p>
 												</div>
 									    		
 									    	</small>
-
 										</div>	
 									</details>
 								</div>
 							  </div>
 							</div>
-
 						</div>
 					<!--/attachments-->`;
 		}
@@ -390,7 +387,6 @@ function getDetails(data,callback){
 
 
 }
-
 
 
 
@@ -594,11 +590,12 @@ function uploadAttachment(file,target){
 							    </a>
 							  </div>
 							  <div class="media-body">
-							    <p><b>`+fullName+`</b></p>
+							  	<p><b>`+fileName+`</b></p>
+							    <!--<p><b>`+fullName+`</b></p>
 							    <small>
 								    <p></p>
 									<p>`+__config.session.position+`<i class="material-icons text-muted visible-closed" style="font-size: 18px; display: none;">lock</i></p>
-								</small>
+								</small>-->
 								<div class="row col-md-12">
 									<span class="tags tags-`+parent+`" style="background:rgb(200,200,200);height:auto;" onclick="this.style.width=this.style.width!='auto'?'auto':'150px';this.style.height=this.style.height!='auto'?'auto':'25px';download(this);">
 								

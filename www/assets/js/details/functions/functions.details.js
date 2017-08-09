@@ -1194,15 +1194,38 @@ function download_mobile(target){
 	var fileTransfer = new FileTransfer();
 	var uri=encodeURI(__config.endpoint.basket.attachments.url+'?id='+id+'&token='+__config.session.token);
 
-
-	var fileTransfer = new FileTransfer();
+	var ref = cordova.InAppBrowser.open(uri, '_system', 'location=yes');
+	/*var fileTransfer = new FileTransfer();
    var uri = encodeURI(uri);
    var filename = uri.split("/").pop();
-   var fileURL = cordova.file.externalRootDirectory + filename;
+   //var fileURL = cordova.file.externalRootDirectory + filename+'.pdf';
+     var fileURL='cdvfile://localhost/persistent/'+ id;
+     console.log(cordova.file.dataDirectory)
 
    fileTransfer.download(
       uri, fileURL, function(entry) {
-         console.log("download complete: " + entry.toURL());
+
+      	
+
+      	entry.file(function(file) {
+
+      		var reader=new FileReader();
+
+	      	reader.onload=function(e){
+	      		var fileTypeSubstr=e.target.result.substr(0,50);
+	      		if(fileTypeSubstr.toLowerCase().indexOf('pdf')>-1){
+	      			window.open(entry.toURL()+'.pdf',"_system","location=yes");
+	      		}else{
+	      			uri
+	      		}
+	      	}
+
+	      	reader.readAsText(file)
+
+      	})
+      	
+
+        // alert("download complete: " + entry.toURL());
       },
         
       function(error) {
@@ -1216,7 +1239,7 @@ function download_mobile(target){
             "Authorization": "Basic dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=="
          }
       }
-   );
+   );*/
 
 	
 

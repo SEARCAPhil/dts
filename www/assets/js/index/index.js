@@ -20,6 +20,7 @@ function deviceReadyForMobile(){
 	//save to window
 	window.sdft.deviceInstance='mobile';
 
+
 }
 
 
@@ -215,6 +216,15 @@ function attachEventToMenu(callback){
 function deviceReady(){
 	console.log('device is ready . . .')
 
+	try{
+		//hide all elements except splash screen
+		var loader=document.querySelector('img[src="screen.png"]');
+		loader.parentNode.style.zIndex=3000
+	}catch(e){
+		
+	}
+
+	
 	
 
 	//materialize

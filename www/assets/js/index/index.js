@@ -218,7 +218,7 @@ function deviceReady(){
 
 	try{
 		//hide all elements except splash screen
-		var loader=document.querySelector('img[src="screen.png"]');
+		var loader=document.querySelector('img[src="splash.png"]');
 		loader.parentNode.style.zIndex=3000
 	}catch(e){
 		

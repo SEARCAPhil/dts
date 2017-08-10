@@ -126,10 +126,9 @@
         <preference name="SplashScreen" value="screen.png" density="land-mdpi"/>  
         <preference name="SplashScreenDelay" value="3000" /> <!-- defaults to "1000" -->
         <preference name="SplashMaintainAspectRatio"  value="true" />
-        <preference name="SplashScreenBackgroundColor" value="rgba(241, 196, 15,1.0)" />
+        <preference name="SplashScreenBackgroundColor" value="#ffc71d" />
         <preference name="SplashScreenWidth" value="500" /> <!-- defaults to "170" -->
         <preference name="SplashScreenHeight" value="360" /> <!-- defaults to "200" -->
-        <preference name="ShowSplashScreenSpinner" value="false"/>
 
     </platform>
 

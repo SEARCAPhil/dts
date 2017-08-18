@@ -36,7 +36,8 @@ __config.session.position=window.localStorage.getItem('cached_position');
 __config.session.department=window.localStorage.getItem('cached_department');
 __config.session.uid=window.localStorage.getItem('cached_uid');
 
-
+//cache settings
+__config.cache= new Date().getTime()
 
 
 //------------------------
@@ -63,7 +64,7 @@ __config.endpoint.auth={
 // List
 //------------------------
 __config.endpoint.list={
-	url:__config.endpoint.url+'baskets/basket_list.php',
+	url:__config.endpoint.url+'baskets/basket_list.php?cache='+__config.cache,
 	method:'GET'
 }
 
@@ -109,23 +110,23 @@ __config.endpoint.basket={
 
 __config.endpoint.basket.close={
 	url:__config.endpoint.url+'baskets/basket_status.php',
-	method:'PUT',
+	method:'POST',
 }
 
 
 __config.endpoint.basket.publish={
 	url:__config.endpoint.url+'baskets/basket_publish_status.php',
-	method:'PUT',
+	method:'POST',
 }
 
 __config.endpoint.basket.delete={
 	url:__config.endpoint.url+'baskets/basket_delete.php',
-	method:'DELETE',
+	method:'POST',
 }
 
 __config.endpoint.basket.update={
 	url:__config.endpoint.url+'baskets/basket_description.php',
-	method:'PUT',
+	method:'POST',
 }
 
 
@@ -160,23 +161,23 @@ __config.endpoint.basket.attachments.post={
 
 __config.endpoint.basket.attachments.delete={
 	url:__config.endpoint.url+'attachments/attachments_delete.php',
-	method:'DELETE'
+	method:'POST'
 }
 
 
 __config.endpoint.basket.attachments.close={
 	url:__config.endpoint.url+'attachments/attachments_put.php',
-	method:'PUT'
+	method:'POST'
 }
 
 __config.endpoint.basket.attachments.open={
 	url:__config.endpoint.url+'attachments/attachments_put.php',
-	method:'PUT'
+	method:'POST'
 }
 
 __config.endpoint.basket.attachments.category={
 	url:__config.endpoint.url+'attachments/attachments_category_put.php',
-	method:'PUT'
+	method:'POST'
 }
 
 
@@ -195,7 +196,7 @@ __config.endpoint.basket.collaborators.post={
 
 __config.endpoint.basket.collaborators.delete={
 	url:__config.endpoint.url+'baskets/collaborators/collaborators_delete.php',
-	method:'DELETE'
+	method:'POST'
 }
 
 
@@ -249,7 +250,7 @@ __config.endpoint.groups.members.post={
 
 __config.endpoint.groups.members.delete={
 	url:'http://192.168.80.53/rfps/api/group_members_delete.php',
-	method:'DELETE',
+	method:'POST',
 }
 
 

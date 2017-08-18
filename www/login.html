@@ -53,10 +53,20 @@
       border-radius: 20px;
       color:rgb(250,250,250) !important;
     }
+
+    .btn-office365{
+      background: rgb(255,184,12);
+      padding: 10px;
+      border-radius: 20px;
+      color:rgb(250,250,250) !important;
+    }
     .auth-error{
       display: none;
       transition: all 0.3s ease-in-out;
       opacity: 0.9;
+    }
+    #loginForm{
+      display: none;
     }
   </style>
 </head>
@@ -64,11 +74,14 @@
 <div style="margin-top: 8vh;">
 
         
-  <form method="POST"  data-ajax="false" onsubmit="return false;"> 
+  <form id="loginForm" method="POST"  data-ajax="false" onsubmit="return false;"> 
       <div class="col col-xs-12 col-lg-4 col-lg-offset-4 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1">
 
             <div class="col col-md-12 text-center">
-              <img src="assets/images/searca-logo.png" width="50%">
+              <center style="margin-bottom: 50px; border: 1px solid #8a6d3b;background: #fcf8e3;color:#8a6d3b;padding-top: 10px;">
+                  <p>You are offline but you can still login using your local account</p>
+                </center>
+              <img src="assets/images/searca-new.png" width="50%">
             </div>
 
             <div class="col col-md-12">
@@ -100,9 +113,10 @@
 
 
              <!--submit-button-->
-         		 <div class="form-group col col-md-12 ">
+         		 <div class="form-group col col-md-12">
           	   <button class="btn btn-block btn-submit">Login</button>
         		 </div>
+
 
 
 
@@ -123,8 +137,32 @@
 
       </form>
 
+
+      <div class="col col-xs-12 col-lg-4 col-lg-offset-4 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1" id="loginFormOnline">
+
+            <div class="col col-md-12 text-center">
+              <img src="assets/images/searca-new.png" width="50%">
+            </div>
+
+            <div class="col col-md-12">
+                  <center>
+                    <h1 style="padding-right: 0px !important;margin-top: 50px;"> Sign In </h1>
+                    <small><p href="#"  class="text-muted">Supporting Documents for Financial Transaction</p></small>
+                  </center>
+            </div>
+
+          <!--submit-button-->
+           <div class="form-group col col-md-12 ">
+             <button class="btn btn-block btn-office365 btn-primary" type="button">Login with office365</button>
+           </div>
+      </div>
+
 </div>
 </body>
 </html>
+<script type="text/javascript" src="node_modules/msal/out/msal.js"></script>
+<script type="text/javascript" src="assets/js/login/office365Auth.js"></script>
 <script type="text/javascript">window.localStorage.clear();</script>
+
+
 

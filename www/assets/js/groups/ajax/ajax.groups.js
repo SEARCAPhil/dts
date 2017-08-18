@@ -134,6 +134,7 @@ function __ajax_contacts(data,success_callback,error_callback){
   $.ajax({
     url:__config.endpoint.contacts.url,
     method:__config.endpoint.contacts.method,
+    cache : false,
     data:data,
     beforeSend:function(){
        $.mobile.loading('show');

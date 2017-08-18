@@ -1,0 +1,30 @@
+{
+  "name": "sdft",
+  "version": "1.0.0",
+  "description": "searca's supporting documents for financial transactions",
+  "main": "index.js",
+  "dependencies": {
+    "msal": "^0.1.1"
+  },
+  "devDependencies": {
+    "msal": "^0.1.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SEARCAPhil/SDFT_CORDOVA_APP.git"
+  },
+  "keywords": [
+    "sdft",
+    "searca",
+    "documents"
+  ],
+  "author": "jkga",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SEARCAPhil/SDFT_CORDOVA_APP/issues"
+  },
+  "homepage": "https://github.com/SEARCAPhil/SDFT_CORDOVA_APP#readme"
+}

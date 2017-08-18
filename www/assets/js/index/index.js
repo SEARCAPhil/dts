@@ -19,6 +19,7 @@ function changeDockerSize(parent){
 function deviceReadyForMobile(){
 	//save to window
 	window.sdft.deviceInstance='mobile';
+	window.open=cordova.InAppBrowser.open;
 
 
 }

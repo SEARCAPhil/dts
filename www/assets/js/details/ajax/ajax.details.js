@@ -2,8 +2,9 @@
 /*ajax details*/
 function __ajax_details(data,success_callback,error_callback){
   $.ajax({
-    url:__config.endpoint.details.url,
+    url:__config.endpoint.details.url+'?cache='+__config.cache,
     method:__config.endpoint.details.method,
+    cache : false,
     data:data,
     beforeSend:function(){
        $.mobile.loading('show');
@@ -38,6 +39,7 @@ function __ajax_collaborators(data,success_callback,error_callback){
   $.ajax({
     url:__config.endpoint.list.collaborators.url,
     method:__config.endpoint.list.collaborators.method,
+    cache : false,
     data:data,
     beforeSend:function(){
        $.mobile.loading('show');
@@ -69,8 +71,9 @@ function __ajax_collaborators(data,success_callback,error_callback){
 /*ajax groups*/
 function __ajax_activities(data,success_callback,error_callback){
   $.ajax({
-    url:__config.endpoint.list.activities.url,
+    url:__config.endpoint.list.activities.url+'?cache='+__config.cache,
     method:__config.endpoint.list.activities.method,
+    cache : false,
     data:data,
     beforeSend:function(){
        $.mobile.loading('show');

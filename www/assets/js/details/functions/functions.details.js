@@ -4,6 +4,7 @@ function deviceReadyForMobile(){
 	//save to window
 	window.sdft.deviceInstance='mobile';
 
+
 }
 
 

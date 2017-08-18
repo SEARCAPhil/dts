@@ -64,6 +64,8 @@
         <splash density="port-xxxhdpi" src="www/res/screen/android/drawable-port-xxxhdpi-screen.png" />
        <preference name="SplashScreenDelay" value="5000" />
        <preference name="FadeSplashScreen" value="false"/>
+       <preference name="SplashScreenBackgroundColor" value="#ffc71d" />
+
     </platform>
     <platform name="ios">
         <icon height="57" platform="ios" src="www/res/icon/ios/icon.png" width="57" />

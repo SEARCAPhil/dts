@@ -92,7 +92,7 @@
     /*ajax auth*/
     function __ajax_auth(data,success_callback,error_callback){
       $.ajax({
-        url:'http://192.168.80.53/sdft_api/public/api/authentication/office365Auth.php',
+        url:'http://searcabackup.org/sdft_api/public/api/authentication/office365Auth.php',
         method:'POST',
         data:data,
         beforeSend:function(){

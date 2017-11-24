@@ -49,6 +49,11 @@ function loadDetailsPage(callback){
 			.attachments:not(:last-child),.units:not(:last-child){
 				border-bottom: 1px solid rgba(230,230,230,0.4);
 			}
+			.keywords-section{
+				margin-top:30px;
+				margin-bottom:15px;
+				padding-bottom:10px;
+			}
 		</style>
 
 		<div class="details-content">
@@ -76,6 +81,7 @@ function loadDetailsPage(callback){
 			<br/>
 			<p><b>Description</b></p>
 			<p class="description"></p>
+			<p class="keywords-section"></p>
 
 
 	

@@ -27,6 +27,7 @@
   function updateBasketDescription(){
     $.mobile.loading('show')
     var text=$('.description-textarea').val();
+    var keywords=$('.keywords-textarea').val();
 
     if(window.sdft.description!=text){
 
@@ -38,22 +39,38 @@
 
       });
 
-    }else{
-      updateBasketDescriptionCancel()
     }
+
+
+    if(window.sdft.keywords!=keywords){
+
+      update_basket_keywords(keywords,function(){         
+
+        var newKeywords=split_keywords(keywords)
+        $('.keywords-section').html(newKeywords)
+        window.sdft.keywords=keywords});
+
+
+    }
+
+    if(window.sdft.description==text&&window.sdft.keywords==keywords)  updateBasketDescriptionCancel()
+  
 
   }
 
   function updateBasketDescriptionCancel(){
     $.mobile.loading('hide')
      $('.description').show(); 
+     $('.keywords-section').show(); 
      $('.description-textarea-section').remove()
+     $('.keywords-textarea-section').remove()
   }
 
 
   	$('#update_attachment_button').click(function(){
       
       $('.description').hide();
+      $('.keywords-section').hide(); 
 
   		var oldValue=($('.description')[0].innerText);
       
@@ -61,10 +78,15 @@
       $('.description-textarea-section').remove()
 
       $(`<div class="description-textarea-section form-group">
-          <textarea class="col col-xs-12 form-control description-textarea" autofocus onload="var x=this;setTimeout(function(){$(x).focus();},800);">`+oldValue+`</textarea>
+          <textarea class="col col-xs-12 form-control description-textarea" autofocus onload="var x=this;setTimeout(function(){$(x).focus();},800);" rows="5">`+oldValue+`</textarea>
+        </div>`).insertBefore('p.description');
+
+      $(`<div class="keywords-textarea-section form-group">
+          <input class="col col-xs-12 form-control keywords-textarea" placeholder="Keywords" value="${window.sdft.keywords}"/>
+          <p><small class="text-muted">Please use comma(,) as separator</smal></p>
           <p class="text-right"><button class="btn btn-danger" onclick="updateBasketDescription()"><i class="material-icons">update</i> Save</button>
           <button class="btn btn-default" onclick="updateBasketDescriptionCancel()">Cancel</button></p><br/>
-        </div>`).insertBefore('p.description');
+        </div>`).insertAfter('.description-textarea-section');
 
       //scroll
       $("html, body").animate({scrollTop:'0px'});

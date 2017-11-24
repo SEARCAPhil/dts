@@ -143,6 +143,14 @@ function loadBasketCloseMenu(id,target,callback=function(e){}){
 	callback(target);
 }
 
+function loadBasketForbidden(target){
+	$(target).html(`
+		<h3 class="text-danger">Forbidden</h3>
+		<div>
+			<p><i class="material-icons">info</i> Sorry, you cannot change the status of this basket.</p>
+		</div><hr/><br/>`)
+}
+
 
 function loadBasketDeleteMenu(id,target,callback=function(e){}){
 	$(target).html(`<h3 class="text-danger">Delete</h3>
@@ -211,8 +219,12 @@ function getDetails(data,callback){
 		if(data.details.status=='open'){
 			loadBasketCloseMenu(data.details.id,'.basket_status_menu',function(e){})
 			loadBasketUpdateMenu(data.details.id,'.basket_update_menu',function(e){})
+			//delete menu
+			loadBasketDeleteMenu(data.details.id,'.basket_delete_menu',function(e){})
+
 		}else if(data.details.status=='closed'){
-			loadBasketOpenMenu(data.details.id,'.basket_status_menu',function(e){})
+			loadBasketForbidden('.basket_update_menu')
+			//loadBasketOpenMenu(data.details.id,'.basket_status_menu',function(e){})
 		}else{
 
 		}
@@ -221,10 +233,11 @@ function getDetails(data,callback){
 		if(data.details.status=='draft'){
 			loadPublishButton(data.details.id,'.details-menu');
 			loadBasketUpdateMenu(data.details.id,'.basket_update_menu',function(e){})
+			//delete menu
+			loadBasketDeleteMenu(data.details.id,'.basket_delete_menu',function(e){})
 		}
 
-		//delete menu
-		loadBasketDeleteMenu(data.details.id,'.basket_delete_menu',function(e){})
+		
 
  	 	window.sdft.details=data.details;
  	 	
@@ -232,6 +245,13 @@ function getDetails(data,callback){
  	 	$('.author-name').text(data.details.author.name);
  	 	$('.position').text(data.details.author.position);
  	 	$('.department').text(data.details.author.department);
+
+ 	 	
+ 	 	//keywords
+ 	 	var keywords=split_keywords(data.details.keywords)
+ 	 	
+ 	 	window.sdft.keywords=data.details.keywords
+ 	 	$('.keywords-section').html(keywords)
 
  	 	
 
@@ -994,6 +1014,7 @@ function delete_basket(status){
 	
 }
 
+
 function update_basket_description(description,callback=function(e){}){
 	
 	var id=($(window.modal.recentlySelected).attr('data-resources'))
@@ -1022,9 +1043,38 @@ function update_basket_description(description,callback=function(e){}){
 	 },function(){
 	 	alert('Unable to update this basket.Please try again later.');
 	 });
-
-	
 }
+
+function update_basket_keywords(keywords,callback=function(e){}){
+	
+	var id=($(window.modal.recentlySelected).attr('data-resources'))
+	var data={
+		id:id,
+		keywords:keywords,
+		token:__config.session.token
+	}
+
+	__ajax_basket_update_description(data,function(e){
+	 	var result=JSON.parse(e);
+	 	
+	 	$('#myModal').modal('hide');
+
+	 	if(result.status!=200){
+	 		setTimeout(function(){ 
+	 			 
+	 			alert('Unable to update this basket.Please try again later.');
+
+	 		},700);
+
+	 	}else{
+	 		callback(e)
+	 	}
+
+	 },function(){
+	 	alert('Unable to update this basket.Please try again later.');
+	 });
+}
+
 
 
 
@@ -1246,5 +1296,14 @@ function download_mobile(target){
 
 }
 
+
+function split_keywords(keywords){
+	var keywordsEl=''
+	keywords.split(',').forEach((val,index)=>{
+		keywordsEl+=` <span class="badge">${val}</span> `
+ 	})
+
+ 	return keywordsEl
+}
 
 

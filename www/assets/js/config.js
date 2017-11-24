@@ -44,7 +44,7 @@ __config.cache= new Date().getTime()
 // Enpoint
 //------------------------
 __config.endpoint={}
-__config.endpoint.host='192.168.80.53';
+__config.endpoint.host='searcabackup.org';
 __config.endpoint.protocol='http://';
 __config.endpoint.pathname='sdft_api/public/api/';
 __config.endpoint.url=__config.endpoint.protocol+''+__config.endpoint.host+'/'+__config.endpoint.pathname;
@@ -143,6 +143,18 @@ __config.endpoint.details={
 	id:null,
 }
 
+//-------------------------
+// Keywords
+// ------------------------
+// 
+__config.endpoint.basket.keywords={ }
+
+__config.endpoint.basket.keywords.update={
+	url:__config.endpoint.url+'baskets/basket_keywords.php',
+	method:'POST',
+}
+
+
 
 
 
@@ -231,7 +243,7 @@ __config.endpoint.notifications={
 // groups
 //------------------------
 __config.endpoint.groups={
-	url:'http://192.168.80.53/rfps/api/groups.php',
+	url:__config.endpoint.url+'rfps/api/groups.php',
 	method:'GET',
 	page:1,
 	id:null,
@@ -239,17 +251,17 @@ __config.endpoint.groups={
 
 
 __config.endpoint.groups.members={
-	url:'http://192.168.80.53/rfps/api/group_members.php',
+	url:__config.endpoint.url+'rfps/api/group_members.php',
 	method:'GET',
 }
 
 __config.endpoint.groups.members.post={
-	url:'http://192.168.80.53/rfps/api/group_members_post.php',
+	url:__config.endpoint.url+'rfps/api/group_members_post.php',
 	method:'POST',
 }
 
 __config.endpoint.groups.members.delete={
-	url:'http://192.168.80.53/rfps/api/group_members_delete.php',
+	url:__config.endpoint.url+'rfps/api/group_members_delete.php',
 	method:'POST',
 }
 

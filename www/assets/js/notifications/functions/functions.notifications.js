@@ -70,6 +70,10 @@ function __showNotifications(json,target,callback=function(json){},sort='append'
 			icon='<div class="file-icon file-icon-default" data-type="doc"></div>';
 		}
 
+		if(json.notifications[x].action==='notes'){
+			icon='<div class="file-icon file-icon-default" data-type="txt"></div>';
+		}
+
 
 		/*-----------------------------------------
 		| Custom style for unread notifications
@@ -211,6 +215,15 @@ function bindViewNotification(){
 					
 				})
 			})
+
+			//load activities via ajax
+			$('#note-tab').click(function(){
+				$.material.init()
+				loadNotesContent('id='+$(element).attr('data-list')+'&token='+__config.session.token,function(e){ 
+					
+				})
+			})
+
 		});
 
 		//hide list for mobile

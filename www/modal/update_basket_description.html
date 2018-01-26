@@ -48,8 +48,12 @@
 
         var newKeywords=split_keywords(keywords)
         $('.keywords-section').html(newKeywords)
-        window.sdft.keywords=keywords});
+        window.sdft.keywords=keywords
 
+        //close update section
+        updateBasketDescriptionCancel()
+
+      });
 
     }
 

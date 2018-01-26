@@ -32,16 +32,59 @@ function loadTopMenu(status){
 
 
  	 	//menu for xs devices
- 	 	$('.top-menu-section-xs').html(`<input type="file" name="files[]" class="content-menu-attachment-input" multiple/><ul class="nav navbar-nav navbar-right pull-right top-menu">
-	        <li><button class="btn btn-xs btn-default content-menu-attachment"><i class="material-icons">attachment</i> attach</button></li>
+ 	 	$('.top-menu-section-xs').html(`
+ 	 		<input type="file" name="files[]" class="content-menu-attachment-input" multiple/><ul class="nav navbar-header navbar-right pull-right top-menu">
+	        <li class="dropdown">
+ 	 			<button class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown"><i class="material-icons">attachment</i> attach</button>
+ 	 			<!--atachment-menu-->
+	 	 		<ul class="list-unstyled dropdown-menu">
+					<li class="content-menu-attachment">
+						<a href="#"><i class="material-icons" style="font-size:18px;">laptop</i><span> Upload from device</span></a>
+					</li>
+					<li data-toggle="modal" data-target="#myModal" class="visible-open">
+						<a href="storage_file_selection.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)"><i class="material-icons" style="font-size:18px;">sd_storage</i><span> Select from storage</span></a>
+					</li>
+					<li>
+						<div class="form-group">
+							<span class="col col-md-9 col-xs-9"><input type="text" placeholder="Paste URL" class="form-control"></span>
+							<span class="col col-md-3 col-xs-3">
+								<a href="#"><i class="material-icons">attachment</i></a>
+							</span>
+						</div>
+					</li>
+				</ul>
+ 	 		</li>
+
 	        <li><button class="btn btn-xs btn-default" data-toggle="modal" data-target="#myModal" href="share.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" ><i class="material-icons">folder_shared</i> Share</button></li>
 	        `+publish_button+` `+update_button+`
 	  	 </ul>`)
 
 
  	 	//menu for md - lg devices
- 	 	$('.top-menu-section-md').html(`<ul class="nav navbar-nav navbar-right pull-right top-menu">
-	        <li><button class="btn btn-xs btn-default content-menu-attachment"><i class="material-icons">attachment</i> attach</button></li>
+ 	 	$('.top-menu-section-md').html(`
+ 	 		<ul class="nav navbar-nav navbar-right pull-right top-menu">
+ 	 		<li class="dropdown">
+ 	 			<button class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown"><i class="material-icons">attachment</i> attach</button>
+ 	 			<!--atachment-menu-->
+	 	 		<ul class="list-unstyled dropdown-menu">
+					<li class="content-menu-attachment">
+						<a href="#"><i class="material-icons" style="font-size:18px;">laptop</i><span> Upload from device</span></a>
+					</li>
+					<li data-toggle="modal" data-target="#myModal" class="visible-open">
+						<a href="storage_file_selection.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)"><i class="material-icons" style="font-size:18px;">sd_storage</i><span> Select from storage</span></a>
+					</li>
+					<li>
+						<div class="form-group">
+							<span class="col col-md-9 col-xs-9"><input type="text" placeholder="Paste URL" class="form-control"></span>
+							<span class="col col-md-3 col-xs-3">
+								<a href="#"><i class="material-icons">attachment</i></a>
+							</span>
+						</div>
+					</li>
+				</ul>
+ 	 		</li>
+
+ 
 	        <li><button class="btn btn-xs btn-default" data-toggle="modal" href="share.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)"><i class="material-icons">folder_shared</i> Share</button></li>
 	        `+publish_button+` `+update_button+`
 	  	 </ul>`);
@@ -184,6 +227,17 @@ function showMoreDescription(el){
 	$(target).text(content);
 }
 
+function loadNoteTextArea(){
+	$('.note-textarea-section').html(`<textarea rows="5" placeholder="Write notes here" class="form-control notes-main-textarea"></textarea>
+		    		<button class="btn btn-danger pull-right add-note-button">POST</button><br/><br/>`)
+	$('.add-note-button').off('click',saveNotes)
+	$('.add-note-button').on('click',saveNotes)
+}
+
+function unloadNoteTextArea(){
+	$('.note-textarea-section').html('')
+}
+
 function getDetails(data,callback){
 	
 	//clear menu
@@ -212,6 +266,7 @@ function getDetails(data,callback){
  	 	var attachments=(typeof data.details.attachments!='undefined')?data.details.attachments:[];
 		
 		loadTopMenu(data.details.status)
+
 		bindEventToAttachmentMenu()
 
 
@@ -221,9 +276,13 @@ function getDetails(data,callback){
 			loadBasketUpdateMenu(data.details.id,'.basket_update_menu',function(e){})
 			//delete menu
 			loadBasketDeleteMenu(data.details.id,'.basket_delete_menu',function(e){})
+			//comment section
+			loadNoteTextArea()
 
 		}else if(data.details.status=='closed'){
 			loadBasketForbidden('.basket_update_menu')
+			//clear comment section
+			unloadNoteTextArea()
 			//loadBasketOpenMenu(data.details.id,'.basket_status_menu',function(e){})
 		}else{
 
@@ -319,13 +378,15 @@ function getDetails(data,callback){
 											</li>
 											`
 									}else{
-										html+=`
+										//remove from specs
+										// Users are not allowed to re open attachments
+										/*html+=`
 											<li data-resources="`+attachments[x].files.id+`" data-toggle="modal" data-target="#myModal">
 										 		<a href="update_attachment_status_open.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" data-resources="`+attachments[x].files.id+`" data-category="`+category+`">
 										 			<i class="material-icons" style="font-size:18px;">lock_open</i><span>Open Attachment</span>
 												</a>
 											</li>
-								 		`;
+								 		`;*/
 									}
 
 
@@ -501,7 +562,7 @@ function getCollaborators(data,callback){
  }
 
 
- function getActivities(data,callback){
+function getActivities(data,callback){
 
 	 __ajax_activities(data,function(e){
 	 	var data=JSON.parse(e);
@@ -535,6 +596,193 @@ function getCollaborators(data,callback){
 	 });
 
 }
+
+
+
+function getNotes(data,callback){
+
+	 __ajax_notes(data,function(e){
+	 	var data=JSON.parse(e);
+	 	$('#notes-section').html('')
+		
+
+		var notes=(typeof data.notes!='undefined')?data.notes:[];
+
+		for(var x=0; x<notes.length; x++){
+			//allow to modify if the requestor is the owner of the notes
+			if(notes[x].uid==__config.session.uid) notes[x].hasOptions=true
+			appendNotes(notes[x],window.sdft.details.status)	
+		}
+	
+
+	 },function(){
+	 	$('#activities').html('<center class="text-muted"><h3>Empty Notes</h3></center>')
+	 });
+
+}
+
+function appendNotes(notes,status,callback=function(){}){
+	var n=notes.notes.replace(/[\n]/g,'<br/>');
+
+	var html=`
+			<!--details-->
+				<div class="col col-md-12 col-xs-12 activities" style="margin-bottom: 20px;">
+					<small>
+						<!--<div class="col col-md-1 col-lg-1 col-xs-3 hidden-xs"><div class="media-circles circle-md"><img src="assets/images/user.png" width="100%;"></div></div>-->
+						<div class="col col-xs-12 col-sm-9 col-md-11">
+							<p><b>${notes.name}</b><span class="pull-right"><u>${notes.date_modified}</u></span></p>
+							<p class="text-muted notes" id="notes-${notes.id}">${n}</p>
+						</div>
+						
+					</small>`
+
+					//options
+					if(notes.hasOptions&&status=='open'){
+
+						html+=`
+							<div class="notes-menu-section dropdown pull-right visible-open">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									<i class="material-icons" style="font-size:18px;">keyboard_arrow_down</i>
+								</a>
+								<ul class="list-unstyled dropdown-menu pull-right">
+									<li data-resources="${notes.id}" data-toggle="modal" data-target="#myModal" class="visible-open">
+										<a href="remove_notes.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" data-resources="${notes.id}">
+											<i class="material-icons">remove_circle</i> <span>Remove</span>
+										</a>
+									</li>
+									<li data-resources="${notes.id}" class="visible-open">
+										<a href="#" data-role="none" onclick="updateNotes(event,this)" data-notes-menu-id="${notes.id}" data-resources="${notes.id}" data-content="${notes.notes}"><i class="material-icons" style="font-size:18px;">edit</i><span>Update</span></a>
+									</li>
+								</ul>
+							</div>
+						`
+
+					}
+
+		html+=`	</div>
+			<!--/details-->`;	
+	$('#notes-section').prepend(html)
+
+	callback(notes)
+}
+
+function updateNotes(e,el){
+	var id=$(el).attr('data-resources')
+	var n=$(el).attr('data-content').replace(/[\n]/g,'<br/>');
+
+	$(`#notes-${id}`).html(`<div class="text-area-update"><textarea rows="10" class="form-control" data-resources="${id}" data-content="${n}" autofocus>${$(el).attr('data-content')}</textarea><button class="btn btn-xs btn-default pull-right" onclick="saveUpdatedNotes(event,this)">Update</button> <button class="btn btn-xs btn-default pull-right notes-cancel-button" onclick="notesCancelUpdate(event,this)">Cancel</button></div>`)
+	$.material.init()
+}
+
+function notesCancelUpdate(e,el){
+	var parent=$(el).parent()
+	var oldValue=$(parent[0].children[0]).children()[0].getAttribute('data-content')
+	parent.parent().html(oldValue.replace(/[\n]/g,'<br/>'))
+}
+
+
+function saveNotes(){
+	var textarea=$('.notes-main-textarea')
+	var note={
+		name:__config.session.fullName,
+		hasOptions:true,
+		token:__config.session.token,
+		id:window.sdft.active
+	}
+	if(textarea.val().length>0){
+		note.notes=textarea.val()
+		note.date_modified=''
+
+		__ajax_post_notes(note,function(e){
+ 	 	
+	 	 	try{
+	 	 		var data=JSON.parse(e)
+
+	 	 		if(data.id){
+	 	 			note.id=data.id	 		
+					appendNotes(note,'open',function(){
+						textarea.val('')
+					})	
+	 	 		}
+
+	 	 	}catch(e){
+
+	 	 	}
+		})
+	}
+}
+
+function saveUpdatedNotes(e,el){
+	var parent=$(el).parent()
+	var textArea=$(parent[0].children[0]).children()[0]
+	var id=textArea.getAttribute('data-resources')
+
+	var note={
+		notes:$(textArea).val(),
+		token:__config.session.token,
+		id:window.sdft.active,
+		note_id:id
+	}
+
+	__ajax_notes_update(note,function(e){
+	 	var data=JSON.parse(e);
+	 	
+	 	if(data.id){
+	 		parent.parent().html($(textArea).val().replace(/[\n]/g,'<br/>'))
+	 		//change data-content in menu
+	 		document.querySelector(`a[data-notes-menu-id="${note.note_id}"]`).setAttribute('data-content',note.notes)
+	 	}else{
+	 		alert('Unable to process request. Please try again later')	
+	 	}
+	 	
+	 },function(){
+	 	alert('Unable to process request. Please try again later')
+	 });
+
+	
+}
+
+function remove_notes(){
+	
+	var id=($(window.modal.recentlySelected).attr('data-resources'))
+	var note={
+		id:window.sdft.active,
+		note_id:id,
+		token:__config.session.token
+	}
+
+	$(window.modal.recentlySelected).parent().parent().parent().parent().slideUp();
+
+
+	__ajax_notes_delete(note,function(e){
+ 	 	
+	 	 	try{
+	 	 		var data=JSON.parse(e)
+
+	 	 		if(data.id){
+	 	 			setTimeout(function(){ 
+				 		$('#myModal > div.modal-dialog >div.modal-content').html('<center style="padding:10px;"><h4 class="text-success"><i class="material-icons md-24">check</i> Removed successfully!</h4></center>')	
+				 		$('#myModal').modal('show');
+				 	},1000);
+
+				 	setTimeout(function(){ 
+				 		$('#myModal').modal('hide');
+				 	},3000);
+	 	 		}
+
+	 	 	}catch(e){
+	 	 		$(window.modal.recentlySelected).parent().parent().parent().parent().slideDown();
+	 	 		alert('Something went wrong. Please try again later!')
+	 	 	}
+		},function(){
+			$(window.modal.recentlySelected).parent().parent().parent().parent().slideDown();
+			alert('Something went wrong. Please try again later!')
+		})
+
+	
+	 	
+}
+
 
 function appendColaborators(data,target){
 	var htm=`<!--details-->
@@ -599,54 +847,8 @@ function uploadAttachment(file,target){
 
 			var fullName=__config.session.fullName.length<=0?__config.session.firstName+' '+__config.session.lastName:__config.session.fullName
 
- 
-			//show in uploaded section
-			$('.attachment-section').prepend(`<div class="col col-md-12 attachments">
-							<div class="attachments-menu-section dropdown" id="attachment-menu-`+parent+`"></div>
-							<!--media-->
-							<div class="media">
-							  <div class="media-left">
-							    <a href="#">
-							      <div class="file-icon file-icon-default" data-type="`+fileType+`"></div>
-							    </a>
-							  </div>
-							  <div class="media-body">
-							  	<p><b>`+fileName+`</b></p>
-							    <!--<p><b>`+fullName+`</b></p>
-							    <small>
-								    <p></p>
-									<p>`+__config.session.position+`<i class="material-icons text-muted visible-closed" style="font-size: 18px; display: none;">lock</i></p>
-								</small>-->
-								<div class="row col-md-12">
-									<span class="tags tags-`+parent+`" style="background:rgb(200,200,200);height:auto;" onclick="this.style.width=this.style.width!='auto'?'auto':'150px';this.style.height=this.style.height!='auto'?'auto':'25px';download(this);">
-								
-								 		<span><i class="material-icons" style="font-size:18px;">file_download</i></span>
-								 		<span class="category tags-`+parent+`" >Uncategorized</span>
-								 	</span>
-								 </div>
-								
-								<div class="col col-md-12 row">
-									<br/>	
-									<details>
-										<summary>More Details</summary>
-										<div class="col col-md-12 content-more-details">
-											<small>
-												<div class="col col-md-2 col-lg-1"><div class="media-circles circle-sm"><img src="http://192.168.80.53/SDFT_CORDOVA_APP/www/assets/images/user.png" width="100%;"></div></div>
-												<div class="col col-md-8">
-													<p><b>Author :</b> `+fullName+`</p>
-									    			<p class="text-danger"><b>File Name :</b>`+fileName+` <span class="file-icon file-icon-xs" data-type="`+fileType+`"></span></p>
-									    			<p><b>File Type :</b> <b>`+file.type+`</b></p>
-									    			<p><b>Size :</b> <b>`+size+` KiB</b></p>
-												</div>
-									    		
-									    	</small>
-										</div>	
-									</details>
-								</div>
-							  </div>
-							</div>
-
-						</div>`)
+			//show attachment
+ 			append_attachment(fullName,parent,'null',fileName,fileType,file.type,size)
 			//removed old
 			$('.'+parent).remove();
 
@@ -664,29 +866,15 @@ function uploadAttachment(file,target){
             var data=JSON.parse(xhr.responseText);
 
             var category=data.category==null?'Uncategorized':data.category;
-            var htm=`<a href="#" class="dropdown-toggle" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="false">
-									<i class="material-icons" style="font-size:18px;">keyboard_arrow_down</i>
-								</a>
-								<ul class="list-unstyled dropdown-menu pull-right">
-									<li data-resources="`+data.id+`" data-toggle="modal" data-target="#myModal" class="visible-open">
-										<a href="remove_attachment.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" data-resources="`+data.id+`">
-											<i class="material-icons">remove_circle</i> <span>Remove</span>
-										</a>
-									</li>
-									<li data-resources="`+data.id+`" class="visible-open" data-toggle="modal" data-target="#myModal">
-										<a href="attachment_category.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" data-resources="`+data.id+`" data-category="`+category+`"><i class="material-icons" style="font-size:18px;">edit</i><span>Category</span></a>
-									</li>
-									<li data-resources="`+data.id+`" data-toggle="modal" data-target="#myModal">
-										<a href="update_attachment_status.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" data-resources="`+data.id+`"><i class="material-icons" style="font-size:18px;">lock</i><span>Close Attachment</span>
-									</li>
-								</ul>`
+            
 
 
 			if(data.id!='undefined'){
 				$('.tags-'+parent).attr('data-resources',data.id)
 
 				//append to menu section
-				$('#attachment-menu-'+parent).html(htm);
+				append_attachment_menu(data.id,category,parent)
+				
 
 				//removed no data content
 				$('.no-available-data').hide();
@@ -753,6 +941,230 @@ function remove_attachment(){
 	 });
 
 	
+}
+
+function append_attachment(fullName,parent,id,fileName,fileTypeIcon,fileType,size){
+
+			//show in uploaded section
+			$('.attachment-section').prepend(`<div class="col col-md-12 attachments">
+							<div class="attachments-menu-section dropdown" id="attachment-menu-`+parent+`"></div>
+							<!--media-->
+							<div class="media">
+							  <div class="media-left">
+							    <a href="#">
+							      <div class="file-icon file-icon-default" data-type="`+fileType+`"></div>
+							    </a>
+							  </div>
+							  <div class="media-body">
+							  	<p><b>`+fileName+`</b></p>
+							    <!--<p><b>`+fullName+`</b></p>
+							    <small>
+								    <p></p>
+									<p>`+__config.session.position+`<i class="material-icons text-muted visible-closed" style="font-size: 18px; display: none;">lock</i></p>
+								</small>-->
+								<div class="row col-md-12">
+									<span class="tags tags-`+parent+`" style="background:rgb(200,200,200);height:auto;" data-resources="`+id+`" onclick="download(this);">
+								
+								 		<span><i class="material-icons" style="font-size:18px;">file_download</i></span>
+								 		<span class="category tags-`+parent+`" data-resources="`+id+`" >Uncategorized</span>
+								 	</span>
+								 </div>
+								
+								<div class="col col-md-12 row">
+									<br/>	
+									<details>
+										<summary>More Details</summary>
+										<div class="col col-md-12 content-more-details">
+											<small>
+												<div class="col col-md-12">
+													<p><b>Author :</b> `+fullName+`</p>
+									    			<p class="text-danger"><b>File Name :</b>`+fileName+` <span class="file-icon file-icon-xs" data-type="`+fileTypeIcon+`"></span></p>
+									    			<p><b>File Type :</b> <b>`+fileType+`</b></p>
+									    			<p><b>Size :</b> <b>`+size+` KiB</b></p>
+												</div>
+									    		
+									    	</small>
+										</div>	
+									</details>
+								</div>
+							  </div>
+							</div>
+
+						</div>`)
+}
+
+function append_attachment_menu(id,category,parent){
+
+	var htm=`<a href="#" class="dropdown-toggle" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="false">
+					<i class="material-icons" style="font-size:18px;">keyboard_arrow_down</i>
+				</a>
+				<ul class="list-unstyled dropdown-menu pull-right">
+					<li data-resources="`+id+`" data-toggle="modal" data-target="#myModal" class="visible-open">
+						<a href="remove_attachment.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" data-resources="`+id+`">
+							<i class="material-icons">remove_circle</i> <span>Remove</span>
+						</a>
+					</li>
+					<li data-resources="`+id+`" class="visible-open" data-toggle="modal" data-target="#myModal">
+						<a href="attachment_category.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" data-resources="`+id+`" data-category="`+category+`"><i class="material-icons" style="font-size:18px;">edit</i><span>Category</span></a>
+					</li>
+					<li data-resources="`+id+`" data-toggle="modal" data-target="#myModal">
+						<a href="update_attachment_status.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" data-resources="`+id+`"><i class="material-icons" style="font-size:18px;">lock</i><span>Close Attachment</span>
+					</li>
+				</ul>`
+	$('#attachment-menu-'+parent).html(htm);
+}
+
+function getStorageList(data,callback){
+
+	 __ajax_storage(data,function(e){
+	 	var data=JSON.parse(e);
+	 	callback(data)
+	 },function(){
+	 	//$('#activities').html('<center class="text-muted"><h3>Empty Notes</h3></center>')
+	 });
+
+}
+
+
+function getStorage(page=1,storage='personal'){
+	var selected=[]
+	 var count = 0
+	 var target
+
+	 //target
+	if(storage=='personal'){
+
+		 target = $('.personal-storage-section')
+		 $('.shared-storage-section').hide()
+	}else{
+		target = $('.shared-storage-section')
+		$('.personal-storage-section').hide()
+	}
+
+	 getStorageList({storage:storage,token:__config.session.token,page:page},function(data){
+
+		//clear al on first load
+		if(page==1){
+			//reset
+			selected=[]
+			count=0
+
+			$(target).html('')
+			$(target).show()
+
+			$('.selected-count').html('')
+			$('.selected-count').parent().attr('disabled','disabled')
+
+
+			if(!data.files||data.files.length<1){
+				$(target).html('<center style="border-left:1px solid #ccc;" class="text-muted"><i class="material-icons md-36">desktop_mac</i><h3>Empty Storage</h3></center>')	
+			}
+		}
+
+	 	for(var x=0;x<data.files.length;x++){
+
+	 		$(target).append(`
+	 			 <span class="form-group">
+                    <span class="checkbox">
+                      <label style="color:rgb(100,100,100);">
+                        <input type="checkbox" data-resources="${data.files[x].id}" class="storage-file-selection-checkbox"><span class="checkbox-material"><span class="check"></span></span>
+                        &emsp;<div class="file-icon file-icon-xs" data-type="${data.files[x].type}"></div> 
+                         <small>${data.files[x].original_filename} (${(data.files[x].size/1000)}kb) <span class="badge">${data.files[x].name}</span></small>
+                      </label>
+                    </span>
+                  </span>
+                    <hr/>
+	 		`)
+
+	 		//next page
+	 		if(x==19){
+	 			$(target).append(`<div class="text-center" onclick="showMoreFilesFromPersonalStorage(event,this,${page},${storage})"><a href="#">Show more<br/><i class="material-icons">expand_more</i></a></div>`)
+	 		}
+	 	}
+
+	 	
+	 	//file selection
+	 	$('.storage-file-selection-checkbox').on('change',function(){
+
+	 		var id = this.getAttribute('data-resources')
+
+	 		if(this.checked){
+	 			selected[id] = id
+	 			count++
+	 		}else{
+	 			 selected.splice(selected.indexOf(id),1)
+	 			 count--
+	 		}
+
+
+	 		if(count<1){
+	 			$('.selected-count').html('')
+	 			$('.selected-count').parent().attr('disabled','disabled')
+	 			return 0
+	 		}
+
+	 		$('.selected-count').parent().removeAttr('disabled')
+
+	 		$('.selected-count').html(`(${count} selected)`)
+	 		
+	 	})
+
+	 	$('#add_attachment_storage_button').on('click',function(){
+	 		uploadFileFromStorage(selected)
+	 	})
+	 	
+	 })
+
+}
+
+function bindStorageSelection(){
+	$('.storage-selector').on('click',function(){
+		getStorage(1,$(this).attr('data-storage'))
+		$('.storage-selector').removeClass('active')
+		$(`.storage-selector[data-storage="${$(this).attr('data-storage')}"]`).addClass('active')
+	})
+}
+
+function uploadFileFromStorage(files){
+	var fullName = __config.session.fullName.length<=0?__config.session.firstName+' '+__config.session.lastName:__config.session.fullName
+
+	//clean files
+	var filesToUpload = []
+	for(var f in files){
+		if(f!='null') filesToUpload.push(f)
+	}
+	 __ajax_post_storage({storage:'personal',token:__config.session.token,basket_id:window.sdft.active,ids:JSON.stringify(filesToUpload)},function(e){
+
+	 	var data=JSON.parse(e);
+
+	 	
+	 	for(var x=0;x<data.files.length;x++){
+	 		//show attachment
+			var parent = new Date().getTime();
+
+			//append attachment
+			append_attachment(fullName,parent,data.files[x].id,data.files[x].filename,data.files[x].type,data.files[x].type,data.files[x].size)
+			//append to menu section
+			append_attachment_menu(data.files[x].id,'Uncategorized',parent)
+			//send notification to socket
+			try{ push_upload_notification({basket_id:window.sdft.active,file_id:data.files[x].id,message:'create',details:window.sdft.details}); }catch(e){}
+	 	}
+	
+		
+
+		
+
+	 },function(){
+	 	alert('Unable to upload file required. Pleas try again later')
+	 });
+
+
+}
+
+function showMoreFilesFromPersonalStorage(e,el,page,storage){
+	getStorage(page+1,storage)
+	el.remove()
+
 }
 
 function close_attachment(){
@@ -874,6 +1286,8 @@ function close_basket(){
 	 		},700);
 	 	}else{
 	 		//changed to open
+	 		//!!!removed from the specs
+	 		// the user must not be able to open a basket that is already closed
 	 		loadBasketOpenMenu(id,'.basket_status_menu',function(e){})
 
 	 		//add lock logo in the list
@@ -1054,7 +1468,7 @@ function update_basket_keywords(keywords,callback=function(e){}){
 		token:__config.session.token
 	}
 
-	__ajax_basket_update_description(data,function(e){
+	__ajax_basket_update_keywords(data,function(e){
 	 	var result=JSON.parse(e);
 	 	
 	 	$('#myModal').modal('hide');

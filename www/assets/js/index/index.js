@@ -88,6 +88,7 @@ function loadDetailsPage(callback){
 		  <!-- Nav tabs -->
 		  <ul class="nav nav-tabs" role="tablist" style="max-height: 80px;">
 		    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab"><i class="material-icons">folder_shared</i> Content</a></li>
+		    <li role="presentation" id="note-tab"><a href="#notes" aria-controls="notes" role="tab" data-toggle="tab">Notes</a></li>
 		    <li role="presentation" id="activity-tab"><a href="#activities" aria-controls="activities" role="tab" data-toggle="tab">Activities</a></li>
 		    <li role="presentation"><a href="#route" aria-controls="route" role="tab" data-toggle="tab"><i class="material-icons">settings</i></a></li>
 		  </ul>
@@ -97,7 +98,12 @@ function loadDetailsPage(callback){
 		    <div role="tabpanel" class="tab-pane active" id="home">
 
 		    </div>
-
+		    <div role="tabpanel" class="tab-pane row" id="notes" style="padding-top: 30px;">
+		    	<div class="col col-sm-12 note-textarea-section visible-open">
+		    		
+		    	</div>
+		    	<div class="col col-md-12" id="notes-section"></div>
+		    </div>
 		    <div role="tabpanel" class="tab-pane row" id="activities" style="padding-top: 30px;">
 
 		    </div>
@@ -148,6 +154,18 @@ function loadActivityContent(data,callback){
 }
 
 
+
+
+/*------------------------------------------------
+| Show Notes
+|-------------------------------------------------*/
+
+function loadNotesContent(data,callback){
+	getNotes(data,function(){
+		callback(this)
+	})
+}
+
 /*------------------------------------------------
 | Show SETTINGS
 |-------------------------------------------------*/
@@ -187,11 +205,24 @@ function attachEventToList(){
 
 			}
 			
+
+			//load activities via ajax
 			$('#activity-tab').click(function(){
 				loadActivityContent('id='+$(element).attr('data-list')+'&token='+__config.session.token,function(e){ 
 					
 				})
 			})
+
+			
+
+			//load activities via ajax
+			$('#note-tab').click(function(){
+				$.material.init()
+				loadNotesContent('id='+$(element).attr('data-list')+'&token='+__config.session.token,function(e){ 
+					
+				})
+			})
+
 		});
 
 		//hide list for mobile

@@ -44,7 +44,7 @@ __config.cache= new Date().getTime()
 // Enpoint
 //------------------------
 __config.endpoint={}
-__config.endpoint.host='searcabackup.org';
+__config.endpoint.host='192.168.80.56';
 __config.endpoint.protocol='http://';
 __config.endpoint.pathname='sdft_api/public/api/';
 __config.endpoint.url=__config.endpoint.protocol+''+__config.endpoint.host+'/'+__config.endpoint.pathname;
@@ -97,6 +97,18 @@ __config.endpoint.list.activities={
 	page:1,
 	id:null,
 }
+
+
+//-------------------------
+// Notes
+//------------------------
+__config.endpoint.list.notes={
+	url:__config.endpoint.url+'baskets/basket_notes.php',
+	method:'GET',
+	page:1,
+	id:null,
+}
+
 
 
 //-------------------------
@@ -155,6 +167,26 @@ __config.endpoint.basket.keywords.update={
 }
 
 
+//-------------------------
+// Notes
+// ------------------------
+// 
+__config.endpoint.basket.notes={ }
+__config.endpoint.basket.notes.post={
+	url:__config.endpoint.url+'baskets/basket_notes_post.php',
+	method:'POST',
+}
+
+__config.endpoint.basket.notes.delete={
+	url:__config.endpoint.url+'baskets/basket_notes_delete.php',
+	method:'POST',
+}
+
+__config.endpoint.basket.notes.update={
+	url:__config.endpoint.url+'baskets/basket_notes_update.php',
+	method:'POST',
+}
+
 
 
 
@@ -208,6 +240,22 @@ __config.endpoint.basket.collaborators.post={
 
 __config.endpoint.basket.collaborators.delete={
 	url:__config.endpoint.url+'baskets/collaborators/collaborators_delete.php',
+	method:'POST'
+}
+
+
+
+//-------------------------
+// storage
+//------------------------
+__config.endpoint.storage={
+	url:__config.endpoint.url+'storage/storage.php',
+	method:'GET'
+}
+
+
+__config.endpoint.storage.post={
+	url:__config.endpoint.url+'storage/storage_post.php',
 	method:'POST'
 }
 

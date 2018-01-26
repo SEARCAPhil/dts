@@ -3,7 +3,7 @@
 |
 | SOCKET CONNECTION
 |------------------------------*/
-var socket=io.connect('ws://sdftwssrhc-jkga.rhcloud.com:8000');
+var socket=io.connect('ws://35.192.19.79:65080');
 socket.on('handshake',(data)=>{
 	if(data.message=='hi'){
 		socket.emit('handshake',{data:window.localStorage.getItem('cached_user_data')})

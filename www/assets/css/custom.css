@@ -37,6 +37,7 @@
 }
 
 /* Rules for sizing the icon. */
+.material-icons.md-12 { font-size: 12px; }
 .material-icons.md-18 { font-size: 18px; }
 .material-icons.md-24 { font-size: 24px; }
 .material-icons.md-36 { font-size: 36px; }
@@ -442,12 +443,13 @@ input#people-search:focus {
 }
 
 .storage-selector:hover{
-	background:  rgb(255,184,12)!important;
+	background: #fefefe!important;
 	outline: none !important;
 	border:none;
+	color:rgb(10,10,10) !important;
 }
-.storage-selector.active{
-	background: rgb(255,184,12);
+.storage-selector.active,.storage-selector.active:hover{
+	background: rgb(255,184,12) !important;
 	color:rgb(10,10,10);
 	border:none !important;
 }

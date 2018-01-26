@@ -8,7 +8,9 @@ function deviceReadyForMobile(){
 }
 
 
- 	
+var selected=[]
+var count = 0
+
 function loadContent(callback){
 	setTimeout(function(){
 		$('#home').html('<div class="home-content"></div><div class="group-content"></div>');
@@ -366,6 +368,9 @@ function getDetails(data,callback){
 										</li>
 										<li data-resources="`+attachments[x].files.id+`" class="visible-open" data-toggle="modal" data-target="#myModal">
 											<a href="attachment_category.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" data-resources="`+attachments[x].files.id+`" data-category="`+category+`"><i class="material-icons" style="font-size:18px;">edit</i><span>Category</span></a>
+										</li>
+										<li data-resources="`+attachments[x].files.id+`" class="visible-open" data-toggle="modal" data-target="#myModal">
+											<a href="storage_link.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" data-resources="`+attachments[x].files.id+`"><i class="material-icons" style="font-size:18px;">link</i><span> Get Link</span></a>
 										</li>
 										`
 									}
@@ -1027,8 +1032,7 @@ function getStorageList(data,callback){
 
 
 function getStorage(page=1,storage='personal'){
-	var selected=[]
-	 var count = 0
+
 	 var target
 
 	 //target
@@ -1082,9 +1086,16 @@ function getStorage(page=1,storage='personal'){
 	 		}
 	 	}
 
+	 	//allow option selection
+	 	bindStorageFileSelection()
+
+	 	$('#add_attachment_storage_button').on('click',uploadFileFromStorage)
 	 	
-	 	//file selection
-	 	$('.storage-file-selection-checkbox').on('change',function(){
+	 })
+
+}
+
+function selectStorageFile(){
 
 	 		var id = this.getAttribute('data-resources')
 
@@ -1106,26 +1117,103 @@ function getStorage(page=1,storage='personal'){
 	 		$('.selected-count').parent().removeAttr('disabled')
 
 	 		$('.selected-count').html(`(${count} selected)`)
-	 		
-	 	})
+}
 
-	 	$('#add_attachment_storage_button').on('click',function(){
-	 		uploadFileFromStorage(selected)
-	 	})
-	 	
-	 })
-
+function bindStorageFileSelection(){
+	 	//file selection
+	 	$('.storage-file-selection-checkbox').off('change',selectStorageFile)
+	 	$('.storage-file-selection-checkbox').on('change',selectStorageFile)
 }
 
 function bindStorageSelection(){
 	$('.storage-selector').on('click',function(){
+		selected=[]
+		count = 0
+		$('#add_attachment_storage_button').off('click',uploadFileFromStorage)
 		getStorage(1,$(this).attr('data-storage'))
 		$('.storage-selector').removeClass('active')
 		$(`.storage-selector[data-storage="${$(this).attr('data-storage')}"]`).addClass('active')
+		$('.search-storage-section').hide()
+	})
+}
+var timeout
+function bindStorageSearch(){
+	
+
+	$('.storage-search-input').on('keyup',function(){
+
+		if($(this).val().length<3) return 0
+
+			var value = $(this).val()
+
+			$('.personal-storage-section').hide()
+			$('.shared-storage-section').hide()
+			$('.search-storage-section').show()
+
+			clearTimeout(timeout)
+			timeout=setTimeout(function(){
+				
+				//clear
+				$('.search-storage-section').html('')
+
+				//search
+				__ajax_search({param:value,token:__config.session.token},function(e){
+					var data=JSON.parse(e);
+					var htm=''
+					//show results
+					for(var x=0;x<data.files.length;x++){
+
+				 		htm +=(`
+				 			 <span class="form-group">
+			                    <span class="checkbox">
+			                      <label style="color:rgb(100,100,100);">
+			                        <input type="checkbox" data-resources="${data.files[x].id}" class="storage-file-selection-checkbox"><span class="checkbox-material"><span class="check"></span></span>
+			                        &emsp;<div class="file-icon file-icon-xs" data-type="${data.files[x].type}"></div> 
+			                         <small>${data.files[x].original_filename} (${(data.files[x].size/1000)}kb) <span class="badge">${data.files[x].name}</span></small>
+			                      </label>
+			                    </span>
+			                  </span>
+			                    <hr/>
+				 		`)
+				 	}
+
+				 	if(!data.files||data.files.length<1){
+						htm=('<center style="border-left:1px solid #ccc;" class="text-muted"><p><i class="material-icons md-36">search</i> Not found in storage</p></center>')	
+					}
+
+
+				 	
+					 	$('.search-storage-section').html(htm)
+
+					 	bindStorageFileSelection()
+
+					 	$('#add_attachment_storage_button').off('click',uploadFileFromStorage)
+
+					 	$('#add_attachment_storage_button').on('click',uploadFileFromStorage)
+				
+
+
+		
+
+		
+
+				},function(){
+
+				})	
+
+
+
+
+			},1000)
+
+			
+				
 	})
 }
 
-function uploadFileFromStorage(files){
+function uploadFileFromStorage(){
+
+	var files = selected
 	var fullName = __config.session.fullName.length<=0?__config.session.firstName+' '+__config.session.lastName:__config.session.fullName
 
 	//clean files

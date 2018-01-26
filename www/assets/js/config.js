@@ -259,6 +259,11 @@ __config.endpoint.storage.post={
 	method:'POST'
 }
 
+__config.endpoint.storage.search={
+	url:__config.endpoint.url+'storage/storage_search.php',
+	method:'GET'
+}
+
 
 
 

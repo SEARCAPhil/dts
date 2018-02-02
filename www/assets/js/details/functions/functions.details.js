@@ -48,9 +48,9 @@ function loadTopMenu(status){
 					</li>
 					<li>
 						<div class="form-group">
-							<span class="col col-md-9 col-xs-9"><input type="text" placeholder="Paste URL" class="form-control"></span>
+							<span class="col col-md-9 col-xs-9"><input type="text" placeholder="Paste URL" class="form-control uploadFromLinkInput"></span>
 							<span class="col col-md-3 col-xs-3">
-								<a href="#"><i class="material-icons">attachment</i></a>
+								<a href="#" class="uploadFromLinkButton"><i class="material-icons">attachment</i></a>
 							</span>
 						</div>
 					</li>
@@ -77,9 +77,9 @@ function loadTopMenu(status){
 					</li>
 					<li>
 						<div class="form-group">
-							<span class="col col-md-9 col-xs-9"><input type="text" placeholder="Paste URL" class="form-control"></span>
+							<span class="col col-md-9 col-xs-9"><input type="text" placeholder="Paste URL" class="form-control uploadFromLinkInput"></span>
 							<span class="col col-md-3 col-xs-3">
-								<a href="#"><i class="material-icons">attachment</i></a>
+								<a href="#" class="uploadFromLinkButton"><i class="material-icons">attachment</i></a>
 							</span>
 						</div>
 					</li>
@@ -128,8 +128,26 @@ function loadTopMenu(status){
 
  	 			}
  	 		}
-
  	 	})
+
+ 	 	//insert from link
+ 	 	
+
+ 		$('.uploadFromLinkButton').on('click',function(e){
+ 			e.preventDefault();
+
+ 			var inputField = ($(this).parent().parent()[0].querySelector('input.uploadFromLinkInput'))
+ 			if(inputField.value.length>5){
+ 				$.mobile.loading('show'); 
+ 				
+ 				//add
+ 				uploadFileFromLink(inputField.value)
+ 				
+ 			}
+
+
+ 		})
+ 	
 	}
 
 
@@ -369,6 +387,15 @@ function getDetails(data,callback){
 										<li data-resources="`+attachments[x].files.id+`" class="visible-open" data-toggle="modal" data-target="#myModal">
 											<a href="attachment_category.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" data-resources="`+attachments[x].files.id+`" data-category="`+category+`"><i class="material-icons" style="font-size:18px;">edit</i><span>Category</span></a>
 										</li>
+							
+										`
+									}
+
+									
+
+									//link is for creator only
+									if(attachments[x].files.status=='open'&&attachments[x].author.id==__config.session.uid){
+										html+=`
 										<li data-resources="`+attachments[x].files.id+`" class="visible-open" data-toggle="modal" data-target="#myModal">
 											<a href="storage_link.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" data-resources="`+attachments[x].files.id+`"><i class="material-icons" style="font-size:18px;">link</i><span> Get Link</span></a>
 										</li>
@@ -1225,11 +1252,9 @@ function uploadFileFromStorage(){
 
 	 	var data=JSON.parse(e);
 
-	 	
 	 	for(var x=0;x<data.files.length;x++){
 	 		//show attachment
 			var parent = new Date().getTime();
-
 			//append attachment
 			append_attachment(fullName,parent,data.files[x].id,data.files[x].filename,data.files[x].type,data.files[x].type,data.files[x].size)
 			//append to menu section
@@ -1237,15 +1262,43 @@ function uploadFileFromStorage(){
 			//send notification to socket
 			try{ push_upload_notification({basket_id:window.sdft.active,file_id:data.files[x].id,message:'create',details:window.sdft.details}); }catch(e){}
 	 	}
-	
-		
-
-		
 
 	 },function(){
 	 	alert('Unable to upload file required. Pleas try again later')
 	 });
+}
 
+
+
+function uploadFileFromLink(url){
+
+	
+	var fullName = __config.session.fullName.length<=0?__config.session.firstName+' '+__config.session.lastName:__config.session.fullName
+
+	 __ajax_post_attachments_link({token:__config.session.token,basket_id:window.sdft.active,url:url},function(e){
+
+	 	var data = {}
+	 	try{ data=JSON.parse(e); }catch(e){}
+
+	 	if(data.files>0){
+
+			//show attachment
+			var parent = new Date().getTime();
+			//append attachment
+			append_attachment(fullName,parent,data.details.id,data.details.original_filename,data.details.type,data.details.type,data.details.size)
+			//append to menu section
+			append_attachment_menu(data.details.id,'Uncategorized',parent)
+	 	}else{
+	 		alert('Sorry, Unable to attach file. You dont have enough privilege to use the link you provided.')
+	 	}
+	 	
+		
+		
+	 },function(){
+	 	alert('Sorry, Unable to attach file. You dont have enough privilege to use the link you provided.')
+	 })
+
+	
 
 }
 
@@ -1796,6 +1849,93 @@ function download_mobile(target){
 
 	
 
+}
+
+function remove_attachment_link(){
+	
+	var id=($(window.modal.recentlySelected).attr('data-resources'))
+	var data={
+		id:id,
+		token:__config.session.token
+	}
+	 __ajax_attachments_link_delete(data,function(e){
+	 	var result=JSON.parse(e);
+	 	$(window.modal.recentlySelected).parent().parent().parent().parent().slideUp();
+	 	$('#myModal').modal('hide');
+
+	 	if(result.id<=0||typeof result.id=='undefined'){
+	 		setTimeout(function(){ 
+	 			alert('Sorry!Unable to handle request.Please try again later.');
+
+	 		},700);
+	 	}else{
+	 		setTimeout(function(){ 
+		 		$('#myModal > div.modal-dialog >div.modal-content').html('<center style="padding:10px;"><h4 class="text-success"><i class="material-icons md-24">check</i> Removed successfully!</h4></center>')	
+		 		$('#myModal').modal('show');
+		 	},1000);
+
+		 	setTimeout(function(){ 
+		 		$('#myModal').modal('hide');
+		 	},3000);
+	 	}
+
+	 },function(){
+
+	 });
+
+	
+}
+
+
+function get_attachment_link_email(){
+	
+	var id=($(window.modal.recentlySelected).attr('data-resources'))
+	var data={
+		id:id,
+		token:__config.session.token
+	}
+	__ajax_attachments_link_get_email(data,function(e){
+		var result=JSON.parse(e);
+		var email = []
+		if(result.tokens){
+			email = result.tokens[0].email.trim().split(',')
+
+			email.forEach((val,index)=>{
+				val.trim().replace('&nbsp;','')
+				$('#username-list-input').append(`<span class="badge badge-sm badge-default">${val}</span> &nbsp;`)
+			})
+		}
+	})
+}
+
+
+
+function update_attachment_link_email(email,btn){
+	
+	var id=($(window.modal.recentlySelected).attr('data-resources'))
+	var data={
+		id:id,
+		token:__config.session.token,
+		email:email
+	}
+	__ajax_attachments_link_update_email(data,function(e){
+		var result=JSON.parse(e);
+
+		if(result.data==1){
+			setTimeout(function(){ 
+		 		$('#myModal > div.modal-dialog >div.modal-content').html('<center style="padding:10px;"><h4 class="text-success"><i class="material-icons md-24">check</i> Updated successfully!</h4></center>')	
+		 		$('#myModal').modal('show');
+		 	},1000);
+
+		 	setTimeout(function(){ 
+		 		$('#myModal').modal('hide');
+		 	},3000);
+		 }else{
+		 	alert('Sorry!Unable to handle request.Please try again later.');
+		 }
+
+		 $(btn).removeAttr('disabled')
+	})
 }
 
 

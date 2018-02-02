@@ -27,7 +27,7 @@ function getParentCategories(id=null,target=null){
 			
 		}else{	
 
-			htm='<option>Select Category</option>'+htm
+			htm='<option value="0">Select Category</option>'+htm
 			//get children
 			$(target).parent().children('.subcategory-section').html(`<div><select class="form-control parent-category-selector">`+htm+`</select><div class="subcategory-section"><div></div>`);
 

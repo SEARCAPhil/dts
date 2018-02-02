@@ -224,6 +224,47 @@ __config.endpoint.basket.attachments.category={
 	method:'POST'
 }
 
+//attachment via link
+__config.endpoint.basket.attachments.link={
+	url:__config.endpoint.url,
+	method:'GET',
+}
+
+__config.endpoint.basket.attachments.link.post={
+	url:__config.endpoint.url+'storage/storage_link_post.php',
+	method:'POST',
+}
+
+
+//-------------------------
+// token
+//------------------------
+__config.endpoint.basket.attachments.token={
+	url:__config.endpoint.url+'attachments/token/token.php',
+	method:'GET',
+}
+
+__config.endpoint.basket.attachments.token.post={
+	url:__config.endpoint.url+'attachments/token/token_post.php',
+	method:'POST',
+}
+
+__config.endpoint.basket.attachments.token.delete={
+	url:__config.endpoint.url+'attachments/token/token_delete.php',
+	method:'POST',
+}
+
+__config.endpoint.basket.attachments.token.email={
+	url:__config.endpoint.url+'attachments/token/token_email.php',
+	method:'GET',
+}
+
+__config.endpoint.basket.attachments.token.email.update={
+	url:__config.endpoint.url+'attachments/token/token_email_put.php',
+	method:'POST',
+}
+
+
 
 //-------------------------
 // collaborators
@@ -275,6 +316,24 @@ __config.endpoint.categories={
 	url:__config.endpoint.url+'categories/categories.php',
 	method:'GET',
 }
+
+//-------------------------
+// email
+//------------------------
+__config.endpoint.email={
+	url:__config.endpoint.url+'email.php',
+	method:'GET',
+}
+
+__config.endpoint.email.search={
+	url:__config.endpoint.url+'email/email_search.php',
+	method:'GET',
+}
+
+
+
+
+
 
 
 

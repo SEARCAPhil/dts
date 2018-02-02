@@ -1,0 +1,176 @@
+ <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" data-role="none"><span aria-hidden="true">&times;</span></button>
+        <h3><i class="material-icons">link</i> Shared To</h3>
+        <p>Share files using system generated token</p>
+        <hr/>
+      </div>
+      <div class="modal-body" style="max-height:400px;overflow-y:auto;">
+        
+           <div class="specific-email-section">
+                <div class="form-group" style="position: relative;">
+                  <p><b>Email</b></p>
+                  <div class="col email-suggestion-input username-list-input" id="username-list-input" contenteditable="true" style="border: 1px solid #ccc;padding: 3px;"></div>
+                  <div class="email-suggestion-section" id="email-suggestion-section" style="position: absolute;background:#fff;z-index:1;min-height: 50px;width:100%;top:100%;box-shadow:0px 0px 5px rgba(200,200,200,0.9);padding: 5px;display: none;transition: 0.3s ease-in-out">
+                    <ul class="nav list-unslyled" id="email-suggestion-ul">
+                    </ul>
+                  </div>  
+                </div>
+           </div>
+         
+
+
+           <div class="col col-md-12"><hr/></div>
+            <p class="col col-md-12" id="token-section"></p>
+            <div class="col col-xs-12 text-right">
+                <button type="button" class="btn btn-danger" id="update_attachment_token_email_button">Update</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          </div>
+         </div>
+       
+      	 
+      </div>
+      <div class="container-fluid">
+          
+      </div>
+    </div>
+  </div>
+<script>
+  get_attachment_link_email()
+
+      //var
+    var valArray=[];
+    var timeout;
+
+    $('.username-list-input').on('keyup',function(e){
+
+       var newEl='';
+      var val = $(this)[0].textContent   
+      valArray = val.split(' ')
+
+ 
+
+
+        valArray.forEach((value,index)=>{
+            
+           newEl+= `<span class="badge badge-sm badge-default">${value.trim()}</span> &nbsp;`
+
+           //hint
+           if(valArray.length==index+1&&e.keyCode!=8&&e.keyCode!=32){
+            clearTimeout(timeout)
+            //search email
+            timeout = setTimeout(function(){
+              searchEmail(value,function(){
+                  value.length<1?$('.email-suggestion-section').hide():$('.email-suggestion-section').show()
+              })
+              
+            },500)
+            
+           }
+            //space bar
+            if(e.keyCode==32&&val.length>0){
+               $(this).html(newEl)
+                 moveCursor($(this)[0])
+                 $('.email-suggestion-section').hide()
+            }
+        })
+      
+    })
+
+
+
+    //suggestio clcking
+    function appendUsernameSuggestionToInput(e){
+      var username = e.target.getAttribute('data-username')
+   
+      if(username.length>0){
+        var inputSection = document.getElementById('username-list-input')
+
+        //removed last typed
+        var txt = inputSection.textContent
+        var txtArray = []
+        var newEl=''
+
+        txtArray = txt.split(' ')
+
+        txtArray.pop()
+
+        txtArray.forEach((value,index)=>{
+          
+          newEl+= `<span class="badge badge-sm badge-default">${value.trim()}</span> &nbsp;`
+  
+        })
+
+        newEl+= `<span class="badge badge-sm badge-default">${username}</span> &nbsp;`
+         inputSection.innerHTML=newEl
+        
+         moveCursor(inputSection)
+         $('.email-suggestion-section').hide()
+
+       
+      }
+    }
+
+
+
+    function moveCursor(target){
+
+         var range = document.createRange()
+         range.selectNodeContents(target)
+         range.collapse(false)
+         var sel = window.getSelection()
+         sel.removeAllRanges()
+         sel.addRange(range)
+        target.focus()
+    }
+
+
+
+
+
+    //searching
+    function searchEmail(email,callback){
+      var data={
+        email:email,
+        token:__config.session.token
+      }
+      var emailSugg = document.getElementById('email-suggestion-ul')
+      emailSugg.innerHTML = ''
+
+       __ajax_email_search(data,function(e){
+
+          var result=JSON.parse(e);
+          if(!result.email) return 0
+
+          for(var x=0;x<result.email.length;x++){
+            var li = document.createElement('li')
+            li.innerHTML=`<a href="#" data-username="${result.email[x].username}"><b data-username="${result.email[x].username}">${result.email[x].username}</b> (${result.email[x].profile_name})</a>`
+            li.addEventListener('click',appendUsernameSuggestionToInput)
+            emailSugg.append(li)
+          }
+           
+          if(result.email.length>0) callback(result)
+
+        },function(){
+
+        });
+    }
+
+
+    $('#update_attachment_token_email_button').on('click',function(){
+        $(this).attr('disabled','disabled')
+        var email = []
+        var emailInput = $('#username-list-input')[0].textContent
+
+        emailInput.split(' ').forEach((val,index)=>{
+          var txt = val.trim().replace('&nbsp','')
+         if(txt.length>0) email.push(txt)
+        })
+
+        
+
+       update_attachment_link_email(email.join(','),this)
+    })
+
+</script>

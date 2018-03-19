@@ -90,7 +90,16 @@ function loadDetailsPage(callback){
 		    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab"><i class="material-icons">folder_shared</i> Content</a></li>
 		    <li role="presentation" id="note-tab"><a href="#notes" aria-controls="notes" role="tab" data-toggle="tab">Notes</a></li>
 		    <li role="presentation" id="activity-tab"><a href="#activities" aria-controls="activities" role="tab" data-toggle="tab">Activities</a></li>
-		    <li role="presentation"><a href="#route" aria-controls="route" role="tab" data-toggle="tab"><i class="material-icons">settings</i></a></li>
+		    <li role="presentation" id="route-tab" class="hidden-sm hidden-xs"><a href="#routes" aria-controls="route" role="tab" data-toggle="tab" class="route-tab">Routes</a></li>
+		    <li role="presentation" id="todo-tab" class="hidden-sm hidden-xs"><a href="#todo" aria-controls="todo" role="tab" data-toggle="tab" class="todo-tab">Checklist</a></li>
+		    <li role="presentation" class="hidden-sm hidden-xs"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab"  class="route-tab"><i class="material-icons">settings</i></a></li>
+		 	<li role="presentation" class="visible-sm visible-xs dropdown">
+		 		<a href="#" aria-controls="settings" class="dropdown-toggle" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="false"><i class="material-icons">more_vert</i></a>
+		 		<ul class="list-unstyled dropdown-menu pull-right more-settings-tab" role="tablist">
+					<li role="presentation" id="route-tab"><a href="#routes" aria-controls="route" role="tab" data-toggle="tab" class="route-tab">Routes</a></li>
+		    		<li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab"><i class="material-icons">settings</i> Settings</a></li>
+				</ul>
+		 	</li>
 		  </ul>
 
 		  <!-- Tab panes -->
@@ -107,10 +116,26 @@ function loadDetailsPage(callback){
 		    <div role="tabpanel" class="tab-pane row" id="activities" style="padding-top: 30px;">
 
 		    </div>
-		    <div role="tabpanel" class="tab-pane" id="route" style="padding-top: 30px;">
+
+		    <div role="tabpanel" class="tab-pane row" id="routes" style="padding-top: 30px;">
+				<div class="col col-md-12">
+					<div class="basket-route-btn-section"></div>
+					<small class="route-section">
+						
+					</small>
+					<hr/>
+				</div>	
+					
+				
+		    </div>
+
+		    <div role="tabpanel" class="tab-pane" id="settings" style="padding-top: 30px;">
 		    	<div class="basket_update_menu"></div>
 		    	<div class="basket_status_menu"></div>
 		    	<div class="basket_delete_menu"></div>
+		    </div>
+		    <div role="tabpanel" class="tab-pane row" id="todo" style="padding-top: 30px;">
+		    	<div class="todo-section"></div>
 		    </div>
 		  </div>
 		</div>
@@ -163,6 +188,22 @@ function loadActivityContent(data,callback){
 function loadNotesContent(data,callback){
 	getNotes(data,function(){
 		callback(this)
+	})
+}
+
+/*------------------------------------------------
+| Show Routes
+|-------------------------------------------------*/
+
+function loadRoutesContent(data,callback){
+	getRoutes(data,function(e){
+		callback(e)
+	})
+}
+
+function loadCheckListContent(data,callback){
+	getCategories(data,function(e){ 
+		callback(e)
 	})
 }
 
@@ -221,6 +262,56 @@ function attachEventToList(){
 				loadNotesContent('id='+$(element).attr('data-list')+'&token='+__config.session.token,function(e){ 
 					
 				})
+			})
+
+
+			//load activities via ajax
+			$('.route-tab').click(function(){
+				$.material.init()
+				loadRoutesContent('id='+$(element).attr('data-list')+'&token='+__config.session.token,function(e){ 
+					
+					$('.route-section').html('')
+
+					if(e.routes.length<1) $('.basket-route-btn-section').html(`<button class="btn btn-danger pull-right btn-route" data-resources="${window.sdft.active}" data-action="in"> <i class="material-icons">call_received</i> Received </button><br/>`)
+
+					for(let x=0;x<e.routes.length;x++){
+
+						if(x==0&&e.routes[x].status==0&&__config.session.uid==e.routes[x].uid){
+							$('.basket-route-btn-section').html(`<button class="btn btn-danger pull-right btn-route" data-resources="${e.routes[x].basket_id}" data-action="out"> <i class="material-icons">call_made</i> Basket OUT</button><br/>`)
+						}
+
+						if(x==0&&e.routes[x].status==1){
+							$('.basket-route-btn-section').html(`<button class="btn btn-danger pull-right btn-route" data-resources="${e.routes[x].basket_id}" data-action="in"> <i class="material-icons">call_received</i> Received </button><br/>`)
+						}
+
+						$('.route-section').append(`<p><b><div class="route-icon ${e.routes[x].status==0?'active':''}"></div>${(e.routes[x].status==0?'IN':'OUT')} : 
+						</b><a href="#">${e.routes[x].profile_name}</a> &emsp;<span class="text-muted">${e.routes[x].date_created}</span></p>`)	
+					}
+					
+					//bind button
+					bindBtnRoute()
+				})
+			})
+
+				//checklist
+			$('.todo-tab').click(function(){
+
+				let htm = ''
+				for(var x=0;x<window.sdft.details.checklistAll.length;x++){
+						htm += `
+							<div class="col col-md-12"
+								<div class="form-group">
+					              <div class="checkbox">
+					                <label>
+					                  <input type="checkbox" disabled ${window.sdft.details.checklist.indexOf(window.sdft.details.checklistAll[x].category)!=-1?'checked="checked"':''}><span class="checkbox-material"><span class="check"></span></span> ${window.sdft.details.checklistAll[x].category}
+					                </label>
+					              </div>
+					            </div>
+					         </div>
+						`	
+				}
+
+				$('.todo-section').html(htm)
 			})
 
 		});

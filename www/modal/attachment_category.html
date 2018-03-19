@@ -32,7 +32,7 @@
   </div>
 
   <script type="text/javascript">
-  console.log(window)
+
   setTimeout(function(){
     var category=$(window.modal.recentlySelected).attr('data-category')
     var id=$(window.modal.recentlySelected).attr('data-resources');
@@ -43,7 +43,6 @@
     getParentCategories(window.sdft.category,'.parent-category-selector');
 
   	$('#update_attachment_button').click(function(){
-      console.log(window.selectedCategory);
   		change_attachment_category(this);
   	})
   },300);

@@ -360,8 +360,7 @@
 }
 
 .attachment-section{
-	max-height: 690px;
-	overflow: hidden;
+
 }
 .expand-attachments-section{
 	position: absolute;
@@ -452,4 +451,24 @@ input#people-search:focus {
 	background: rgb(255,184,12) !important;
 	color:rgb(10,10,10);
 	border:none !important;
+}
+
+.route-icon{
+	float:left;
+	width:10px;
+	height:10px;
+	background: #ccc;
+	border-radius:50%;
+	margin-top:4px;
+	margin-right:5px;
+}
+
+.route-icon.active{
+	background:green;
+}
+.more-settings-tab li{
+	color: #333 !important;
+}
+.more-settings-tab li.active a{
+	background: #009688 !important;
 }

@@ -40,7 +40,14 @@
                    //set profile data
                    profile_data={full_name:data.displayName,first_name:data.givenName,id:data.id,email:data.mail,office:data.officeLocation,department:data.department,position:data.jobTitle,surname:data.surname,token:token}
 
-
+                   //get users image
+                   /*getO365Photo(token,function(pix,xhr){
+                    var dataImage = `data:${xhr.getResponseHeader("Content-type")};base64,`
+                    var im = document.createElement('img')
+                    im.src = `${dataImage}${window.URL.createObjectURL(pix)}`
+                    document.body.append(im)
+                   })
+                   return 0;*/
                    //connect to SDFT auth API
                    __ajax_auth(profile_data,oauth_success_callback,oauth_error_callback);
 
@@ -87,6 +94,27 @@
           });
     }
 
+    let getO365Photo = function(token,callback=function(){}){
+
+      var xhr;
+      var _orgAjax = jQuery.ajaxSettings.xhr;
+      jQuery.ajaxSettings.xhr = function () {
+        xhr = _orgAjax();
+        return xhr;
+      };
+
+
+      $.ajax({
+        type:'GET',
+        url:"https://graph.microsoft.com/beta/me/photos/48x48/$value",
+        headers:{
+          'Authorization':'Bearer '+token
+        }
+      }).done(function(e){
+        return callback(e,xhr)
+      })
+    }
+
 
 
     /*ajax auth*/
@@ -120,6 +148,9 @@
       })
 
     }
+
+
+
 
 
    /*-------------------------------------------------

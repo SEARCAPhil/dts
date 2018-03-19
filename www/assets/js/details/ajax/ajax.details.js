@@ -923,6 +923,139 @@ function __ajax_post_attachments_link(data,success_callback,error_callback){
 }
 
 
+/*ajax attachments*/
+function __ajax_post_attachments_comment(data,success_callback,error_callback){
+  $.ajax({
+    url:__config.endpoint.basket.attachments.comment.post.url,
+    method:__config.endpoint.basket.attachments.comment.post.method,
+    data:data,
+    beforeSend:function(){
+       $.mobile.loading('show');
+
+       //enable debugging
+       if(__config.debug) console.log('\u{26AB} Connecting . . .')
+    }
+  }).success(function(json){ 
+
+    $.mobile.loading('hide');  
+    success_callback(json);
+
+     //enable debugging
+      if(__config.debug) console.log('\u{26AB} Connected')
+
+  }).fail(function(json){ 
+    
+    $.mobile.loading('hide');  
+    error_callback(json); 
+
+    //enable debugging
+    if(__config.debug) console.log('\u{26AB} Unable to fetch data. Please check connection')
+
+  })
+
+}
+
+
+
+/*ajax attachments*/
+function __ajax_delete_attachments_comment(data,success_callback,error_callback){
+  $.ajax({
+    url:__config.endpoint.basket.attachments.comment.delete.url,
+    method:__config.endpoint.basket.attachments.comment.delete.method,
+    data:data,
+    beforeSend:function(){
+       $.mobile.loading('show');
+
+       //enable debugging
+       if(__config.debug) console.log('\u{26AB} Connecting . . .')
+    }
+  }).success(function(json){ 
+
+    $.mobile.loading('hide');  
+    success_callback(json);
+
+     //enable debugging
+      if(__config.debug) console.log('\u{26AB} Connected')
+
+  }).fail(function(json){ 
+    
+    $.mobile.loading('hide');  
+    error_callback(json); 
+
+    //enable debugging
+    if(__config.debug) console.log('\u{26AB} Unable to fetch data. Please check connection')
+
+  })
+
+}
+
+
+
+function __ajax_routes(data,success_callback,error_callback){
+  $.ajax({
+    url:__config.endpoint.basket.routes.url,
+    method:__config.endpoint.basket.routes.method,
+    data:data,
+    beforeSend:function(){
+       $.mobile.loading('show');
+
+       //enable debugging
+       if(__config.debug) console.log('\u{26AB} Connecting . . .')
+    }
+  }).success(function(json){ 
+
+    $.mobile.loading('hide');  
+    success_callback(json);
+
+     //enable debugging
+      if(__config.debug) console.log('\u{26AB} Connected')
+
+  }).fail(function(json){ 
+    
+    $.mobile.loading('hide');  
+    error_callback(json); 
+
+    //enable debugging
+    if(__config.debug) console.log('\u{26AB} Unable to fetch data. Please check connection')
+
+  })
+
+}
+
+
+
+function __ajax_update_route(data,success_callback,error_callback){
+  $.ajax({
+    url:__config.endpoint.basket.routes.update.url,
+    method:__config.endpoint.basket.routes.update.method,
+    data:data,
+    beforeSend:function(){
+       $.mobile.loading('show');
+
+       //enable debugging
+       if(__config.debug) console.log('\u{26AB} Connecting . . .')
+    }
+  }).success(function(json){ 
+
+    $.mobile.loading('hide');  
+    success_callback(json);
+
+     //enable debugging
+      if(__config.debug) console.log('\u{26AB} Connected')
+
+  }).fail(function(json){ 
+    
+    $.mobile.loading('hide');  
+    error_callback(json); 
+
+    //enable debugging
+    if(__config.debug) console.log('\u{26AB} Unable to fetch data. Please check connection')
+
+  })
+
+}
+
+
 
 
 

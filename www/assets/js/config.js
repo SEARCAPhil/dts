@@ -141,6 +141,17 @@ __config.endpoint.basket.update={
 	method:'POST',
 }
 
+__config.endpoint.basket.routes={
+	url:__config.endpoint.url+'baskets/routes/routes.php',
+	method:'GET',
+}
+
+__config.endpoint.basket.routes.update={
+	url:__config.endpoint.url+'baskets/routes/route_update.php',
+	method:'POST',
+}
+
+
 
 
 
@@ -261,6 +272,26 @@ __config.endpoint.basket.attachments.token.email={
 
 __config.endpoint.basket.attachments.token.email.update={
 	url:__config.endpoint.url+'attachments/token/token_email_put.php',
+	method:'POST',
+}
+
+//-------------------------
+// token
+//------------------------
+__config.endpoint.basket.attachments.comment={
+	url:__config.endpoint.url+'attachments/comments/comments.php',
+	method:'GET',
+}
+
+
+__config.endpoint.basket.attachments.comment.post={
+	url:__config.endpoint.url+'attachments/comments/comments_post.php',
+	method:'POST',
+}
+
+
+__config.endpoint.basket.attachments.comment.delete={
+	url:__config.endpoint.url+'attachments/comments/comments_delete.php',
 	method:'POST',
 }
 

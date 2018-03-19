@@ -268,11 +268,12 @@ function getDetails(data,callback){
 
  	 __ajax_details(data,function(e){
 
- 	 	
+ 	
  	 	try{
 
  	 		var data=JSON.parse(e)
  	 		window.sdft.category=data.details.category;
+ 
  	 		//console.log(data)
  	 	}catch(e){
  	 		$('.main-page-content').html(`
@@ -352,7 +353,7 @@ function getDetails(data,callback){
  	 	if(attachments.length<=0){
  	 		html+='<center class="text-muted no-available-data"><h3><i class="material-icons" style="font-size:48px;">phonelink_off</i> </h3><h3>No Available Data</h3><p>Please make sure that someone uploaded a file for viewing </p></center>';
  	 	}
-
+	window.sdft.details.checklist = window.sdft.details.checklist||[]
  for(var x=0;x<attachments.length;x++){
 
  	 		var type=attachments[x].files.type;
@@ -364,6 +365,9 @@ function getDetails(data,callback){
  	 			categoryTagClass='default';
  	 		}
  	 		
+ 	 		//add to checklist
+ 	 		window.sdft.details.checklist.push(category)
+
 	 	 	html+=`<!--attachments-->
 						<div class="col col-md-12 attachments `+attachments[x].files.status+` attachments-`+attachments[x].files.id+`">
 						`
@@ -457,10 +461,10 @@ function getDetails(data,callback){
 									</span>
 								</div>
 								<small><p>`+attachments[x].files.date_modified+`</p></small>
-								<div class="row col-md-12">
-									<details>
+								<div class="col">
+									<details  class="col col-md-12">
 										<summary>File Info</summary>
-										<div class="col col-md-12 row content-more-details">
+										<div class="col col-md-12 row" style="border-left:3px solid #009688;">
 											<small>
 												<!--<div class="col col-md-2 col-xs-2 col-lg-1"><div class="media-circles circle-md"><img src="`+attachments[x].author.image+`" width="100%;"></div></div>-->
 												<div class="col col-md-8 col-xs-10">
@@ -473,6 +477,38 @@ function getDetails(data,callback){
 									    	</small>
 										</div>	
 									</details>
+
+								
+									<details class="col col-md-12">
+										<summary><small><i class="material-icons md-18">comment</i>Comments <span class="text-danger">${attachments[x].comments.length>0?'('+attachments[x].comments.length+')':''}</span></small></summary>
+										<div class="row comments-section" data-resources="`+attachments[x].files.id+`" style="border-left:3px solid #009688;">
+											`
+											for(var y=0;y<attachments[x].comments.length;y++){
+												html+=appendComment(attachments[x].comments[y].id,attachments[x].comments[y].profile_name,attachments[x].comments[y].comment)
+											}
+
+									html+=		`
+										</div>
+										
+										<div class="col col-md-12"><br/>
+											<hr/>
+											<div class="col-md-12">
+												<div class="circle" style="float:left;width:35px;height:35px;background:#009688;text-align:center;color:#fff;border-radius:50%;margin-right:10px;overflow:hidden;">
+													<img src="assets/images/user.png" width="100%"/>
+												</div>
+												<small>
+													<p><a href="#">${__config.session.fullName}</a><br/><span class="text-muted">${__config.session.position}</span></p>
+												</small>
+											</div>
+											<div class="col-md-12">
+												<div class="form-group">
+													<input type="text" placeholder="Type your comment here" class="form-control comment-section-textarea" data-resources="`+attachments[x].files.id+`"/>
+												</div>
+											</div>
+										</div>
+
+									</details>
+								
 								</div>
 							  </div>
 							</div>
@@ -483,6 +519,49 @@ function getDetails(data,callback){
 		html+='<div class="expand-attachments-section text-center" onclick="console.log(this.parentNode.style.maxHeight=\'none\');this.parentNode.removeChild(this);"><div class="col col-xs-12 text-center align-center">Some items collapsed.Show all attachments &raquo;</div></div></div>';
  	 	//load view
  	 	$('.home-content').html(html);
+
+
+ 	 	//checklist
+ 	 	
+ 	 	setTimeout(()=>{
+			loadCheckListContent('id='+window.sdft.details.category+'&token='+__config.session.token,function(e){
+				window.sdft.details.checklistAll=[]
+				let htm =''
+				
+				for(var x=0;x<e.categories.length;x++){
+					window.sdft.details.checklistAll.push(e.categories[x])
+					htm += `
+						<div class="col col-md-12"
+							<div class="form-group">
+				              <div class="checkbox">
+				                <label>
+				                  <input type="checkbox" disabled ${window.sdft.details.checklist.indexOf(e.categories[x].category)!=-1?'checked="checked"':''}><span class="checkbox-material"><span class="check"></span></span> ${e.categories[x].category}
+				                </label>
+				              </div>
+				            </div>
+				         </div>
+					`	
+				}
+				
+				$('.todo-section').html(htm)
+			})
+		},700)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 	 	//allow comment
+ 	 	bindEventToCommentInput()
 
  	 	//show more section
  	 	try{
@@ -502,6 +581,82 @@ function getDetails(data,callback){
 
 }
 
+function bindEventToCommentInput(){
+	$('.comment-section-textarea').off('keyup',comment)
+	$('.comment-section-textarea').on('keyup',comment)
+}
+
+function comment(e){
+	let targ = e.target
+	let val = e.target.value
+	let id = e.target.getAttribute('data-resources')
+
+	let data={
+		token: __config.session.token,
+		id: id,
+		comment:val,
+	}
+
+	if(e.keyCode===13){
+
+		__ajax_post_attachments_comment(data,function(e){
+
+			var data=JSON.parse(e)
+
+			//success
+			if(data.id){
+				
+				$(`.comments-section[data-resources="${id}"]`).append(appendComment(id,__config.session.fullName,val))
+				targ.value = ''
+			}else{
+				alert('Unable to process request. Please try again later')
+			}
+
+			
+
+		},function(){
+			alert('Unable to process request. Please try again later')
+		})
+		
+	}
+}
+
+function appendComment(id,uploader,val){
+	let initial = uploader.charAt(0).toUpperCase()
+	let htm =`
+	<div class="col col-md-12">
+		<div class="col-md-12">
+			<hr/>
+			<!--menu-->
+			<a href="#" class="dropdown-toggle pull-right" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="false">
+				<i class="material-icons" style="font-size:18px;">keyboard_arrow_down</i>
+			</a>
+			<ul class="list-unstyled dropdown-menu pull-right">
+				<li data-resources="rem" data-toggle="modal" data-target="#myModal" class="visible-open">
+					<a href="remove_attachment_comment.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" data-resources="`+id+`">
+						<i class="material-icons">remove_circle</i> <span>Remove</span>
+					</a>
+				</li>
+			</ul>
+
+			<div class="circle" style="float:left;width:20px;height:20px;background:rgb(60,60,60);text-align:center;color:#fff;border-radius:50%;margin-right:10px;">
+				${initial}
+			</div>
+			<p class="text-muted" style="font-size:10px;">
+				${uploader}<br/>
+				${new Date().getUTCMonth()} / ${new Date().getUTCDate()} / ${new Date().getUTCFullYear()}
+			</p>
+		</div>
+		<div class="col col-md-12">
+			<small>
+				${val}
+			</small>
+		</div>
+	</div>
+	`
+
+	return htm
+}
 
 
 function getCollaborators(data,callback){
@@ -652,6 +807,8 @@ function getNotes(data,callback){
 	 });
 
 }
+
+
 
 function appendNotes(notes,status,callback=function(){}){
 	var n=notes.notes.replace(/[\n]/g,'<br/>');
@@ -816,6 +973,15 @@ function remove_notes(){
 }
 
 
+
+function getCategories(data,callback=function(){}){
+	__ajax_categories(data,function(e){
+		callback(JSON.parse(e))
+	},function(){
+
+	});
+}
+
 function appendColaborators(data,target){
 	var htm=`<!--details-->
 				<div class="content-more-details collaborators">
@@ -975,6 +1141,47 @@ function remove_attachment(){
 	
 }
 
+
+function remove_attachment_comment(){
+	
+	var id=($(window.modal.recentlySelected).attr('data-resources'))
+	var data={
+		id:id,
+		token:__config.session.token
+	}
+
+	__ajax_delete_attachments_comment(data,function(e){
+	 	var result=JSON.parse(e);
+
+	 	$(window.modal.recentlySelected).parent().parent().parent().parent().slideUp();
+
+	 	$('#myModal').modal('hide');
+
+	 	if(result.id<=0||typeof result.id=='undefined'){
+	 		setTimeout(function(){ 
+	 			$(window.modal.recentlySelected).parent().parent().parent().parent().slideDown(); 
+
+	 			alert('Sorry!Unable to handle request.Please try again later.');
+
+	 		},700);
+	 	}else{
+	 		setTimeout(function(){ 
+		 		$('#myModal > div.modal-dialog >div.modal-content').html('<center style="padding:10px;"><h4 class="text-success"><i class="material-icons md-24">check</i> Removed successfully!</h4></center>')	
+		 		$('#myModal').modal('show');
+		 	},1000);
+
+		 	setTimeout(function(){ 
+		 		$('#myModal').modal('hide');
+		 	},3000);
+	 	}
+
+	 },function(){
+
+	 });
+
+	
+}
+
 function append_attachment(fullName,parent,id,fileName,fileTypeIcon,fileType,size){
 
 			//show in uploaded section
@@ -1055,6 +1262,62 @@ function getStorageList(data,callback){
 	 	//$('#activities').html('<center class="text-muted"><h3>Empty Notes</h3></center>')
 	 });
 
+}
+
+
+function getRoutes(data,callback){
+	 __ajax_routes(data,function(e){
+	 	var data=JSON.parse(e);
+	 	callback(data)
+	 },function(){
+	 	//$('#activities').html('<center class="text-muted"><h3>Empty Notes</h3></center>')
+	 });
+}
+
+function setCurrentRoute(data,callback){
+	 __ajax_update_route(data,function(e){
+	 	var data=JSON.parse(e);
+	 	callback(data)
+	 },function(){
+	 	//$('#activities').html('<center class="text-muted"><h3>Empty Notes</h3></center>')
+	 });
+}
+
+function bindBtnRoute(){
+	$('.btn-route').off('click')
+	$('.btn-route').on('click',function(){
+		let data ={
+			token:__config.session.token,
+			id: $(this).attr('data-resources'),
+			action: $(this).attr('data-action')
+		}
+
+		setCurrentRoute(data,function(e){
+
+
+			if(e.id<1){
+				alert('Unable to upload file required. Pleas try again later')
+				return 0;
+			}
+
+			if(data.action=='in'){
+
+				$('.basket-route-btn-section').html(`<button class="btn btn-danger pull-right btn-route" data-resources="${data.id}" data-action="out"> <i class="material-icons">call_made</i> Basket OUT</button><br/>`)
+			}else{
+				$('.basket-route-btn-section').html(`<button class="btn btn-danger pull-right btn-route" data-resources="${data.id}" data-action="in"> <i class="material-icons">call_received</i> Received </button><br/>`)	
+			}
+
+
+			//add to view
+			$('.route-section').prepend(`
+				<p><b><div class="route-icon ${data.action=='in'?'active':''}"></div>${(data.action=='in'?'IN':'OUT')} : 
+						</b><a href="#">${__config.session.fullName}</a> &emsp;<span class="text-muted">Just Now</span></p>
+			`)
+
+			setTimeout(()=>{ bindBtnRoute() },700);
+		})
+
+	})
 }
 
 
@@ -1644,7 +1907,7 @@ function change_attachment_category(e){
 
 	
 
-	console.log($('.parent-category-selector')[1].options.selectedIndex)
+	//console.log($('.parent-category-selector')[1].options.selectedIndex)
 
 	//filter selected category text
 	//[0] is hidden -default for RFP etc..
@@ -1666,8 +1929,16 @@ function change_attachment_category(e){
 	 		},700);
 
 	 	}else{
-	 		
+
+	 		let oldCategoryIndex = window.sdft.details.checklist.indexOf($('.category[data-resources="'+data.id+'"]').html())
+
+	 		if(oldCategoryIndex!=-1){
+	 			window.sdft.details.checklist.splice(oldCategoryIndex,1)	
+	 		}
+
 	 		$('.category[data-resources="'+data.id+'"]').html(result.category)
+	 		window.sdft.details.checklist.push(result.category)
+
 
 	 	}
 

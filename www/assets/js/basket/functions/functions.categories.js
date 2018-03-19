@@ -42,9 +42,9 @@ function getParentCategories(id=null,target=null){
 	});
 }
 
-function getCategories(id=null,callback=function(){}){
-	__ajax_categories({token:__config.session.token,id:id},function(e){
-		callback(e)
+function getCategories(data,callback=function(){}){
+	__ajax_categories(data,function(e){
+		callback(JSON.parse(e))
 	},function(){
 
 	});

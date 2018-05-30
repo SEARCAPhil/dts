@@ -5,7 +5,7 @@
     <meta name="format-detection" content="telephone=no" />
     <meta name="msapplication-tap-highlight" content="no" />
 	 <!-- This is a wide open CSP declaration. To lock this down for production, see below. -->
- <meta http-equiv="Content-Security-Policy" content="img-src 'self' data:;default-src *; style-src 'self' http://* 'unsafe-inline'; script-src 'self' http://* 'unsafe-inline' 'unsafe-eval'" />
+ <meta http-equiv="Content-Security-Policy" content="img-src 'self' data: https://* http://*;default-src *; style-src 'self' http://* 'unsafe-inline'; script-src 'self' http://* 'unsafe-inline' 'unsafe-eval'" />
     <!-- Good default declaration:
     * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
     * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
@@ -40,16 +40,20 @@
 
 	
 </head>
-<body onload="init()" data-role="page" id="xx">
+<body onload="init()"  id="xx">
 
   <header class="navbar navbar-default navbar-fixed-top navbar-black" data-role="header">
     <div class="container-fluid">
       <div class="navbar-header">
         <a class="navbar-brand docker-menu" href="javascript:void(0)" data-target=".docker"><i class="material-icons header_menu">menu</i></a>
-        <a class="navbar-brand notification-icon" href="javascript:void(0)" data-target=".container-main">
+		<a class="navbar-brand notification-icon" href="javascript:void(0)" data-target=".container-main">
         	<div class="notification-count-section"><span class="notification-count-section-content"></span></div>
         	<i class="material-icons header_menu">public</i>
-        </a>
+		</a>
+		<a class="navbar-brand docker-menu  hidden-xs" href="javascript:void(0)" style="
+				font-size: 14px;
+			">Document Tracking System
+		</a>
         <span class="visible-xs top-menu-section-xs"></span>
 
       </div>
@@ -143,11 +147,19 @@
 <script type="text/javascript" src="assets/js/basket/functions/functions.categories.js"></script>
 <script type="text/javascript" src="assets/js/socket.io.js"></script>
 <script type="text/javascript" src="assets/js/notifications/functions/functions.notifications.socket.js"></script>
-
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-99081752-3"></script>
 <script type="text/javascript">
-if(window.localStorage.getItem('token')==null){
-	window.location='login.html'
-}
+	if(window.localStorage.getItem('token')==null){
+		window.location='login.html'
+	} else {
+		// track
+		//Global site tag (gtag.js) - Google Analytics -->
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+		gtag('set', {'user_id': __config.session.fullName})
+		gtag('config', 'UA-99081752-3');
+	}
 
 $(document).ready(function(){
 

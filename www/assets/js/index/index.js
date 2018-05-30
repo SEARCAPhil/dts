@@ -390,8 +390,9 @@ function deviceReady(){
 			//show main-page
 			$('.container-main').show();
 
+			// TEMPORARILY DISABLED reading from cache
 			//read from storage
-			__getListFromStorage($(e).attr('data-status'));
+			//__getListFromStorage($(e).attr('data-status'));
 
 
 

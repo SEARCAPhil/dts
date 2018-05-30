@@ -44,7 +44,7 @@ __config.cache= new Date().getTime()
 // Enpoint
 //------------------------
 __config.endpoint={}
-__config.endpoint.host='192.168.80.56';
+__config.endpoint.host='localhost/';
 __config.endpoint.protocol='http://';
 __config.endpoint.pathname='sdft_api/public/api/';
 __config.endpoint.url=__config.endpoint.protocol+''+__config.endpoint.host+'/'+__config.endpoint.pathname;

@@ -1,3 +1,8 @@
+body {
+	overflow: hidden;
+	height: 100vh;
+	max-height: 100vh !important;
+}
 /*material icon font*/
 @font-face {
   font-family: 'Material Icons';
@@ -63,9 +68,9 @@
 }
 
 .docker > .content{
-	background: rgba(0,0,0,0.7);
+	background: rgba(0,0,0,.8);
 	color:rgb(2245,245,245);
-	padding-top: 20px;
+	padding-top: 30px;
 	height: 1000px;
 }
 
@@ -75,6 +80,10 @@
 }
 
 /*container*/
+.container-main {
+	height: 100vh;
+	overflow-y: auto;
+}
 .container-notifications{
 	display: none;
 	padding-top: 100px;

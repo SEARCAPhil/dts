@@ -4,12 +4,12 @@
 <widget xmlns     = "http://www.w3.org/ns/widgets"
         xmlns:gap = "http://phonegap.com/ns/1.0"
         id        = "com.searca.sdft"
-        version   = "0.9.8">
+        version   = "1.0.0">
 
-    <name>SDFT</name>
+    <name>DTS</name>
 
     <description>
-        SDFT Mobile Application
+        SEARCA's Document Tracking System Mobile Application
     </description>
 
     <author href="http://www.searca.org" email="jkga@searca.org">
@@ -126,7 +126,6 @@
 
 
     <platform name="browser">
-
         <preference name="SplashScreen" value="splash.png" density="land-hdpi" /> <!-- defaults to "img/logo.png" -->
         <preference name="SplashScreen" value="splash.png" density="land-xhdpi" />
         <preference name="SplashScreen" value="splash.png" density="land-ldpi"/>  
@@ -136,7 +135,6 @@
         <preference name="SplashScreenBackgroundColor" value="#ffc71d" />
         <preference name="SplashScreenWidth" value="500" /> <!-- defaults to "170" -->
         <preference name="SplashScreenHeight" value="360" /> <!-- defaults to "200" -->
-
     </platform>
 
 

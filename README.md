@@ -1,2 +1,2 @@
-# SDFT_CORDOVA_APP
-Hybrid Application for SDFT
+# Document Tracking System
+Hybrid Application for SEARCA's Document Tracking System

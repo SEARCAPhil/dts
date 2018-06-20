@@ -16,14 +16,15 @@ Hybrid Application for SEARCA's Document Tracking System
 5. `npm install -g phonegap@latest`
 6. `npm install -g documentation`
 7. `yarn install`
-8. Open your browser and navigate to `http://localhost/dts/www/`
+8. Configure `o365` app configuration in `assets/js/login/office365Auth.js`. Change default value of `window.adalConfig = { ... }` with your AD configuration
+9. Open your browser and navigate to `http://localhost/dts/www/`
 > In your production server, only the content of `www` is necessary so you may only copy all the files inside `www` to your webserver's root directory.
 Copy **dts/www** to  **web_root/dts**
 
 > **https://your_domain/dts/**
 
-9. To run the system via phonegap run `phongap serve` and type `http://localhost:3000/index.html` in your browser
-10. Setup the **API**
+10. To run the system via phonegap run `phongap serve` and type `http://localhost:3000/index.html` in your browser
+11. Setup the **API**
 
 > To view the code documentation, run `documentation build www/assets/js/** -o docs -f html` and open `docs/index.html`.      
  You can read the full documentation of [documentation.js](http://documentation.js.org/) on their [official repository](https://github.com/documentationjs/documentation)

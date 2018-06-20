@@ -2,6 +2,90 @@
 # yarn lockfile v1
 
 
+adal-angular@^1.0.17:
+  version "1.0.17"
+  resolved "https://registry.yarnpkg.com/adal-angular/-/adal-angular-1.0.17.tgz#6e936e0e41f91d3b2a88e7ffca9c2f6f6f562cc4"
+
+cordova-plugin-battery-status@~1.1.1:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/cordova-plugin-battery-status/-/cordova-plugin-battery-status-1.1.2.tgz#41921c74abc0db3e37d62f3c5dc4fde0c61090e4"
+
+cordova-plugin-camera@~2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/cordova-plugin-camera/-/cordova-plugin-camera-2.1.1.tgz#9488ba36204e3271480dbe82d9aa708a352df7eb"
+
+cordova-plugin-console@~1.0.2:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/cordova-plugin-console/-/cordova-plugin-console-1.0.7.tgz#89b7a92ed1c335888dfc00d902dc417201cf3b0b"
+
+cordova-plugin-contacts@~2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/cordova-plugin-contacts/-/cordova-plugin-contacts-2.0.1.tgz#733c369938f475ea05766c615558f74125698489"
+
+cordova-plugin-device-motion@~1.2.0:
+  version "1.2.5"
+  resolved "https://registry.yarnpkg.com/cordova-plugin-device-motion/-/cordova-plugin-device-motion-1.2.5.tgz#7b58edd9d550df0a6fb9aefab55b96d5490b1a56"
+
+cordova-plugin-device-orientation@~1.0.2:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/cordova-plugin-device-orientation/-/cordova-plugin-device-orientation-1.0.7.tgz#ac8c798be8edb0e55b61fec68eda9093e486bf0b"
+
+cordova-plugin-device@~1.1.1:
+  version "1.1.7"
+  resolved "https://registry.yarnpkg.com/cordova-plugin-device/-/cordova-plugin-device-1.1.7.tgz#fc94111be6932628c66868938ddf3dc82c9fbfe6"
+
+cordova-plugin-dialogs@~1.2.0:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/cordova-plugin-dialogs/-/cordova-plugin-dialogs-1.2.1.tgz#743bc8af0076a10a76f556c51340a530163d3153"
+
+cordova-plugin-file-transfer@~1.5.0:
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/cordova-plugin-file-transfer/-/cordova-plugin-file-transfer-1.5.1.tgz#cf9b634e8f3283482802cb5f0b381d40f5465398"
+
+cordova-plugin-file@~4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/cordova-plugin-file/-/cordova-plugin-file-4.1.1.tgz#a82b6fd5757efecf00e2794c0fad647a5ff675f2"
+
+cordova-plugin-geolocation@~2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/cordova-plugin-geolocation/-/cordova-plugin-geolocation-2.1.0.tgz#ee0ac1c77161e9b0b73b47d216961bbc057ee44b"
+
+cordova-plugin-globalization@~1.0.3:
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/cordova-plugin-globalization/-/cordova-plugin-globalization-1.0.9.tgz#465b9998feea0b888844d09cd7da02bfa26cb7a3"
+
+cordova-plugin-inappbrowser@~1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/cordova-plugin-inappbrowser/-/cordova-plugin-inappbrowser-1.3.0.tgz#16f0085300bc9871733cb1f9a9778d2f14fb6187"
+
+cordova-plugin-media-capture@~1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/cordova-plugin-media-capture/-/cordova-plugin-media-capture-1.2.0.tgz#b64b5db563fa8ba17052bce44c4c5eed771219eb"
+
+cordova-plugin-media@~2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/cordova-plugin-media/-/cordova-plugin-media-2.2.0.tgz#de28fb05bc15c696a2b310b36c470fdd616d6c42"
+
+cordova-plugin-network-information@~1.2.0:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/cordova-plugin-network-information/-/cordova-plugin-network-information-1.2.1.tgz#1fd7b72af0662415b955c57638f7b7767c843d98"
+
+cordova-plugin-splashscreen@~3.2.1:
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/cordova-plugin-splashscreen/-/cordova-plugin-splashscreen-3.2.2.tgz#d5638bfb08bdbc9ab3e7da30c2174be64cf027b0"
+
+cordova-plugin-statusbar@~2.1.2:
+  version "2.1.3"
+  resolved "https://registry.yarnpkg.com/cordova-plugin-statusbar/-/cordova-plugin-statusbar-2.1.3.tgz#97044a8caf14d53a347296f6fcb15ef5cd3eab88"
+
+cordova-plugin-vibration@~2.1.0:
+  version "2.1.6"
+  resolved "https://registry.yarnpkg.com/cordova-plugin-vibration/-/cordova-plugin-vibration-2.1.6.tgz#e57295892cf15e44b0c99f8feb44774395cb4a3e"
+
+cordova-plugin-whitelist@~1.2.1:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/cordova-plugin-whitelist/-/cordova-plugin-whitelist-1.2.2.tgz#08593fc9578856209d437b76c8b047529f19f623"
+
 msal@0.1.3:
   version "0.1.3"
   resolved "https://registry.yarnpkg.com/msal/-/msal-0.1.3.tgz#6ea10a105160ea6346c6b94cd0bb23d73186788d"

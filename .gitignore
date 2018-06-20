@@ -2,4 +2,5 @@
 .DS_Store
 plugins/
 platforms/
-
+node_modules/
+docs/

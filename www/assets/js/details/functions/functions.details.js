@@ -460,12 +460,12 @@ function getDetails(data,callback){
 									<span class="category" data-resources="`+attachments[x].files.id+`">`+category+`</span>
 									</span>
 								</div>
-								<small><p>`+attachments[x].files.date_modified+`</p></small>
+								<small class="row col-md-12"><p>`+attachments[x].files.date_modified+`</p></small>
 								<div class="col">
 									<details  class="col col-md-12">
 										<summary>File Info</summary>
 										<div class="col col-md-12 row" style="border-left:3px solid #009688;">
-											<small>
+											<small class="row col-md-12">
 												<!--<div class="col col-md-2 col-xs-2 col-lg-1"><div class="media-circles circle-md"><img src="`+attachments[x].author.image+`" width="100%;"></div></div>-->
 												<div class="col col-md-8 col-xs-10">
 													<p><b>Author : `+attachments[x].author.name+`</b></p>

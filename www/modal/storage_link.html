@@ -183,6 +183,16 @@
       }
     }
 
+    function copyLinkToClipBoard (e, el) {
+      console.log(el.select())
+      document.execCommand('copy')
+      el.title = 'copied'
+      let clipboardStatAll = document.querySelectorAll('.clipboard-status')
+      clipboardStatAll.forEach((el, index) => el.innerHTML = '')
+      let clipboardStat = (el.parentNode.parentNode.querySelector('.clipboard-status'))
+      clipboardStat.innerHTML = ' copied! <i class="material-icons md-12">check_circle</i>  '
+    }
+
 
 
 
@@ -230,9 +240,9 @@
             <small style="padding:5px;margin-bottom:10px;">
               `
                 if(selected=='all'){
-                  htm+=`<span><i class="material-icons md-18" >link</i>&emsp;<input type="text" value="${__config.endpoint.url}storage/public/?token=${data.token}" style="width:270px;"></span>&nbsp;<i class="material-icons md-12">public</i> Public&emsp;` 
+                  htm+=`<span><i class="material-icons md-18" >link</i>&emsp;<input type="text" onclick="copyLinkToClipBoard(event, this)" value="${__config.endpoint.url}storage/public/?token=${data.token}" style="width:270px;"></span><span class="clipboard-status text-success"></span>&nbsp;<i class="material-icons md-12">public</i> Public&emsp;` 
                 }else{
-                  htm+=`<span><i class="material-icons md-18" >link</i>&emsp;<input type="text" value="${__config.endpoint.url}storage/private/?token=${data.token}" style="width:270px;"></span>&nbsp;<a href="storage_link_email.html"  data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" data-resources="${data.id}"><i class="material-icons md-12">account_circle</i> Change&emsp;</a>` 
+                  htm+=`<span><i class="material-icons md-18">link</i>&emsp;<input type="text" onclick="copyLinkToClipBoard(event, this)" value="${__config.endpoint.url}storage/private/?token=${data.token}" style="width:270px;"></span><span class="clipboard-status text-success"></span>&nbsp;<a href="storage_link_email.html"  data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" data-resources="${data.id}"><i class="material-icons md-12">account_circle</i> Change&emsp;</a>` 
                 }
 
               htm+=`<a href="storage_link_remove.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" data-resources="${data.id}"> - remove</a>&emsp;
@@ -304,9 +314,9 @@
               `
               //public
               if(data.tokens[x].visibility == 0) { 
-                htm+=`<span><i class="material-icons md-18" >link</i>&emsp;<input type="text" value="${__config.endpoint.url}storage/public/?token=${data.tokens[x].token}" style="width:270px;"></span>&nbsp;<i class="material-icons md-12">public</i> Public&emsp;` 
+                htm+=`<span><i class="material-icons md-18" >link</i>&emsp;<input onclick="copyLinkToClipBoard(event, this)"  type="text" value="${__config.endpoint.url}storage/public/?token=${data.tokens[x].token}" style="width:270px;"></span><span class="clipboard-status text-success"></span>&nbsp;<i class="material-icons md-12">public</i> Public&emsp;` 
               }else{
-                htm+=`<span><i class="material-icons md-18" >link</i>&emsp;<input type="text" value="${__config.endpoint.url}storage/private/?token=${data.tokens[x].token}" style="width:270px;"></span>&nbsp;
+                htm+=`<span><i class="material-icons md-18" >link</i>&emsp;<input onclick="copyLinkToClipBoard(event, this)"  type="text" value="${__config.endpoint.url}storage/private/?token=${data.tokens[x].token}" style="width:270px;"></span><span class="clipboard-status text-success"></span>&nbsp;
                 <a href="storage_link_email.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" data-resources="${data.tokens[x].id}"><i class="material-icons md-12">account_circle</i> Change&emsp;</a>` 
               }
 

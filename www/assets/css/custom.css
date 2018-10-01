@@ -481,3 +481,7 @@ input#people-search:focus {
 .more-settings-tab li.active a{
 	background: #009688 !important;
 }
+
+.clipboard-status {
+	font-size: 10px;
+}

@@ -1,29 +1,5 @@
-'use strict';
-/*-----------------------------
-|
-| SOCKET CONNECTION
-|------------------------------*/
-var socket=io.connect('ws://35.192.19.79:65080');
-socket.on('handshake',(data)=>{
-	if(data.message=='hi'){
-		socket.emit('handshake',{data:window.localStorage.getItem('cached_user_data')})
-	}
-
-	if(data.message=='hello'){
-		if(data.data!=undefined){
-			window.sdft.socket=socket;
-			window.sdft.socket_id=data.data;
-
-			//read notification
-			//read_notifications()
-		}
-	}
-})
-
-
-socket.on('notifications',(data)=>{
-	console.log(data)
-	__showNotifications(data,'.notification-section',function(){
-		bindViewNotification()
-	},'prepend');
-})
+!function(e){var o={};function i(t){if(o[t])return o[t].exports;var n=o[t]={i:t,l:!1,exports:{}};return e[t].call(n.exports,n,n.exports,i),n.l=!0,n.exports}i.m=e,i.c=o,i.d=function(t,n,e){i.o(t,n)||Object.defineProperty(t,n,{enumerable:!0,get:e})},i.r=function(t){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(t,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(t,"__esModule",{value:!0})},i.t=function(n,t){if(1&t&&(n=i(n)),8&t)return n;if(4&t&&"object"==typeof n&&n&&n.__esModule)return n;var e=Object.create(null);if(i.r(e),Object.defineProperty(e,"default",{enumerable:!0,value:n}),2&t&&"string"!=typeof n)for(var o in n)i.d(e,o,function(t){return n[t]}.bind(null,o));return e},i.n=function(t){var n=t&&t.__esModule?function(){return t.default}:function(){return t};return i.d(n,"a",n),n},i.o=function(t,n){return Object.prototype.hasOwnProperty.call(t,n)},i.p="",i(i.s="./src/assets/js/notifications/functions/functions.notifications.socket.js")}({"./src/assets/js/notifications/functions/functions.notifications.socket.js":
+/*!*********************************************************************************!*\
+  !*** ./src/assets/js/notifications/functions/functions.notifications.socket.js ***!
+  \*********************************************************************************/
+/*! no static exports found */function(module,exports,__webpack_require__){"use strict";eval("\n/*-----------------------------\n|\n| SOCKET CONNECTION\n|------------------------------*/\n\n/*var socket=io.connect('ws://35.192.19.79:65080');\nsocket.on('handshake',(data)=>{\n\tif(data.message=='hi'){\n\t\tsocket.emit('handshake',{data:window.localStorage.getItem('cached_user_data')})\n\t}\n\n\tif(data.message=='hello'){\n\t\tif(data.data!=undefined){\n\t\t\twindow.sdft.socket=socket;\n\t\t\twindow.sdft.socket_id=data.data;\n\n\t\t\t//read notification\n\t\t\t//read_notifications()\n\t\t}\n\t}\n})\n\n\nsocket.on('notifications',(data)=>{\n\tconsole.log(data)\n\t__showNotifications(data,'.notification-section',function(){\n\t\tbindViewNotification()\n\t},'prepend');\n})*/\n\n//# sourceURL=webpack:///./src/assets/js/notifications/functions/functions.notifications.socket.js?")}});

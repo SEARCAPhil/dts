@@ -1,33 +1,5 @@
-
-/*ajax auth*/
-function __ajax_auth(data,success_callback,error_callback){
-  $.ajax({
-    url:__config.endpoint.auth.url,
-    method:__config.endpoint.auth.method,
-    data:data,
-    beforeSend:function(){
-       $.mobile.loading('show');
-
-       //enable debugging
-       if(__config.debug) console.log('\u{26AB} Connecting . . .')
-    }
-  }).success(function(json){ 
-
-    $.mobile.loading('hide');  
-    success_callback(json);
-
-     //enable debugging
-      if(__config.debug) console.log('\u{26AB} Connected')
-
-  }).fail(function(json){ 
-    
-    $.mobile.loading('hide');  
-    error_callback(json); 
-
-    //enable debugging
-    if(__config.debug) console.log('\u{26AB} Unable to fetch data. Please check connection')
-
-  })
-
-}
-
+!function(o){var t={};function a(n){if(t[n])return t[n].exports;var e=t[n]={i:n,l:!1,exports:{}};return o[n].call(e.exports,e,e.exports,a),e.l=!0,e.exports}a.m=o,a.c=t,a.d=function(n,e,o){a.o(n,e)||Object.defineProperty(n,e,{enumerable:!0,get:o})},a.r=function(n){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(n,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(n,"__esModule",{value:!0})},a.t=function(e,n){if(1&n&&(e=a(e)),8&n)return e;if(4&n&&"object"==typeof e&&e&&e.__esModule)return e;var o=Object.create(null);if(a.r(o),Object.defineProperty(o,"default",{enumerable:!0,value:e}),2&n&&"string"!=typeof e)for(var t in e)a.d(o,t,function(n){return e[n]}.bind(null,t));return o},a.n=function(n){var e=n&&n.__esModule?function(){return n.default}:function(){return n};return a.d(e,"a",e),e},a.o=function(n,e){return Object.prototype.hasOwnProperty.call(n,e)},a.p="",a(a.s="./src/assets/js/login/ajax/ajax.auth.js")}({"./src/assets/js/login/ajax/ajax.auth.js":
+/*!***********************************************!*\
+  !*** ./src/assets/js/login/ajax/ajax.auth.js ***!
+  \***********************************************/
+/*! no static exports found */function(module,exports){eval("/*ajax auth*/\nfunction __ajax_auth(data, success_callback, error_callback) {\n  $.ajax({\n    url: __config.endpoint.auth.url,\n    method: __config.endpoint.auth.method,\n    data: data,\n    beforeSend: function beforeSend() {\n      $.mobile.loading('show'); //enable debugging\n\n      if (__config.debug) console.log(\"\\u26AB Connecting . . .\");\n    }\n  }).success(function (json) {\n    $.mobile.loading('hide');\n    success_callback(json); //enable debugging\n\n    if (__config.debug) console.log(\"\\u26AB Connected\");\n  }).fail(function (json) {\n    $.mobile.loading('hide');\n    error_callback(json); //enable debugging\n\n    if (__config.debug) console.log(\"\\u26AB Unable to fetch data. Please check connection\");\n  });\n}\n\n//# sourceURL=webpack:///./src/assets/js/login/ajax/ajax.auth.js?")}});

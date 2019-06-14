@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>SEARCA SDFT</title>
+	<script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+	<script type="text/javascript" charset="utf-8" src="phonegap.js"></script>
+	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css"/>
+	<style type="text/css">
+		body{
+			background: #EEE;
+		}
+		.progress-bar{
+			border: 1px solid #eee;
+			box-shadow: none !important;
+		}
+
+		.progress > div.progress-bar{
+			background: rgb(255,180,60) !important;
+		}
+	</style>
+</head>
+<body>
+<div class="container">
+	<div class="container-fluid">
+		<div class="col col-md-5 col-md-offset-4">
+			<center style="margin-top:25vh;">
+				<h3 class="text-muted">Loading</h3>
+				
+				<div class="progress"><div class="progress-bar" id="progress-bar"></div></div>
+			
+			</center>
+		</div>
+	</div>
+</div>
+</body>
+</html>
+<script type="text/javascript">
+	var xhr=new XMLHttpRequest();
+
+	
+	xhr.addEventListener("progress",function(e){
+		if(e.lengthComputable){
+			var total=(e.total)
+			var loaded=e.loaded
+
+			var percent=((loaded/total)*100);
+
+			document.getElementById('progress-bar').style.width=percent+'%';
+
+
+
+			if(percent==100){
+				window.document.write(xhr.responseText)
+			
+			}
+
+
+		}
+	})
+	xhr.open('GET','index.html',true);
+	xhr.send(null)
+</script>

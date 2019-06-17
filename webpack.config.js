@@ -19,9 +19,6 @@ module.exports = {
     'jquery-mobile' : 'jQuery.mobile'
   },
   plugins: [
-    new CleanWebpackPlugin({
-      cleanOnceBeforeBuildPatterns: ['www'],
-    }),
     new CopyWebpackPlugin([{
       context: './src/',
       from: '**/*.html',
@@ -54,6 +51,9 @@ module.exports = {
       from: 'src/**/*.json',
       to: '[name].[ext]'
     }]),
+    new CleanWebpackPlugin({
+      cleanAfterEveryBuildPatterns: ['www'],
+    }),
     new UglifyJSPlugin(),
     new workboxPlugin.GenerateSW({
       swDest: 'sw.js',

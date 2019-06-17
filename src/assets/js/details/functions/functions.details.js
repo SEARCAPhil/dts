@@ -27,6 +27,7 @@ import { push_upload_notification } from '../../notifications/functions/function
 // hack to make it available  to global scope
 window.modal_ajax = modal_ajax 
 window.download = download
+window.preview = preview
 window.updateNotes = updateNotes
 window.saveUpdatedNotes = saveUpdatedNotes
 window.notesCancelUpdate = notesCancelUpdate
@@ -495,6 +496,8 @@ function getDetails(data,callback){
 									
 									<span class="category" data-resources="`+attachments[x].files.id+`">`+category+`</span>
 									</span>
+
+									<span class="btn btn-default btn-sm" style="margin: 0;height: 34px;margin-left: 10px;padding-top: 8px;" data-resources="`+attachments[x].files.id+`" onclick="preview(this)">Preview</span>
 								</div>
 								<small class="row col-md-12"><p>`+attachments[x].files.date_modified+`</p></small>
 								<div class="col">
@@ -1558,6 +1561,17 @@ function reloadDetails(){
 	loadDetailsInit('id='+window.sdft.active+'&token='+__config.session.token)
 }
 
+function preview (target) {
+	var id=($(target).attr('data-resources'))
+	var top = window.screen.height - 300;
+  top = top > 0 ? top/2 : 0;
+            
+	var left = window.screen.width - 400;
+  left = left > 0 ? left/2 : 0;
+	let win = window.open(__config.endpoint.basket.attachments.preview.url+'?id='+id+'&token='+__config.session.token, "_blank", "width=400,height=300" + ",top=" + top + ",left=" + left);
+	win.moveTo(left, top);
+	win.focus()
+}
 
 function download(target){ 
 	if(window.sdft.deviceInstance!='mobile'){

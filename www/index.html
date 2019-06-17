@@ -19,6 +19,7 @@
 	<script type="text/javascript" src="./config/app.js"></script>
 	<script type="text/javascript" charset="utf-8" src="cordova.js"></script>
 	<script type="text/javascript" charset="utf-8" src="phonegap.js"></script>
+	<link rel="manifest" href="./manifest.json">
 	<link rel="stylesheet" type="text/css" href="./assets/css/jquery.mobile-1.4.5.min.css"/>
 	<link rel="stylesheet" type="text/css" href="../node_modules/bootstrap/dist/css/bootstrap.min.css"/>
 	<link rel="stylesheet" type="text/css" href="vendor/docker/css/docker.css"/>
@@ -91,9 +92,15 @@
 
 
  		<div class="col col-md-12">
-
+			<!--<center>
+				<ul class="list-unstyled">
+						<li>
+							<a target="_blank" class="text-muted" href="feedback.html">Submit Feedback <i class="material-icons" style="width: 24px;">feedback</i></a>
+						</li>
+				</ul>
+			</center>-->
  			<ul class="list-unstyled main-menu">
- 				<li  data-role="none"><a href="login.html" style="color:rgb(255,184,12);" data-ajax="false" onclick="signout();">Sign-out <i class="material-icons"  style="width: 24px;">keyboard_backspace</i> </a></li>
+ 				<li  data-role="none"><a href="#" style="color:rgb(255,184,12);" data-ajax="false" id="signout">Sign-out <i class="material-icons"  style="width: 24px;">keyboard_backspace</i> </a></li>
  			</ul>
  		</div>
 
@@ -102,7 +109,7 @@
  </article>
 
 
-<div class="container-fluid container-ajax" data-role="content"></div>
+<div class="container-fluid container-ajax" data-role="content" style="height: 100vh;"></div>
 <div class="container-fluid container-notifications" data-role="content"></div>
 <div class="container-fluid container-main" data-role="content">
 	<div class="row">
@@ -134,7 +141,7 @@
 <div class="offline-status-bar">
 	<small><p><i class="material-icons">network_check</i> You are Offline.Please check your internet connection</p></small>
 </div>
-
+<section class="install-notice-section"></section>
 </body>
 </html>
 <!-- Modal -->

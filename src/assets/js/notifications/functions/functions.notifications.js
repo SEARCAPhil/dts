@@ -1,6 +1,6 @@
 import { config as __config } from '../../../../config/app'
 import { __ajax_notifications } from '../ajax/ajax.notifications'
-import { loadDetailsPage, loadDetailsInit } from '../../index/core'
+import { loadDetailsPage, loadDetailsInit, loadActivityContent } from '../../index/core'
 /*--------------------------------------------------------------
 | GET LIST
 | get baskets from remote server
@@ -241,12 +241,12 @@ function bindViewNotification(){
 
 
 function push_upload_notification(data){
-	window.sdft.socket.emit('upload',data)
+	//window.sdft.socket.emit('upload',data)
 }
 
 
 function read_notifications(){
-	window.sdft.socket.emit('notifications',{data:window.sdft.socket_id})
+	//window.sdft.socket.emit('notifications',{data:window.sdft.socket_id})
 }
 
 

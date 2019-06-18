@@ -1,6 +1,7 @@
 import { init } from './core'
 import { showMoreNotifications } from '../notifications/functions/functions.notifications'
 import Message from 'vanilla-antd-message/dist/'
+import { push } from '../notifications/functions/functions.notifications.socket'
 window.addEventListener('DOMContentLoaded', () => { 
   // load all settings
   init()
@@ -11,6 +12,7 @@ window.addEventListener('DOMContentLoaded', () => {
 	$('.container-notifications').load('notifications.html',function(){
 		window.sdft.notification_page=0
 		showMoreNotifications();
+		push()
 	})
 	
 	$('#signout').on('click', function(e) {

@@ -1,6 +1,6 @@
 import Pusher from 'pusher-js';
 import pusherConfig	 from '../../../../config/pusher' 
-import { __showNotifications } from './functions.notifications'
+import { __showNotifications, bindViewNotification } from './functions.notifications'
 import { config } from '../../../../config/app'
 import icon from '../../../images/icons/icon-128x128.png'
 import image from '../../../images/user.png'
@@ -33,7 +33,8 @@ const push = () => {
 			__showNotifications(data,'.notification-section', function () {
 				// show desktop notification
 				notify()
-			},'append');
+				bindViewNotification()
+			},'prepend');
 		})
 
 		channel.bind('pusher:subscription_succeeded', () => {

@@ -5,3 +5,4 @@ platforms/
 node_modules/
 docs/
 www/
+src/config/

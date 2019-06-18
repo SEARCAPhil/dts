@@ -257,7 +257,8 @@ export {
 	getNotifications,
 	__get_notifications,
 	__showNotifications,
-	showMoreNotifications
+	showMoreNotifications,
+	bindViewNotification
 }
 
 

@@ -1,7 +1,9 @@
 import { init } from './core'
+import { config } from '../../../config/app'
 import { showMoreNotifications } from '../notifications/functions/functions.notifications'
 import Message from 'vanilla-antd-message/dist/'
 import { push } from '../notifications/functions/functions.notifications.socket'
+
 window.addEventListener('DOMContentLoaded', () => { 
   // load all settings
   init()
@@ -30,7 +32,18 @@ window.addEventListener('DOMContentLoaded', () => {
 			$('li#new').click()
 		})
 	}, 2000)
+
+	if(window.localStorage.getItem('token')!=null) {
+		// track
+		//Global site tag (gtag.js) - Google Analytics -->
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+		gtag('set', {'user_id': config.session.fullName})
+		gtag('config', 'UA-99081752-3');
   
+	}
+	
 })
 
 

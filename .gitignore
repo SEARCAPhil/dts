@@ -1,8 +1,7 @@
-# OS X
+www/
 .DS_Store
 plugins/
 platforms/
 node_modules/
 docs/
-www/
 src/config/

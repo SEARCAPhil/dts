@@ -36,6 +36,7 @@ window.update_basket_keywords = update_basket_keywords
 window.split_keywords = split_keywords
 window.reloadDetails = reloadDetails
 window.uploadFileFromStorage = uploadFileFromStorage
+window.downloadAll = download_all
 
 function deviceReadyForMobile(){
 	//save to window
@@ -389,9 +390,12 @@ function getDetails(data,callback){
  	 	//no attachments
  	 	if(attachments.length<=0){
  	 		html+='<center class="text-muted no-available-data"><h3><i class="material-icons" style="font-size:48px;">phonelink_off</i> </h3><h3>No Available Data</h3><p>Please make sure that someone uploaded a file for viewing </p></center>';
- 	 	}
+ 	 	} else {
+			html+=`<div><button class="btn pull-right btn-default btn-sm" onclick="downloadAll(event)"><i class="material-icons">file_download</i> Download All</button></div>`
+		}
+
 	window.sdft.details.checklist = window.sdft.details.checklist||[]
- for(var x=0;x<attachments.length;x++){
+ 	for(var x=0;x<attachments.length;x++){
 
  	 		var type=attachments[x].files.type;
  	 		var category=attachments[x].files.category==null?'Uncategorized':attachments[x].files.category;
@@ -427,6 +431,10 @@ function getDetails(data,callback){
 										</li>
 										<li data-resources="`+attachments[x].files.id+`" class="visible-open" data-toggle="modal" data-target="#myModal">
 											<a href="attachment_category.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" data-resources="`+attachments[x].files.id+`" data-category="`+category+`"><i class="material-icons" style="font-size:18px;">edit</i><span>Category</span></a>
+										</li>
+
+										<li data-resources="`+attachments[x].files.id+`" class="visible-open" data-toggle="modal" data-target="#myModal">
+											<a href="attachment_label.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" data-resources="`+attachments[x].files.id+`" data-category="`+category+`"><i class="material-icons" style="font-size:18px;">label</i><span>Label</span></a>
 										</li>
 							
 										`
@@ -487,6 +495,13 @@ function getDetails(data,callback){
 										html+=`<span class="data-attachment-status" data-resources="`+attachments[x].files.id+`"></span>`;	
 									}
 
+									let labels = ''
+									if(attachments[x].files.label) {
+										attachments[x].files.label.split(',').forEach((el, index) => {
+											labels+=`<span class="badge">${el}<span><i class="material-icons md-12 hidden label-item-parent-${attachments[x].files.id} label-item-${index}" data-label="${index}">remove_circle</i></span></span> `
+										})
+									}
+
 									html+=
 									`
 								</small></p>
@@ -514,6 +529,14 @@ function getDetails(data,callback){
 												</div>
 									    		
 									    	</small>
+										</div>	
+									</details>
+
+									<!-- attachment labels -->
+									<details  class="col col-md-12" style="padding: 10px;">
+										<summary>Labels</summary>
+										<div class="col col-md-12 row" style="border-left:3px solid #009688;">
+											`+labels+`
 										</div>	
 									</details>
 
@@ -585,18 +608,6 @@ function getDetails(data,callback){
 				$('.todo-section').html(htm)
 			})
 		},700)
-
-
-
-
-
-
-
-
-
-
-
-
 
 
  	 	//allow comment
@@ -1583,11 +1594,16 @@ function download(target){
 	}
 }
 
+function download_all(target){
+	var id=window.sdft.active
+	window.open(__config.endpoint.basket.attachments.downloadAll.url+'?id='+id+'&token='+__config.session.token);
+}
 
 function download_desktop(target){
 	var id=($(target).attr('data-resources'))
 	window.open(__config.endpoint.basket.attachments.url+'?id='+id+'&token='+__config.session.token);
 }
+
 
 function download_mobile(target){
 	var id=($(target).attr('data-resources'))

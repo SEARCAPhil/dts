@@ -37,6 +37,7 @@ window.split_keywords = split_keywords
 window.reloadDetails = reloadDetails
 window.uploadFileFromStorage = uploadFileFromStorage
 window.downloadAll = download_all
+window.showMoreDescription = showMoreDescription
 
 function deviceReadyForMobile(){
 	//save to window
@@ -51,7 +52,7 @@ var count = 0
 
 function loadContent(callback){
 	setTimeout(function(){
-		$('#home').html('<div class="home-content"></div><div class="group-content"></div>');
+		$('#home').html('<div class="home-content"></div><div class="group-content col col-md-12 col-xs-12 col-sm-12"></div>');
 		callback(this)
 	},300)
 }
@@ -73,7 +74,8 @@ function loadTopMenu(status){
 
  	 	//menu for xs devices
  	 	$('.top-menu-section-xs').html(`
- 	 		<input type="file" name="files[]" class="content-menu-attachment-input" multiple/><ul class="nav navbar-header navbar-right pull-right top-menu">
+				<input type="file" name="files[]" class="content-menu-attachment-input" multiple/>
+				<ul class="nav navbar-header navbar-right pull-right top-menu">
 	        <li class="dropdown">
  	 			<button class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown"><i class="material-icons">attachment</i> attach</button>
  	 			<!--atachment-menu-->
@@ -166,11 +168,9 @@ function loadTopMenu(status){
 
  	 			}
  	 		}
- 	 	})
-
+			})
+			
  	 	//insert from link
- 	 	
-
  		$('.uploadFromLinkButton').on('click',function(e){
  			e.preventDefault();
 
@@ -282,7 +282,7 @@ function bindEventToAttachmentMenu(){
 function showMoreDescription(el){
 	var target=$(el).attr('data-target');
 	var content=$(el).attr('data-content');
-	$(target).text(content);
+	$(target).html(content.replace('\n', '<br>'));
 }
 
 function loadNoteTextArea(){
@@ -383,19 +383,24 @@ function getDetails(data,callback){
 
 
  	 	//template
- 	 	var html=`<div class="col col-md-12 upload-section row" style="margin-bottom:30px;padding-top:20px;"></div><div class="col col-md-12 attachment-section row">`;
+		var html=`<div class="col col-md-12 col-sm-12 col-xs-12 upload-section row" style="margin-bottom:30px;padding-top:20px;"></div>`;
 
- 	 	//attachments
+
+		// show download button
+		if(attachments.length > 0 && !$('.upload-all-section')[0]){
+			html+=`<div class="col col-sm-12 col-xs-12 col-lg-12 col-md-12 upload-all-section"><button class="btn pull-right btn-default btn-sm" onclick="downloadAll(event)"><i class="material-icons">file_download</i> Download All</button></div>`
+		}
+
+		html+='<div class="col col-sm-12 col-xs-12 col-lg-12 col-md-12 attachment-section row">'
 
  	 	//no attachments
  	 	if(attachments.length<=0){
  	 		html+='<center class="text-muted no-available-data"><h3><i class="material-icons" style="font-size:48px;">phonelink_off</i> </h3><h3>No Available Data</h3><p>Please make sure that someone uploaded a file for viewing </p></center>';
- 	 	} else {
-			html+=`<div><button class="btn pull-right btn-default btn-sm" onclick="downloadAll(event)"><i class="material-icons">file_download</i> Download All</button></div>`
-		}
+ 	 	}
 
-	window.sdft.details.checklist = window.sdft.details.checklist||[]
- 	for(var x=0;x<attachments.length;x++){
+
+		window.sdft.details.checklist = window.sdft.details.checklist||[]
+		for(var x=0;x<attachments.length;x++){
 
  	 		var type=attachments[x].files.type;
  	 		var category=attachments[x].files.category==null?'Uncategorized':attachments[x].files.category;
@@ -410,7 +415,7 @@ function getDetails(data,callback){
  	 		window.sdft.details.checklist.push(category)
 
 	 	 	html+=`<!--attachments-->
-						<div class="col col-md-12 attachments `+attachments[x].files.status+` attachments-`+attachments[x].files.id+`">
+						<div class="col col-md-12 col-md-12 col-sm-12 col-xs-12 attachments `+attachments[x].files.status+` attachments-`+attachments[x].files.id+`">
 						`
 				if(data.details.status!='closed'){			
 					html+=`<div class="attachments-menu-section dropdown">
@@ -496,6 +501,7 @@ function getDetails(data,callback){
 									}
 
 									let labels = ''
+									let autolabelOnProcess = false
 									if(attachments[x].files.label) {
 										attachments[x].files.label.split(',').forEach((el, index) => {
 											labels+=`<span class="badge">${el}<span><i class="material-icons md-12 hidden label-item-parent-${attachments[x].files.id} label-item-${index}" data-label="${index}">remove_circle</i></span></span> `
@@ -533,9 +539,9 @@ function getDetails(data,callback){
 									</details>
 
 									<!-- attachment labels -->
-									<details  class="col col-md-12" style="padding: 10px;">
+									<details  class="col col-md-12 label-section-details-`+attachments[x].files.id+`" style="padding: 10px;"  `+(autolabelOnProcess ? 'open' : '')+`>
 										<summary>Labels</summary>
-										<div class="col col-md-12 row" style="border-left:3px solid #009688;">
+										<div class="col col-md-12 row label-section-`+attachments[x].files.id+`" style="border-left:3px solid #009688;">
 											`+labels+`
 										</div>	
 									</details>
@@ -562,13 +568,17 @@ function getDetails(data,callback){
 													<p><a href="#">${__config.session.fullName}</a><br/><span class="text-muted">${__config.session.position}</span></p>
 												</small>
 											</div>
-											<div class="col-md-12">
+											<div class="col-md-10 col-xs-10 col-sm-10 col-lg-10">
 												<div class="form-group">
 													<input type="text" placeholder="Type your comment here" class="form-control comment-section-textarea" data-resources="`+attachments[x].files.id+`"/>
 												</div>
 											</div>
+											<div class="col-md-2 col-xs-2 col-sm-2 col-lg-2">
+												<div class="form-group">
+													<button class="btn btn-xs btn-default comment-section-textarea-btn">POST</button>
+												</div>
+											</div>
 										</div>
-
 									</details>
 								
 								</div>
@@ -634,12 +644,16 @@ function getDetails(data,callback){
 function bindEventToCommentInput(){
 	$('.comment-section-textarea').off('keyup',comment)
 	$('.comment-section-textarea').on('keyup',comment)
+
+	$('.comment-section-textarea-btn').off('click',commentBtn)
+	$('.comment-section-textarea-btn').on('click',commentBtn)
 }
 
-function comment(e){
-	let targ = e.target
-	let val = e.target.value
-	let id = e.target.getAttribute('data-resources')
+function commentBtn (e) {
+	let textArea = $(e.target).parent().parent().parent()[0].querySelector('input')
+	let val = textArea.value
+	let id = textArea.getAttribute('data-resources')
+	let btn = e.target
 
 	let data={
 		token: __config.session.token,
@@ -647,16 +661,58 @@ function comment(e){
 		comment:val,
 	}
 
+	if(textArea.value.length < 2) return
+
+	$(e.target).attr('disabled', 'disabled')
+
+	__ajax_post_attachments_comment(data,function(e){
+
+		var data=JSON.parse(e)
+
+		//success
+		if(data.id){	
+			$(`.comments-section[data-resources="${id}"]`).append(appendComment(data.id,__config.session.fullName,val))
+			textArea.value = ''
+			
+		}else{
+			alert('Unable to process request. Please try again later')
+		}
+
+		setTimeout(() => {
+			$(btn).removeAttr('disabled')
+		}, 1000)
+		
+
+		
+
+	},function(){
+		alert('Unable to process request. Please try again later')
+		$(e.target).removeAttr('disabled')
+	})
+
+}
+
+function comment(e){
+	let targ = e.target
+	let val = e.target.value
+	let id = e.target.getAttribute('data-resources')
+
+	let __data = {
+		token: __config.session.token,
+		id: id,
+		comment:val,
+	}
+
 	if(e.keyCode===13){
 
-		__ajax_post_attachments_comment(data,function(e){
+		__ajax_post_attachments_comment(__data,function(e){
 
 			var data=JSON.parse(e)
 
 			//success
 			if(data.id){
 				
-				$(`.comments-section[data-resources="${id}"]`).append(appendComment(id,__config.session.fullName,val))
+				$(`.comments-section[data-resources="${id}"]`).append(appendComment(data.id,__config.session.fullName,val))
 				targ.value = ''
 			}else{
 				alert('Unable to process request. Please try again later')
@@ -672,6 +728,7 @@ function comment(e){
 }
 
 function appendComment(id,uploader,val){
+	uploader = uploader ? uploader : ''
 	let initial = uploader.charAt(0).toUpperCase()
 	let htm =`
 	<div class="col col-md-12">
@@ -1057,8 +1114,6 @@ function uploadAttachment(file,target){
  			append_attachment(fullName,parent,'null',fileName,fileType,file.type,size)
 			//removed old
 			$('.'+parent).remove();
-
-
  	 		
 		}
 
@@ -1067,43 +1122,39 @@ function uploadAttachment(file,target){
 
 	})
 
-	xhr.onreadystatechange = function(e) {
+	xhr.onreadystatechange = function(e) { 
+		let data = {}
         if ( 4 == this.readyState ) {
-            var data=JSON.parse(xhr.responseText);
-
-            var category=data.category==null?'Uncategorized':data.category;
-            
-
-
-			if(data.id!='undefined'){
-				$('.tags-'+parent).attr('data-resources',data.id)
-
-				//append to menu section
-				append_attachment_menu(data.id,category,parent)
-				
-
-				//removed no data content
-				$('.no-available-data').hide();
-
-
-			}else{
-				//failed to upload
-				alert('Unable to upload file.Please try again later.')
-
-				//remove section
-				$('#attachment-menu-'+parent).parent().slideUp();
-			}
-
-			
-
-
-			//send notification to socket
-			push_upload_notification({basket_id:window.sdft.active,file_id:data.id,message:'create',details:window.sdft.details});
 					
-			
-			
+					try {
+						data = JSON.parse(xhr.responseText);
+					} catch (e) {
+						//failed to upload
+						alert('Unable to upload file.Please try again later.')
 
-			
+						//remove section
+						$('#attachment-menu-'+parent).parent().slideUp();
+
+						return
+					}
+
+          var category=data.category==null?'Uncategorized':data.category;
+
+					if(data.id!='undefined'){
+						$('.tags-'+parent).attr('data-resources',data.id)
+
+						//append to menu section
+						append_attachment_menu(data.id,category,parent)
+						//removed no data content
+						$('.no-available-data').hide();
+					}else{
+						//failed to upload
+						alert('Unable to upload file.Please try again later.')
+						//remove section
+						$('#attachment-menu-'+parent).parent().slideUp();
+					}
+					//send notification to socket
+					push_upload_notification({basket_id:window.sdft.active,file_id:data.id,message:'create',details:window.sdft.details});
         }
     };
 
@@ -1143,8 +1194,8 @@ function append_attachment(fullName,parent,id,fileName,fileTypeIcon,fileType,siz
 								
 								<div class="col col-md-12 row">
 									<br/>	
-									<details>
-										<summary>More Details</summary>
+									<details class="col col-md-12" style="padding: 10px;">
+										<summary>File Info</summary>
 										<div class="col col-md-12 content-more-details">
 											<small>
 												<div class="col col-md-12">
@@ -1157,6 +1208,40 @@ function append_attachment(fullName,parent,id,fileName,fileTypeIcon,fileType,siz
 									    	</small>
 										</div>	
 									</details>
+
+									<!-- attachment labels -->
+									<details  class="col col-md-12" style="padding: 10px;">
+										<summary>Labels</summary>
+										<div class="col col-md-12 row" style="border-left:3px solid #009688;"></div>	
+									</details>
+
+									<details class="col col-md-12" style="padding: 10px;">
+									<summary><small><i class="material-icons md-18">comment</i>Comments <span class="text-danger"></span></small></summary>
+									<div class="row comments-section  comment-section-`+parent+`" data-resources="`+id+`" style="border-left:3px solid #009688;"></div>
+									
+									<div class="col col-md-12"><br/>
+										<hr/>
+										<div class="col-md-12">
+											<div class="circle" style="float:left;width:35px;height:35px;background:#009688;text-align:center;color:#fff;border-radius:50%;margin-right:10px;overflow:hidden;">
+												<img src="assets/img/user.png" width="100%"/>
+											</div>
+											<small>
+												<p><a href="#">${__config.session.fullName}</a><br/><span class="text-muted">${__config.session.position}</span></p>
+											</small>
+										</div>
+										<div class="col-md-10 col-xs-10 col-sm-10 col-lg-10">
+											<div class="form-group">
+												<input type="text" placeholder="Type your comment here (press enter to save)" class="form-control comment-section-textarea comment-section-textarea-`+parent+`" data-resources="`+id+`"/>
+											</div>
+										</div>
+										<div class="col-md-2 col-xs-2 col-sm-2 col-lg-2">
+											<div class="form-group">
+												<button class="btn btn-xs btn-default comment-section-textarea-btn">POST</button>
+											</div>
+										</div>
+									</div>
+								</details>
+
 								</div>
 							  </div>
 							</div>
@@ -1181,8 +1266,18 @@ function append_attachment_menu(id,category,parent){
 					<li data-resources="`+id+`" data-toggle="modal" data-target="#myModal">
 						<a href="update_attachment_status.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" data-resources="`+id+`"><i class="material-icons" style="font-size:18px;">lock</i><span>Close Attachment</span>
 					</li>
+					<li data-resources="`+id+`" class="visible-open" data-toggle="modal" data-target="#myModal">
+						<a href="attachment_label.html" data-target="#myModal" data-role="none" onclick="modal_ajax(event,this)" data-resources="`+id+`" data-category="`+category+`"><i class="material-icons" style="font-size:18px;">label</i><span>Label</span></a>
+					</li>
 				</ul>`
 	$('#attachment-menu-'+parent).html(htm);
+	$(`.comment-section-textarea-`+parent).attr('data-resources', id)
+	$(`.comment-section-`+parent).attr('data-resources', id)
+	setTimeout(() => {
+		//allow comment
+		bindEventToCommentInput()
+	},1000)
+
 }
 
 function getStorageList(data,callback){
@@ -1579,7 +1674,7 @@ function preview (target) {
             
 	var left = window.screen.width - 400;
   left = left > 0 ? left/2 : 0;
-	let win = window.open(__config.endpoint.basket.attachments.preview.url+'?id='+id+'&token='+__config.session.token, "_blank", "width=400,height=300" + ",top=" + top + ",left=" + left);
+	let win = window.open(__config.endpoint.basket.attachments.preview.url+'?id='+id+'&token='+__config.session.token, "_blank", "width=800,height=600" + ",top=" + top + ",left=" + left);
 	win.moveTo(left, top);
 	win.focus()
 }

@@ -91,18 +91,17 @@ function loadDetailsPage(callback){
 
 	
 		  <!-- Nav tabs -->
-		  <ul class="nav nav-tabs" role="tablist" style="max-height: 80px;">
-		    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab"><i class="material-icons">folder_shared</i> Content</a></li>
-		    <li role="presentation" id="note-tab"><a href="#notes" aria-controls="notes" role="tab" data-toggle="tab">Notes</a></li>
-		    <li role="presentation" id="activity-tab"><a href="#activities" aria-controls="activities" role="tab" data-toggle="tab">Activities</a></li>
-		    <li role="presentation" id="route-tab" class="hidden-sm hidden-xs"><a href="#routes" aria-controls="route" role="tab" data-toggle="tab" class="route-tab">Routes</a></li>
-		    <li role="presentation" id="todo-tab" class="hidden-sm hidden-xs"><a href="#todo" aria-controls="todo" role="tab" data-toggle="tab" class="todo-tab">Checklist</a></li>
-		    <li role="presentation" class="hidden-sm hidden-xs"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab"  class="route-tab"><i class="material-icons">settings</i></a></li>
+			<ul class="nav nav-tabs" role="tablist" style="max-height: 80px;">
+			<li role="presentation" id="route-tab"><a href="#routes" aria-controls="route" role="tab" data-toggle="tab" class="route-tab">Routes</a></li>
+			<li role="presentation" id="content-tab" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab"><i class="material-icons">folder_shared</i> Content</a></li>
+			<li role="presentation" id="note-tab"><a href="#notes" aria-controls="notes" role="tab" data-toggle="tab">Notes</a></li>
+			<li role="presentation" id="activity-tab"><a href="#activities" aria-controls="activities" role="tab" data-toggle="tab">Activities</a></li>
+			<li role="presentation" id="todo-tab" class="hidden-sm hidden-xs"><a href="#todo" aria-controls="todo" role="tab" data-toggle="tab" class="todo-tab">Checklist</a></li>
+			<li role="presentation" class="hidden-sm hidden-xs"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab"><i class="material-icons">settings</i></a></li>
 		 	<li role="presentation" class="visible-sm visible-xs dropdown">
 		 		<a href="#" aria-controls="settings" class="dropdown-toggle" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="false"><i class="material-icons">more_vert</i></a>
 		 		<ul class="list-unstyled dropdown-menu pull-right more-settings-tab" role="tablist">
-					<li role="presentation" id="route-tab"><a href="#routes" aria-controls="route" role="tab" data-toggle="tab" class="route-tab">Routes</a></li>
-		    		<li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab"><i class="material-icons">settings</i> Settings</a></li>
+		    	<li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab"><i class="material-icons">settings</i> Settings</a></li>
 				</ul>
 		 	</li>
 		  </ul>
@@ -124,11 +123,10 @@ function loadDetailsPage(callback){
 
 		    <div role="tabpanel" class="tab-pane row" id="routes" style="padding-top: 30px;">
 				<div class="col col-md-12">
-					<div class="basket-route-btn-section"></div>
-					<small class="route-section">
+					<div class="basket-route-btn-section col col-sm-12 col-xs-12 col-md-12 col-lg-12"></div>
+					<small class="route-section col col-sm-12 col-xs-12 col-md-12 col-lg-12" style="1px solid #efefef;">
 						
 					</small>
-					<hr/>
 				</div>	
 					
 				
@@ -245,30 +243,12 @@ function attachEventToList(){
 
 		//load content
 		loadDetailsPage(function(e){
-			if($(element).attr('data-list')!='undefined'){ 
-				window.sdft.active=$(element).attr('data-list');
-				loadDetailsInit('id='+$(element).attr('data-list')+'&token='+__config.session.token)	
 
+			// show page in small devices
+			let smallMenuIsVisible = window.getComputedStyle($('.docker-menu-toggle-content')[0]).getPropertyValue('display') === 'block'
+			if(smallMenuIsVisible){
+				$('.docker-menu-toggle-content')[0].click()
 			}
-			
-
-			//load activities via ajax
-			$('#activity-tab').click(function(){
-				loadActivityContent('id='+$(element).attr('data-list')+'&token='+__config.session.token,function(e){ 
-					
-				})
-			})
-
-			
-
-			//load activities via ajax
-			$('#note-tab').click(function(){
-				$.material.init()
-				loadNotesContent('id='+$(element).attr('data-list')+'&token='+__config.session.token,function(e){ 
-					
-				})
-			})
-
 
 			//load activities via ajax
 			$('.route-tab').click(function(){
@@ -297,6 +277,43 @@ function attachEventToList(){
 					bindBtnRoute()
 				})
 			})
+
+
+			if($(element).attr('data-list')!='undefined'){ 
+				window.sdft.active=$(element).attr('data-list');
+				loadDetailsInit('id='+$(element).attr('data-list')+'&token='+__config.session.token, function () {
+					setTimeout(() => {
+						$('.route-tab').click()
+					}, 700)
+				})	
+
+
+			}
+			
+			//load activities via ajax
+		/*	$('#content-tab').click(function(){
+				loadActivityContent('id='+$(element).attr('data-list')+'&token='+__config.session.token,function(e){ 
+					
+				})
+			})*/
+
+			//load activities via ajax
+			$('#activity-tab').click(function(){
+				loadActivityContent('id='+$(element).attr('data-list')+'&token='+__config.session.token,function(e){ 
+					
+				})
+			})
+
+			
+
+			//load activities via ajax
+			$('#note-tab').click(function(){
+				$.material.init()
+				loadNotesContent('id='+$(element).attr('data-list')+'&token='+__config.session.token,function(e){ 
+					
+				})
+			})
+
 
 				//checklist
 			$('.todo-tab').click(function(){
@@ -436,7 +453,8 @@ function deviceReady(){
 				| Show List section only if it is hidden
 				| This is only applicable for mobile device
 				|------------------------------------------------*/
-				if(!$('#item-docker-menu').hasClass('show')&&window.sdft.deviceInstance=='mobile'&&res.baskets.length>0){
+				let smallMenuIsVisible = window.getComputedStyle($('.docker-menu-toggle-content')[0]).getPropertyValue('display') === 'block'
+				if(!$('#item-docker-menu').hasClass('show')&&smallMenuIsVisible&&res.baskets.length>0){
 					$('.docker-menu-toggle-content')[0].click()
 				}
 
@@ -458,18 +476,16 @@ function deviceReady(){
 				| Autoload more baskets in list
 				| click showmore button when scrolled down
 				|--------------------------------------------------*/
-				$(window).scroll(function() {
-
-					//if show more is present
-					if($('.show-more')[0]!=undefined){ 
-	  					if(($('.show-more')[0].offsetTop-$(window).scrollTop())<500){
-	  						$('.show-more')[0].click()
-	  					}
-	  				}
-				});
-								
-
-					
+				setTimeout(() => {
+					$('#item-docker-menu').scroll(function() {
+						//if show more is present
+						if($('.show-more')[0]!=undefined){ console.log($('.show-more')[0].offsetTop-$('#item-docker-menu').scrollTop())
+								if(($('.show-more')[0].offsetTop-$('#item-docker-menu').scrollTop())<1000){
+									$('.show-more')[0].click()
+								}
+							}
+					});
+				}, 1000)	
 			});	
 		}
 		

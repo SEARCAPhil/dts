@@ -5,7 +5,7 @@
     <meta name="format-detection" content="telephone=no" />
     <meta name="msapplication-tap-highlight" content="no" />
 	 <!-- This is a wide open CSP declaration. To lock this down for production, see below. -->
- <meta http-equiv="Content-Security-Policy" content="img-src 'self' data: https://* http://*;default-src *; style-src 'self' http://* 'unsafe-inline'; script-src 'self' http://* 'unsafe-inline' 'unsafe-eval'" />
+ <!--<meta http-equiv="Content-Security-Policy" content="img-src 'self' data: https://* http://*;default-src *; style-src 'self' http://* 'unsafe-inline'; script-src 'self' http://* 'unsafe-inline' 'unsafe-eval'" />-->
     <!-- Good default declaration:
     * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
     * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
@@ -71,9 +71,9 @@
  	<section class="content container-fluid">
  		<div class="col col-md-12">
  			<ul class="list-unstyled main-menu main-menu-list">
- 				<li data-status="recent" class="active">Recent <i class="material-icons"  style="width: 24px;">folder</i></li>
- 				<li data-status="open">Ongoing <i class="material-icons" style="width: 24px;">cloud_qeue</i></li>
- 				<li data-status="closed">Closed <i class="material-icons">lock</i></li>
+ 				<li data-status="open" class="active">Ongoing <i class="material-icons" style="width: 24px;">cloud_qeue</i></li>
+				 <li data-status="closed">Closed <i class="material-icons">lock</i></li>
+				 <li data-status="recent">Recent <i class="material-icons"  style="width: 24px;">folder</i></li>
  				<li data-status="draft" id="draft-menu">Drafts <i class="material-icons">lock</i></li>
  			</ul>
 
@@ -130,7 +130,7 @@
 		  		<span class="docker-menu-toggle-content visible-xs visible-sm visible-md"><i class="material-icons">keyboard_backspace</i> <span class="text-muted"><small>Toggle List</small></span></span>
 		 		<p><i class="material-icons docker-menu visible-lg" data-target="#item-docker-menu" id="docker-content-menu" data-target-after="#main-page" data-target-after-class="main-page-full-width"  style="width: 24px;">keyboard_backspace</i> </p>
 
-		 	<div class="main-page-content col col-md-12">
+		 	<div class="main-page-content col col-md-12 col-sm-12 col-xs-12">
 
 		 		
 		 	</div>

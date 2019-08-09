@@ -232,6 +232,38 @@ function __ajax_attachments_post_label(data,success_callback,error_callback){
 
 }
 
+/*ajax attachments*/
+function __ajax_attachments_autolabel(data,success_callback,error_callback){
+  $.ajax({
+    url:__config.endpoint.basket.attachments.autolabel.post.url,
+    method:__config.endpoint.basket.attachments.autolabel.post.method,
+    data:data,
+    beforeSend:function(){
+       $.mobile.loading('show');
+
+       //enable debugging
+       if(__config.debug) console.log('\u{26AB} Connecting . . .')
+    }
+  }).success(function(json){ 
+
+    $.mobile.loading('hide');  
+    success_callback(json);
+
+     //enable debugging
+      if(__config.debug) console.log('\u{26AB} Connected')
+
+  }).fail(function(json){ 
+    
+    $.mobile.loading('hide');  
+    error_callback(json); 
+
+    //enable debugging
+    if(__config.debug) console.log('\u{26AB} Unable to fetch data. Please check connection')
+
+  })
+
+}
+
 
 /*ajax attachments*/
 function __ajax_attachments_label(data,success_callback,error_callback){
@@ -1149,6 +1181,7 @@ export {
   __ajax_post_attachments_link,
   __ajax_attachments_label,
   __ajax_attachments_post_label,
+  __ajax_attachments_autolabel,
   __ajax_post_notes,
   __ajax_post_storage,
   __ajax_routes,

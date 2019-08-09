@@ -12,7 +12,7 @@ window.addEventListener('DOMContentLoaded', () => {
 	| Load notification via ajax
 	|--------------------------------*/
 	$('.container-notifications').load('notifications.html',function(){
-		window.sdft.notification_page=0
+		window.sdft.notification_page = 0
 		showMoreNotifications();
 		push()
 	})

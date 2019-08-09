@@ -191,7 +191,7 @@ function loadMoreBaskets(element){
 		//load list
 		loadListContent({token:__config.session.token,page:nextPage,status:status},function(e){
 			setTimeout(function(){
-				changeDockerSize('#item-docker-menu');	
+				//changeDockerSize('#item-docker-menu');	
 				//materiaize input field in list
 			    //materialize
 				$.material.init();
@@ -297,6 +297,10 @@ function searchList(event,element){
 		</div>
 		
 	</div>`;
+	
+	if($('.show-more')[0]) {
+		$('.show-more').parent().remove()
+	}
 
 	$('.list-container').append(htm)
 
@@ -366,9 +370,12 @@ function modal_ajax(event,e){
 | LOAD details
 | load content including cllaboratrs
 |--------------------------------------------------*/
-function loadDetailsInit(data){
+function loadDetailsInit(data, callback = function () {}){
 	    
 	loadContent(function(){
+		// run callback
+		callback()
+
 		//load details
 		getDetails(data,function(){
 			//load groups after loading details
